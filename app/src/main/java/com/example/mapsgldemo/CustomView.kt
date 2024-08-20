@@ -1,31 +1,26 @@
 package com.example.mapsgldemo
-
 import android.content.Context
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import com.xweather.mapsglmaps.config.weather.WeatherService
 
-class CustomView(context: Context, title: String, service: WeatherService.WeatherLayerConfiguration, status: Int = 0) : LinearLayout(context) {
-    val checkBox: CheckBox
+class CustomView(context: Context, title: String, val id: String /*val classHolder: KClass<*>*/, /*service: WeatherService.WeatherLayerConfiguration,*/ status: Int = 0) : LinearLayout(context) {
     private val textView: TextView
-    lateinit var service: WeatherService.WeatherLayerConfiguration
+    var active = false
 
     companion object{
         lateinit var slideOutAnimation : Animation
         lateinit var slideInAnimation : Animation
         var datasetVisibility = true
+
 
         fun setAnimations(context: Context, scrollView: ScrollView){
             slideInAnimation  = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left)
@@ -52,7 +47,7 @@ class CustomView(context: Context, title: String, service: WeatherService.Weathe
             })
         }
 
-        fun showLayerButtons(show: Boolean = true, scrollView: ScrollView, layerButton: ImageView){
+        fun showDatasetButtons(show: Boolean = true, scrollView: ScrollView, layerButton: ImageView){
             if(show != datasetVisibility){
                 if(show){
                     scrollView.startAnimation(slideInAnimation)
@@ -66,33 +61,29 @@ class CustomView(context: Context, title: String, service: WeatherService.Weathe
                 datasetVisibility = show
             }
         }
+
+        fun createTextView(text: String, context: Context): View{
+            val textView = TextView(context)
+            textView.text = text
+            textView.textSize = 16f
+            textView.setTextColor(android.graphics.Color.WHITE)
+            textView.setShadowLayer(10f, 0f,0f, android.graphics.Color.BLACK)
+            textView.setPadding(32,0,0,0)
+            return textView
+        }
     }
 
     val outerView = LinearLayout(context).apply {
         val density = context.resources.displayMetrics.density
         layoutParams = LayoutParams(
-            (150*density).toInt(),
-            (50*density).toInt()
+            //LayoutParams.WRAP_CONTENT,
+            (130*density).toInt(),
+            (50*density).toInt() // resources.getDimensionPixelSize(R.dimen.outer_view_height)
         )
-        setBackgroundResource(R.drawable.grey_square_background)
+        setBackgroundResource(R.drawable.unselected_background)
         orientation = HORIZONTAL
         setPadding(8, 4, 8, 4) // Set equal padding for top and bottom
         gravity = Gravity.CENTER_VERTICAL // Center vertically
-
-        checkBox = CheckBox(context).apply {
-            id = R.id.check
-            layoutParams = LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT
-            ).apply {
-                marginStart = 8
-            }
-            isChecked = false
-            buttonTintList = ContextCompat.getColorStateList(context, R.color.button_text)
-            setShadowLayer(10f,0f,0f, 0xFF000000.toInt())
-            setPadding(8, 8, 0, 8)
-        }
-        addView(checkBox)
 
         textView = TextView(context).apply {
             id = R.id.checkTextbox
@@ -103,24 +94,39 @@ class CustomView(context: Context, title: String, service: WeatherService.Weathe
             setTypeface(null, Typeface.BOLD)
             setShadowLayer(10f,0f,0f, 0xFF000000.toInt())
             setTextColor(ContextCompat.getColor(context, R.color.button_text))
-            setPadding(0, 8, 8, 8)
+            setPadding(8, 8, 8, 8)
         }
         addView(textView)
         val params = this.layoutParams as MarginLayoutParams
         params.setMargins(8, 4, 4, 4)
         this.layoutParams = params
-        setOnClickListener { checkBox.isChecked = !checkBox.isChecked }
-        setService(title, service, status)
+
+        setTextColor(title, status)
     }
 
-    fun setService(title: String, service: WeatherService.WeatherLayerConfiguration, status: Int = 0): CustomView {
-        this.service = service
+    fun click(){
+        active = !active
+        if(active){
+            outerView.setBackgroundResource(R.drawable.selected_background)
+            textView.setShadowLayer(10f,0f,0f, 0xFFFFFFFF.toInt())
+            textView.setTextColor(ContextCompat.getColor(context, R.color.selected_button_text))
+
+        } else{
+            outerView.setBackgroundResource(R.drawable.unselected_background)
+            textView.setShadowLayer(10f,0f,0f, 0xFF000000.toInt())
+            textView.setTextColor(ContextCompat.getColor(context, R.color.button_text))
+        }
+    }
+
+    private fun setTextColor(title: String, status: Int = 0): CustomView {
         textView.text = title
         if(status==1){
-            textView.setTextColor(Color(1f,1f,.75f).toArgb())
+            textView.setTextColor(-65) //yellow text
         }else if (status==2){
-            textView.setTextColor(Color(1f,.75f,.75f).toArgb())
+            textView.setTextColor(-16449) //red text
         }
+
+        //println ("Color(1f,1f,.75f).toArgb(): ${Color(1f,1f,.75f).toArgb()}    Color(1f,.75f,.75f).toArgb(): ${Color(1f,.75f,.75f).toArgb()}   ")
         return this
     }
 }

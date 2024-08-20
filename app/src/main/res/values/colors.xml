@@ -3,4 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="button_text">#FFFFFFFF</color>
+    <color name="selected_button_text">#FF000000</color>
 </resources>
+
+<!--<color name="button_text">#FFCCCCCC</color> like in JS web version  -->

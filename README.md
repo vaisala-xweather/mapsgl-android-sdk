@@ -104,19 +104,15 @@ Create a reference to your account:
         getString(R.string.xweather_client_secret)
     )
 
-
 Add MapsGL layers to the map:
 
 	val mapLoadedCallback = MapLoadedCallback {
 		val service = mapController.service
-		val temperatureLayer = WeatherService.Temperatures(service)
-		mapController.addWeatherLayer(temperatureLayer)
-		mapController.setLayerVisible(temperatureLayer.layerDescriptor.id, true)
-		val humidityLayer = WeatherService.Humidity(service)
-		mapController.addWeatherLayer(humidityLayer)
-		mapController.setLayerVisible(humidityLayer.layerDescriptor.id, false)
-    }	
-
+		val temperatureLayer = 	mapController.addWeatherLayer("temperatures")
+        mapController.setLayerVisible(temperatureLayer!!.id, true)
+		val humidityLayer = mapController.addWeatherLayer("humidity")
+        mapController.setLayerVisible(humidityLayer!!.id, true)
+    }
 
 Create your MapboxController:
 
@@ -133,36 +129,6 @@ Create your MapboxController:
             }
 		}
 	})
-
-
-Update MapsGL layers when the map moves:
-
-    val cameraChangeCallBack = CameraChangedCallback {
-		CoroutineScope(Dispatchers.Main).launch {
-			mapController.onMove()
-		}
-	}
-
-
-### In your activity, outside of the onCreate method:
-Listen for map updates:
-
-	override fun onResume() {
-        super.onResume()
-        ImageTileSource?.apiEvent?.observe(this, ::onRasterTileEvent)
-    }
-	
-	private fun onRasterTileEvent(event: RasterTileApiEvent) {
-        when (event) {
-            is RasterTileApiEvent.Success -> {}
-            is RasterTileApiEvent.Error -> {}
-            is RasterTileApiEvent.Reload -> {
-                mapController.updateTiles() //Update map as tiles load
-            }
-        }
-    }
-
-
 
 ### Android Studio
 Version: [Chipmunk|2022.3.1 Patch2 or later](https://androidstudio.googleblog.com/2023/09/android-studio-giraffe-patch-2-is-now.html) \
