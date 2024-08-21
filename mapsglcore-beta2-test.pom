@@ -1,5 +1,0 @@
-<dependency>
-    <groupId>com.xweather</groupId>
-    <artifactId>mapsglcore</artifactId>
-    <version>beta2-test</version>
-</dependency>
