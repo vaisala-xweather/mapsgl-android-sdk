@@ -8,4 +8,4 @@ before_install:
   - ./scripts/prepareJitpackEnvironment.sh
 install:
   - FILE="-Dfile=mapsglmaps-release.aar"
-  - mvn install:install-file $FILE -DgroupId=com.github.jasonsuto -DartifactId=test240815 -Dversion=33 -Dpackaging=aar -DgeneratePom=true
+  - mvn install:install-file $FILE -DgroupId=com.xweather.mapsgl-android-sdk -DartifactId=test240815 -Dversion=v1.0.0-beta.3 -Dpackaging=aar -DgeneratePom=true
