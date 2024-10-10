@@ -1,5 +1,0 @@
-<dependency>
-    <groupId>com.xweather</groupId>
-    <artifactId>mapsglmaps</artifactId>
-    <version>bet2-test</version>
-</dependency>
