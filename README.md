@@ -21,7 +21,7 @@ The MapsGL Android SDK includes a demo application that showcases the capabiliti
 
 ##### Prerequisites:
 - Android Studio Chipmunk|2022.3.1 Patch2 or later
-- An Android 8.0+ (sdk 26)
+- An Android 9.0+ (sdk 28)
 - An [Xweather account](https://signup.xweather.com/) — We offer a free developer account for you to give our weather API a test drive.
 - A [Mapbox account](https://www.mapbox.com/)
 
@@ -61,21 +61,15 @@ In **settings.gradle**:
             mavenCentral()
         }
     }
-
     dependencyResolutionManagement {
+        repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
         repositories {
             google()
             mavenCentral()
-
-            maven {
-                url 'https://api.mapbox.com/downloads/v2/releases/maven'
-            }
-            maven {
-                url 'https://maven.pkg.github.com/vaisala-xweather/mapsgl-android-sdk'
-            }
+            maven { url 'https://jitpack.io' }
+            maven { url 'https://api.mapbox.com/downloads/v2/releases/maven' }
         }
     }
-
 
 In **AndroidManifest.xml**:
 
@@ -89,10 +83,8 @@ In the app-level **build.gradle**
         mavenCentral()
     }
     dependencies {
-	    implementation "com.xweather:mapsglmaps:v1.0.0-beta.1"
+	    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.0.0'
     }
-
-
 
 
 ### In your activity, inside the onCreate method:
@@ -106,13 +98,27 @@ Create a reference to your account:
 
 Add MapsGL layers to the map:
 
-	val mapLoadedCallback = MapLoadedCallback {
-		val service = mapController.service
-		val temperatureLayer = 	mapController.addWeatherLayer("temperatures")
-        mapController.setLayerVisible(temperatureLayer!!.id, true)
-		val humidityLayer = mapController.addWeatherLayer("humidity")
-        mapController.setLayerVisible(humidityLayer!!.id, true)
-    }
+            // Example Sample Layer:
+            mapController.addWeatherLayer(
+                WeatherService.Temperatures(mapController.service).apply {
+                    layer.paint.opacity=1.0f
+                }
+            )
+
+            //Example Particle Layer:
+            mapController.addWeatherLayer(
+                WeatherService.WindParticles(mapController.service).apply {
+                    layer.paint.opacity=1.0f
+                    (layer.paint as ParticleStyle).apply{
+                        //optional particle values:
+                        speed=1f
+                        size=2.2f
+                        density=ParticleDensity.NORMAL
+                        trails= true
+                        trailsFade = ParticleTrailLength.NORMAL.value
+                    }
+                }
+            )
 
 Create your MapboxController:
 
@@ -121,8 +127,8 @@ Create your MapboxController:
 			binding.mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
 			mapController = MapboxMapController(mapView, baseContext, xweatherAccount)
             with(mapController) {
-				mapboxMap.loadStyle(Style.MAPBOX_STREETS)
-				//Make sure to set Mapbox to Mercator mode
+				mapboxMap.loadStyle(Style.LIGHT)
+				// Make sure to set Mapbox to Mercator mode:
                 mapboxMap.setProjection(projection(ProjectionName.MERCATOR)) 
                 mapboxMap.subscribeMapLoaded(mapLoadedCallback)
                 mapboxMap.subscribeCameraChanged(cameraChangeCallBack)
@@ -142,6 +148,5 @@ Gradle Version 7.5.1.
 [Xweather Android SDK](http://www.aerisweather.com/support/docs/toolkits/aeris-android-sdk/) \
 [Xweather Android Maps](https://www.xweather.com/docs/android-sdk/getting-started/weather-maps) 
 
-
-
-#
+ 
+ 
