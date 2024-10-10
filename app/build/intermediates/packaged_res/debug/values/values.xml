@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="button_text">#FFFFFFFF</color>
+    <color name="divider_color">#FF555555</color>
+    <color name="grey_background">#FF1a2023</color>
+    <color name="ic_launcher_background">#0BA4EB</color>
+    <color name="selected_background">#FFFFFFFF</color>
+    <color name="selected_button_text">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">MapsGLDemo</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiamFzb25zdXRvIiwiYSI6ImNsbjh3ZDA3bjAxbmMybHM0aGkyOWp3MnQifQ.Sco0RT2S6tF7u2_T7_NZPA</string>
+    <string name="xweather_client_id">wgE96YE3scTQLKjnqiMsv</string>
+    <string name="xweather_client_secret">2Hv7vYXBj0YAJED8xaiADX5X1szKbLFhd9waCEWT</string>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight"/>
+    <style name="Base.Theme.MapsGLDemo" parent="Theme.AppCompat.DayNight">
+
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
+        
+        <item name="colorPrimary">@color/purple_500</item>
+
+    </style>
+    <style name="Theme.MapsGLDemo" parent="Base.Theme.MapsGLDemo">
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
+
+    </style>
+</resources>

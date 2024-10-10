@@ -1,0 +1,60 @@
+uniform sampler2D uTexture;
+uniform mat4 projectionMatrix;
+uniform mat4 modelViewMatrix;
+attribute vec3 a_position;
+attribute vec2 a_TexCoord;
+varying  vec2 vUV;
+uniform float time;
+uniform float timeStep;
+uniform float speedMult;
+uniform int numSteps;
+
+uniform float x_offset;
+uniform float y_offset;
+uniform float x_scale;
+uniform float y_scale;
+varying vec4 outPos; //out
+varying vec4 pointCenter; //out
+varying float alphaOut; //out
+layout(location = 0) varying vec3 position;
+layout(location = 1) varying vec2 texCoord;
+
+void main() {
+
+    vec4 vPosition = vec4(a_position.x, a_position.y, 0.0, 1.0);
+    vPosition.x=vPosition.x*2.0-1.0;
+    vPosition.y=vPosition.y*2.0-1.0;
+
+    if ( vPosition.y > 1.2 || vPosition.x > 1.2) {//temporary hack to get rid of seams consisting of excess points
+     //   vPosition.y =9999.0;
+    }
+    else {
+        gl_PointSize = 4.0;
+        //a_position is the new vPosition
+
+        vec2 tuv;//this bit handles partial
+        if(x_scale<1.0) {
+            tuv =  vec2(vPosition.x * x_scale +x_offset, vPosition.y * x_scale + y_offset);
+        } else{
+            tuv = vPosition.xy;
+        }
+
+        vec4 color = texture2D(uTexture, tuv); //partial version
+        vec2 dir;
+        //time offset, used make sure particles dom't all reset at once
+        int timeOffset=  int((fract(sin(vPosition.x) * 43758.5453))*200.0);
+        int ns = numSteps+timeOffset;
+        //if (ns>200) {ns-=200;}
+
+        //if(ns<15){ alphaOut=  (float(ns)/15.0); }
+       // else if(ns>160){ alphaOut=  1.0- (float(ns-160)/40.0);  } //fade out
+        //else {alphaOut=1.0;}
+
+        alphaOut=1.0;
+
+    }
+
+    gl_Position = /*projectionMatrix * modelViewMatrix * */ vPosition; //Adaptation of TS version
+    outPos=vPosition;
+    pointCenter = gl_Position;
+}

@@ -1,0 +1,77 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.mapsgldemo.app-mergeDebugResources-2:/values-zh/values-zh.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\JASUT\\.jdks\\jbrsdk-17.0.9\\caches\\transforms-3\\da7cb612fc783f683f5e7405f58f42e6\\transformed\\maps-compass-11.6.0\\res\\values-zh\\values-zh.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "80",
+                        "endOffsets": "131"
+                    },
+                    "to": {
+                        "startLines": "9",
+                        "startColumns": "4",
+                        "startOffsets": "599",
+                        "endColumns": "80",
+                        "endOffsets": "675"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\JASUT\\.jdks\\jbrsdk-17.0.9\\caches\\transforms-3\\872deaabfa0d1dea1782dded510c5266\\transformed\\maps-logo-11.6.0\\res\\values-zh\\values-zh.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "133",
+                        "endOffsets": "184"
+                    },
+                    "to": {
+                        "startLines": "14",
+                        "startColumns": "4",
+                        "startOffsets": "1029",
+                        "endColumns": "133",
+                        "endOffsets": "1158"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\JASUT\\.jdks\\jbrsdk-17.0.9\\caches\\transforms-3\\c4fb4c087b8368589befb093f1ca93c8\\transformed\\maps-attribution-11.6.0\\res\\values-zh\\values-zh.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,136,243,312,380,447,524,599",
+                        "endColumns": "80,106,68,67,66,76,74,161",
+                        "endOffsets": "131,238,307,375,442,519,594,756"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,13",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,136,243,312,380,447,524,867",
+                        "endColumns": "80,106,68,67,66,76,74,161",
+                        "endOffsets": "131,238,307,375,442,519,594,1024"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\JASUT\\.jdks\\jbrsdk-17.0.9\\caches\\transforms-3\\7a38494235d189e1cd56247a204d54c3\\transformed\\android-11.6.0\\res\\values-zh\\values-zh.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,117,179",
+                        "endColumns": "61,61,62",
+                        "endOffsets": "112,174,237"
+                    },
+                    "to": {
+                        "startLines": "10,11,12",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "680,742,804",
+                        "endColumns": "61,61,62",
+                        "endOffsets": "737,799,862"
+                    }
+                }
+            ]
+        }
+    ]
+}
