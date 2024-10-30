@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.example.mapsgldemo.app-mergeReleaseResources-3:/layout/activity_main.xml",
+        "source": "com.example.mapsgldemo.app-main-5:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.mapsgldemo.app-mergeReleaseResources-3:/layout/custom_view_layout.xml",
+        "source": "com.example.mapsgldemo.app-main-5:/layout/custom_view_layout.xml"
+    }
+]

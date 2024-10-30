@@ -1,0 +1,210 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.xweather.mapsgldemo"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="28"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-feature
+11-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:10:5-12:35
+12        android:glEsVersion="0x00030000"
+12-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:11:9-41
+13        android:required="true" />
+13-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:12:9-32
+14    <uses-feature
+14-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:13:5-15:36
+15        android:name="android.hardware.wifi"
+15-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:14:9-45
+16        android:required="false" /> <!-- Implied by ACCESS_WIFI_STATE. -->
+16-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:15:9-33
+17    <uses-permission android:name="android.permission.INTERNET" />
+17-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:17:5-67
+17-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:17:22-64
+18    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+18-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:18:5-79
+18-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:18:22-76
+19    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+19-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:19:5-76
+19-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:19:22-73
+20
+21    <permission
+21-->[androidx.core:core:1.13.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\5b19642a61292710664546d26a80ae45\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+22        android:name="com.xweather.mapsgldemo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+22-->[androidx.core:core:1.13.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\5b19642a61292710664546d26a80ae45\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+23        android:protectionLevel="signature" />
+23-->[androidx.core:core:1.13.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\5b19642a61292710664546d26a80ae45\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+24
+25    <uses-permission android:name="com.xweather.mapsgldemo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+25-->[androidx.core:core:1.13.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\5b19642a61292710664546d26a80ae45\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+25-->[androidx.core:core:1.13.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\5b19642a61292710664546d26a80ae45\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+26
+27    <application
+27-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:5:5-28:19
+28        android:allowBackup="true"
+28-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:6:9-35
+29        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+29-->[androidx.core:core:1.13.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\5b19642a61292710664546d26a80ae45\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+30        android:dataExtractionRules="@xml/data_extraction_rules"
+30-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:7:9-65
+31        android:extractNativeLibs="false"
+32        android:fullBackupContent="@xml/backup_rules"
+32-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:8:9-54
+33        android:icon="@mipmap/ic_launcher"
+33-->[mapsglmaps-release.aar] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\d4096ff75d3e31d7e4857f91fb46030e\transformed\mapsglmaps-release\AndroidManifest.xml:9:9-43
+34        android:label="@string/app_name"
+34-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:9:9-41
+35        android:largeHeap="true"
+35-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:11:9-33
+36        android:resizeableActivity="true"
+36-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:13:9-42
+37        android:supportsRtl="true"
+37-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:10:9-35
+38        android:theme="@style/Theme.MapsGLDemo"
+38-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:12:9-48
+39        android:windowLayoutInDisplayCutoutMode="shortEdges" >
+39-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:14:9-61
+40        <activity
+40-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:18:9-27:20
+41            android:name="com.example.mapsgldemo.MainActivity"
+41-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:19:13-41
+42            android:configChanges="orientation|screenSize"
+42-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:20:13-59
+43            android:exported="true" >
+43-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:21:13-36
+44            <intent-filter>
+44-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:22:13-26:29
+45                <action android:name="android.intent.action.MAIN" />
+45-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:23:17-69
+45-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:23:25-66
+46
+47                <category android:name="android.intent.category.LAUNCHER" />
+47-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:25:17-77
+47-->C:\TestProjects\mapbox\240820-jitpack-merge-beta2-customer-app\app\src\main\AndroidManifest.xml:25:27-74
+48            </intent-filter>
+49        </activity>
+50        <activity
+50-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\97918d99f61051a74ba282fb9a6c9d53\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
+51            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+51-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\97918d99f61051a74ba282fb9a6c9d53\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
+52            android:exported="false"
+52-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\97918d99f61051a74ba282fb9a6c9d53\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
+53            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+53-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\97918d99f61051a74ba282fb9a6c9d53\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
+54
+55        <meta-data
+55-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\ec6dc8d4e2e2ffb2fd6b173d776bb0ee\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
+56            android:name="com.google.android.gms.version"
+56-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\ec6dc8d4e2e2ffb2fd6b173d776bb0ee\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
+57            android:value="@integer/google_play_services_version" />
+57-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\ec6dc8d4e2e2ffb2fd6b173d776bb0ee\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
+58
+59        <provider
+59-->[androidx.emoji2:emoji2:1.3.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\4c6fded2abfe21e22918bf7e90cf64cb\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+60            android:name="androidx.startup.InitializationProvider"
+60-->[androidx.emoji2:emoji2:1.3.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\4c6fded2abfe21e22918bf7e90cf64cb\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+61            android:authorities="com.xweather.mapsgldemo.androidx-startup"
+61-->[androidx.emoji2:emoji2:1.3.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\4c6fded2abfe21e22918bf7e90cf64cb\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+62            android:exported="false" >
+62-->[androidx.emoji2:emoji2:1.3.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\4c6fded2abfe21e22918bf7e90cf64cb\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+63            <meta-data
+63-->[androidx.emoji2:emoji2:1.3.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\4c6fded2abfe21e22918bf7e90cf64cb\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+64                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+64-->[androidx.emoji2:emoji2:1.3.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\4c6fded2abfe21e22918bf7e90cf64cb\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+65                android:value="androidx.startup" />
+65-->[androidx.emoji2:emoji2:1.3.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\4c6fded2abfe21e22918bf7e90cf64cb\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+66            <meta-data
+66-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:29:13-31:52
+67                android:name="com.mapbox.maps.loader.MapboxMapsInitializer"
+67-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:30:17-76
+68                android:value="androidx.startup" /> <!-- This entry makes MapboxSDKCommonInitializer discoverable. -->
+68-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:31:17-49
+69            <meta-data
+69-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:19:13-21:52
+70                android:name="com.mapbox.common.MapboxSDKCommonInitializer"
+70-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:20:17-76
+71                android:value="androidx.startup" />
+71-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:21:17-49
+72            <meta-data
+72-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\41c9a02e3a57d365a6c533dbead3504c\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:29:13-31:52
+73                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+73-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\41c9a02e3a57d365a6c533dbead3504c\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:30:17-78
+74                android:value="androidx.startup" />
+74-->[androidx.lifecycle:lifecycle-process:2.8.3] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\41c9a02e3a57d365a6c533dbead3504c\transformed\lifecycle-process-2.8.3\AndroidManifest.xml:31:17-49
+75            <meta-data
+75-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+76                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+76-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+77                android:value="androidx.startup" />
+77-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+78        </provider>
+79
+80        <profileable android:shell="true" />
+80-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:22:9-45
+80-->[com.mapbox.maps:android-core:11.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\c7a5034e318cb38f700cc54dbb120b93\transformed\android-core-11.6.0\AndroidManifest.xml:22:22-42
+81
+82        <receiver
+82-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:24:9-31:20
+83            android:name="com.mapbox.common.location.LocationUpdatesReceiver"
+83-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:25:13-78
+84            android:enabled="true"
+84-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:26:13-35
+85            android:exported="false" >
+85-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:27:13-37
+86            <intent-filter>
+86-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:28:13-30:29
+87                <action android:name="com.mapbox.common.location.LocationUpdatesReceiver.ACTION_PROCESS_LOCATION_UPDATES" />
+87-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:29:17-125
+87-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:29:25-122
+88            </intent-filter>
+89        </receiver>
+90
+91        <service
+91-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:33:9-35:40
+92            android:name="com.mapbox.common.LifecycleService"
+92-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:34:13-62
+93            android:exported="false" />
+93-->[com.mapbox.common:common:24.6.0] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\7788a03e6a9a7bdaf416bf7f26fe4581\transformed\common-24.6.0\AndroidManifest.xml:35:13-37
+94
+95        <receiver
+95-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+96            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+96-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+97            android:directBootAware="false"
+97-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+98            android:enabled="true"
+98-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+99            android:exported="true"
+99-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+100            android:permission="android.permission.DUMP" >
+100-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+101            <intent-filter>
+101-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+102                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+102-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+102-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+103            </intent-filter>
+104            <intent-filter>
+104-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+105                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+105-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+105-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+106            </intent-filter>
+107            <intent-filter>
+107-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+108                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+108-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+108-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+109            </intent-filter>
+110            <intent-filter>
+110-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+111                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\JASUT\.jdks\jbrsdk-17.0.9\caches\transforms-3\212b19c3128ec9a1f214d98b9b76197e\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+112            </intent-filter>
+113        </receiver>
+114    </application>
+115
+116</manifest>

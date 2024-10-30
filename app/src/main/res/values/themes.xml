@@ -1,0 +1,23 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MapsGLDemo" parent="Theme.AppCompat.DayNight">
+
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/purple_500</item>
+
+    </style>
+
+    <style name="Theme.MapsGLDemo" parent="Base.Theme.MapsGLDemo" >
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
+
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight"/>
+</resources>
