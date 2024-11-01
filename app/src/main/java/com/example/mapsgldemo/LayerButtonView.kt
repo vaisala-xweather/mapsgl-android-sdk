@@ -13,8 +13,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.xweather.mapsgl.config.weather.WeatherService
 
-class LayerButtonView(context: Context, title: String, val id: String /*val classHolder: KClass<*>*/, /*service: WeatherService.WeatherLayerConfiguration,*/ status: Int = 0) : LinearLayout(context) {
+class LayerButtonView(context: Context, title: String, val configuration: WeatherService.WeatherLayerConfiguration /*val classHolder: KClass<*>*/, /*service: WeatherService.WeatherLayerConfiguration,*/ status: Int = 0) : LinearLayout(context) {
     private val textView: TextView
     var active = false
 
