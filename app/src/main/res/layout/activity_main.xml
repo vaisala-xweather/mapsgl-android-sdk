@@ -164,6 +164,25 @@
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"></ImageView>
+
+
+            <ImageView
+                android:id="@+id/location_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="7dp"
+                android:background="@drawable/dark_circle_background"
+                android:padding="8dp"
+                android:shadowColor="@color/black"
+                android:shadowRadius="10"
+                android:src="@drawable/location"
+                android:text=""
+                android:textColor="@color/button_text"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/layer_menu_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/layer_menu_button"></ImageView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.mapbox.maps.MapView>
 
@@ -200,7 +219,7 @@
                 android:textSize="30dp"
                 />
             <Button
-                android:id="@+id/layer_close_button"
+                android:id="@+id/layer_menu_close_button"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/grey_x"
@@ -234,12 +253,6 @@
             </LinearLayout>
 
         </ScrollView>
-
-
-
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

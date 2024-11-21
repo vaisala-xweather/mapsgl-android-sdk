@@ -12,6 +12,14 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
         maven {
             url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                username = "mapbox"
+                // Use the secret token you stored in gradle.properties as the password
+                password = MAPBOX_DOWNLOADS_TOKEN
+            }
         }
     }
 }

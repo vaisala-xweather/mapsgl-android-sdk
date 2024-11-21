@@ -14,7 +14,6 @@ The Xweather MapsGL SDK for Android allows a developer to quickly and easily add
 
 View the latest installation and implementation details at Xweather under the [Xweather Android SDK toolkit documentation](https://www.xweather.com/docs/android-sdk/getting-started/).
 
-
 ## Running the Demo App
 The MapsGL Android SDK includes a demo application that showcases the capabilities of the SDK. To run the demo application, follow these steps:
 
@@ -82,7 +81,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.0.0'
+    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.0.1'
 }
 ```
 
@@ -98,26 +97,27 @@ val xweatherAccount = XweatherAccount(
 Add MapsGL layers to the map:
 ```
 // Example Sample Layer:
-val temperaturesLayer = mapController.addWeatherLayer("temperatures")
-temperaturesLayer.let{
-	val sPaint = it.paint as SampleStyle
-	sPaint.opacity = 1.00f
-	sPaint.quality = DataQuality.normal
-}
+mapController.addWeatherLayer(WeatherService.Temperatures(mapController.service).apply {
+    with(layer.paint as SampleStyle) {
+        opacity = 1.0f
+    }
+})
 
 //Example Particle Layer:
-val windParticleLayer= mapController.addWeatherLayer("wind-layer")
-windParticleLayer?.let{
-	val pPaint = it.paint as ParticleStyle
-        pPaint.opacity=1.0f
-        pPaint.density = ParticleDensity.NORMAL
-        pPaint.speedFactor = 1f
-        pPaint.trails = true
-        pPaint.trailsFadeFactor = ParticleTrailLength.NORMAL
-        pPaint.size = 2.0f
-}
+mapController.addWeatherLayer(WeatherService.WindParticles(mapController.service).apply {
+    with(layer.paint as ParticleStyle) {
+        opacity=1.0f
+        density = ParticleDensity.NORMAL
+        speedFactor = 1f
+        trails = true
+        trailsFadeFactor = ParticleTrailLength.NORMAL
+        size = 2.0f
+    }
+})
 ```
+
 Create your MapboxController:
+
 ```
 binding.mapView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener{
 	override fun onGlobalLayout() {
