@@ -52,6 +52,9 @@ class MainActivity : AppCompatActivity() {
         Location.getLocation(this, binding.mapView)
 
         val mapLoadedCallback = MapLoadedCallback {
+            // Create menu buttons for all the available layers
+            createLayerButtons()
+
             for (customView in layerButtonList) {
                 if (customView is LayerButtonView) { // Add layer button
                     customView.outerView.setOnClickListener {
@@ -136,6 +139,24 @@ class MainActivity : AppCompatActivity() {
             layerMenuButton.setOnClickListener {
                 LayerButtonView.showDatasetButtons(true, binding.layerConstraintLayout, binding.layerMenuButton)
                 showLayerMenu = true
+
+                val customColors: List<ColorStop> = listOf(
+                    // The first value is temperature in degrees Celcius
+                    // The color values are red, green, blue, alpha
+                    ColorStop(-62.22, Color(0.0f, 0.0f, 0.0f, 1.0f)),
+                    ColorStop(12.11, Color(0.0f, 0.0f, 1.0f, 1.0f)),
+                    ColorStop(26.00, Color(1.0f, 0.0f, 0.0f, 1.0f)),
+                    ColorStop(34.44, Color(1.0f, 1.0f, 1.0f, 1.0f)),
+                )
+
+                mapController.addWeatherLayer(
+                    com.xweather.mapsgl.config.weather.WeatherService.Temperatures(mapController.service).apply {
+                        with(layer.paint as SampleStyle) {
+                            opacity = 1.0f
+                            colorScale.stops = customColors
+                        }
+                    }
+                )
             }
 
             locationButton.setOnClickListener {
