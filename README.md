@@ -14,7 +14,6 @@ The Xweather MapsGL SDK for Android allows a developer to quickly and easily add
 
 View the latest installation and implementation details at Xweather under the [Xweather Android SDK toolkit documentation](https://www.xweather.com/docs/android-sdk/getting-started/).
 
-
 ## Running the Demo App
 The MapsGL Android SDK includes a demo application that showcases the capabilities of the SDK. To run the demo application, follow these steps:
 
@@ -82,7 +81,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.0.0'
+    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.0.1'
 }
 ```
 
