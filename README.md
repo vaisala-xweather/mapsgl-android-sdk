@@ -2,7 +2,7 @@
 Xweather MapsGL SDK Demo App
 ================
 
-![Screenshot](/images/screenshot.jpg)
+![Screenshot](/images/screenshot.png)
 
 The Xweather MapsGL SDK for Android allows a developer to quickly and easily add weather content and functionality to their android applications. It utilizes the Xweather API backend for data loading and is built on top of an object mapping system that efficiently loads requested weather content into third-party Android applications, greatly reducing the amount of code and development needed on the developer end.
 
