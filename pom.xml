@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.vaisala-xweather</groupId>
     <artifactId>mapsgl-android-sdk</artifactId>
-    <version>v1.0.1</version>
+    <version>v1.1.0-btest1</version>
     <packaging>pom</packaging>
     <description>MapsGL SDK</description>
 </project>
