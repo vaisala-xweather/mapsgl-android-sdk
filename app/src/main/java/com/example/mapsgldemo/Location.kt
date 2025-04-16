@@ -13,9 +13,7 @@ import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.plugin.animation.easeTo
-import com.mapbox.maps.plugin.annotation.annotations
-import com.mapbox.maps.plugin.annotation.generated.CircleAnnotationOptions
-import com.mapbox.maps.plugin.annotation.generated.createCircleAnnotationManager
+import com.mapbox.maps.plugin.animation.flyTo
 
 class Location {
 
@@ -26,7 +24,7 @@ class Location {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 123
         private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-        fun getLocation(activity: Activity, mapView: MapView, mapboxMap: MapboxMap? = null) {
+        fun getLocation(activity: Activity, mapboxMap: MapboxMap? = null, mapView: MapView) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
             if (ActivityCompat.checkSelfPermission(
                     activity,
@@ -40,26 +38,28 @@ class Location {
                 )
             }
             fusedLocationClient.lastLocation.addOnSuccessListener { location: android.location.Location? ->
-                location?.let {
-                    latitude = it.latitude
-                    longitude = it.longitude
-                    retrieved = true
-                    addLocationMarkerToMap(latitude, longitude, mapView)
-                    if (mapboxMap != null) easeTo(mapboxMap)
-                } ?: run {
-                    if (mapboxMap != null) {
-                        Toast.makeText(activity, "Please enable GPS.", Toast.LENGTH_SHORT).show()
+                    location?.let {
+                        latitude = it.latitude
+                        longitude = it.longitude
+                        retrieved = true
+                        CircleHelper.addLocationMarkerToMap(latitude, longitude, mapView)
+                        if (mapboxMap != null) easeTo(mapboxMap)
+                    } ?: run {
+                        if (mapboxMap != null) {
+                            Toast.makeText(activity, "Please enable GPS.", Toast.LENGTH_SHORT).show()
+                        }
                     }
+                }.addOnFailureListener { e ->
+                    Toast.makeText(activity, "Location Error getting location: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
-            }.addOnFailureListener { e -> }
         }
 
         fun easeTo(mapboxMap: MapboxMap) {
             val cameraOptions = CameraOptions.Builder().center(
-                Point.fromLngLat(
-                    longitude, latitude
-                )
-            ).zoom(4.0).build()
+                    Point.fromLngLat(
+                        longitude, latitude
+                    )
+                ).zoom(4.0).build()
 
             mapboxMap.easeTo(cameraOptions = cameraOptions, animatorListener = object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator) {}
@@ -67,22 +67,6 @@ class Location {
                 override fun onAnimationCancel(animation: Animator) {}
                 override fun onAnimationRepeat(animation: Animator) {}
             })
-        }
-
-        private fun addLocationMarkerToMap(
-            lat: Double,
-            lon: Double,
-            //color: String,
-            mapView: MapView
-        ) {
-            val circleAnnotationManager = mapView.annotations.createCircleAnnotationManager()
-            val circleAnnotationOptions: CircleAnnotationOptions = CircleAnnotationOptions()
-                .withPoint(Point.fromLngLat(lon, lat))
-                .withCircleRadius(2.0)
-                .withCircleColor("#ff0000")
-                .withCircleStrokeWidth(2.0)
-                .withCircleStrokeColor("#ffffff")
-            circleAnnotationManager.create(circleAnnotationOptions)
         }
     }
 }

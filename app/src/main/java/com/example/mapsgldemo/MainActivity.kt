@@ -1,14 +1,20 @@
 package com.example.mapsgldemo
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.mapsgldemo.databinding.ActivityMainBinding
+import com.mapbox.maps.CameraChangedCallback
 import com.mapbox.maps.MapLoadedCallback
 import com.mapbox.maps.MapView
+import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.Style
 import com.mapbox.maps.extension.style.layers.addLayer
 import com.mapbox.maps.extension.style.layers.generated.lineLayer
@@ -17,168 +23,188 @@ import com.mapbox.maps.extension.style.projection.generated.projection
 import com.mapbox.maps.extension.style.projection.generated.setProjection
 import com.mapbox.maps.extension.style.sources.addSource
 import com.mapbox.maps.extension.style.sources.generated.geoJsonSource
+import com.mapbox.maps.plugin.attribution.attribution
+import com.mapbox.maps.plugin.logo.logo
 import com.mapbox.maps.plugin.scalebar.scalebar
-import com.xweather.mapsgl.layers.style.SampleStyle
+import com.xweather.mapsgl.anim.AnimationEvent
+import com.xweather.mapsgl.anim.AnimationState
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
-import com.xweather.mapsgl.layers.style.ParticleStyle
-import com.xweather.mapsgl.layers.style.RasterStyle
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
-import com.xweather.mapsgl.style.ParticleDensity
-import com.xweather.mapsgl.style.ParticleTrailLength
+import com.xweather.mapsgl.types.Coordinate
+import java.util.Date
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mapView: MapView
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mapController: MapboxMapController
+    private lateinit var controller: MapboxMapController
     private lateinit var xweatherAccount: XweatherAccount
-    private val layerButtonList: MutableList<View> = mutableListOf()
     private var showLayerMenu = true
     private var isTablet = false
+
+    override fun onAttachedToWindow() {
+        setTurnScreenOn(true)
+        setShowWhenLocked(true)
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        }
+
         isTablet = LayerButtonView.isTablet(baseContext)
 
-        //You can store account info in res\values\strings.xml
-        xweatherAccount = XweatherAccount(
+        xweatherAccount = XweatherAccount( //You can store account info in res\values\strings.xml
             getString(R.string.xweather_client_id),
             getString(R.string.xweather_client_secret)
         )
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        Location.getLocation(this, binding.mapView)
+        mapView = binding.mapView
+        Location.getLocation(this, mapView = mapView)
+        setContentView(binding.root)
+
+        val cameraChangeCallBack = CameraChangedCallback { }
 
         val mapLoadedCallback = MapLoadedCallback {
-            // Create menu buttons for all the available layers
-            createLayerButtons()
 
-            for (customView in layerButtonList) {
-                if (customView is LayerButtonView) { // Add layer button
-                    customView.outerView.setOnClickListener {
-                        customView.click()
-                        if (customView.active) {
-                            mapController.addWeatherLayer(customView.configuration)
+            binding.timelineView.timelineControls.setupSeekBarChangeListener(binding, controller.timeline) {}
 
-                            // Customize satellite raster layer
-                            if (customView.configuration.layer.id == "satellite") {
-                                val rPaint =
-                                    mapController.getLayer(customView.configuration.layer.id)!!.paint as RasterStyle
-                                rPaint.opacity = 1.0f
-                            }
+            controller.timeline.start = Date(Date().time - (3600 * 1000 * 24)) // 24 hours in the past
+            controller.timeline.end = Date() // The current time
+            controller.timeline.duration = 3.0
+            controller.timeline.goTo(1.0)
 
-                            // Customize temperatures sample layer
-                            else if (customView.configuration.layer.id == "temperatures") {
-                                val sPaint =
-                                    mapController.getLayer(customView.configuration.layer.id)!!.paint as SampleStyle
-                                sPaint.opacity = 1.00f
-                            }
+            binding.timelineView.timelineControls.setPosition(controller.timeline.position)
 
-                            // Customize wind-particles particle layer
-                            else if (customView.configuration.layer.id == "wind-particles") {
-                                val pPaint =
-                                    mapController.getLayer(customView.configuration.layer.id)!!.paint as ParticleStyle
-                                pPaint.opacity = 1.0f
-                                pPaint.density = ParticleDensity.NORMAL
-                                pPaint.speedFactor = 1f
-                                pPaint.trails = true
-                                pPaint.trailsFadeFactor = ParticleTrailLength.NORMAL
-                                pPaint.size = 2.0f
-                            }
-                        }
-                        mapController.setLayerVisible(customView.configuration.layer.id, customView.active)
-                        mapController.mapboxMap.triggerRepaint()
-                    }
+            TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline)
+
+            controller.timeline.on(AnimationEvent.PLAY) {
+                if (controller.timeline.state == AnimationState.playing) {
+                    binding.timelineView.timelineControls.updatePlayButtonImage(true, binding)
+                } else {
+                    binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
                 }
             }
-        }
 
-        mapView = binding.mapView
-        LayerButtonView.setAnimations(this, binding.layerConstraintLayout)
+            controller.timeline.on(AnimationEvent.ADVANCE) {
+                binding.timelineView.timelineControls.setPosition(controller.timeline.position)
+            }
 
-        mapView.setOnTouchListener { _, _ ->
-            determineMenuVisibility()
-            false
+            controller.timeline.on(AnimationEvent.RANGE_CHANGE) {
+                TimelineTextFormatter.setTimeTextViews(
+                    binding.timelineView,
+                    controller.timeline,
+                    controller.timeline.position
+                )
+            }
+
+            controller.redraw()
+            LayerMenu.setupButtonListeners(controller)
         }
 
         binding.mapView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-
             override fun onGlobalLayout() {
                 binding.mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                mapController = MapboxMapController(mapView, baseContext, xweatherAccount, this@MainActivity)
-                LayerMenu.createLayerButtons(baseContext, layerButtonList, mapController.service, binding.outerLinearLayout)
-                with(mapController) {
-                    mapboxMap.setProjection(projection(ProjectionName.MERCATOR))
-                    mapboxMap.loadStyle(Style.LIGHT) { style ->
-                        style.addSource(geoJsonSource("continent-source") {
-                            data("https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson")
-                        })
-                        style.addLayer(lineLayer("continent-layer", "continent-source") {
-                            lineColor("#000000")
-                            lineWidth(.70)
-                            lineOpacity(0.4)
-                        })
-                    }
-
-                    setZoom(.9)
-                    mapboxMap.subscribeMapLoaded(mapLoadedCallback)
-
-                    mapView.scalebar.updateSettings {
-                        marginTop = 50f // Adjust this value as needed
-                        enabled = false
-                    }
-                }
+                controller = MapboxMapController(mapView, baseContext, xweatherAccount, this@MainActivity)
+                binding.timelineView.timelineControls.setupButtonListeners(controller.timeline, binding)
+                setupTimelineListeners()
+                setMapboxPreferences(controller.mapboxMap)
+                controller.mapboxMap.subscribeMapLoaded(mapLoadedCallback)
+                controller.mapboxMap.subscribeCameraChanged(cameraChangeCallBack)
+                LayerMenu.createLayerButtons(baseContext, controller.service, binding.outerLinearLayout)
+                LayerButtonView.setAnimations(baseContext, binding.outerScrollView)
             }
         })
 
-        binding.apply {
-            setContentView(root)
+        binding.timelineView.timelineControls.setAnimations(this, binding)
+        setupUIButtonListeners(binding)
 
-            layerMenuButton.setOnClickListener {
-                LayerButtonView.showDatasetButtons(true, binding.layerConstraintLayout, binding.layerMenuButton)
-                showLayerMenu = true
+        mapView.setOnTouchListener { _, _ ->
+            determineLayerMenuVisibility()
+            false
+        }
+    }
 
-                val customColors: List<ColorStop> = listOf(
-                    // The first value is temperature in degrees Celcius
-                    // The color values are red, green, blue, alpha
-                    ColorStop(-62.22, Color(0.0f, 0.0f, 0.0f, 1.0f)),
-                    ColorStop(12.11, Color(0.0f, 0.0f, 1.0f, 1.0f)),
-                    ColorStop(26.00, Color(1.0f, 0.0f, 0.0f, 1.0f)),
-                    ColorStop(34.44, Color(1.0f, 1.0f, 1.0f, 1.0f)),
-                )
+    private fun setupTimelineListeners() {
+        controller.timeline.isDownloading.observe(this) { isLoading -> // Or just 'this' in an Activity
+            binding.loadingBar.isVisible = isLoading
+        }
+    }
 
-                mapController.addWeatherLayer(
-                    com.xweather.mapsgl.config.weather.WeatherService.Temperatures(mapController.service).apply {
-                        with(layer.paint as SampleStyle) {
-                            opacity = 1.0f
-                            colorScale.stops = customColors
-                        }
-                    }
-                )
-            }
+    private fun setupUIButtonListeners(binding: ActivityMainBinding) {
+        binding.layerMenuButton.setOnClickListener {
+            LayerButtonView.showDatasetButtons(true, binding.outerScrollView, binding.layerMenuButton)
+            mapView.scalebar.enabled = false
+            showLayerMenu = true
+            binding.timelineView.timelineControls.show(false, binding)
+        }
+        binding.timelineView.timelineConstraintLayout.visibility = View.INVISIBLE
 
-            locationButton.setOnClickListener {
-                if (Location.retrieved) {
-                    determineMenuVisibility()
-                    Location.easeTo(mapController.mapboxMap)
-                } else {
-                    Location.getLocation(this@MainActivity, mapView, mapController.mapboxMap)
-                }
-            }
-
-            binding.layerMenuCloseButton.setOnClickListener {
-                LayerButtonView.showDatasetButtons(false, binding.layerConstraintLayout, binding.layerMenuButton)
+        binding.locationButton.setOnClickListener {
+            if (Location.retrieved) {
+                determineLayerMenuVisibility()
+                Location.easeTo(controller.mapboxMap)
+            } else {
+                Location.getLocation(this@MainActivity, controller.mapboxMap, mapView)
             }
         }
     }
 
-    private fun determineMenuVisibility(){
-        if (showLayerMenu&&!isTablet) { //Hide menu when the map is touched
-            LayerButtonView.showDatasetButtons(false, binding.layerConstraintLayout, binding.layerMenuButton)
+    private fun setMapboxPreferences(mapboxMap: MapboxMap) {
+        mapboxMap.setProjection(projection(ProjectionName.MERCATOR)) // This is necessary for this version of MapsGL
+
+        mapboxMap.loadStyle(Style.LIGHT) { style ->
+            style.addSource(geoJsonSource("continent-source") {
+                data("https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson")
+            })
+            style.addLayer(lineLayer("continent-layer", "continent-source") {
+                lineColor("#000000")
+                lineWidth(.70)
+                lineOpacity(0.4)
+            })
+        }
+
+        controller.setCenter(Coordinate(28.0, -99.0))
+        controller.setZoom(.9)
+        controller.setBearing(0.0)
+        controller.setPitch(0.0)
+
+        mapView.scalebar.updateSettings {
+            marginTop = 50f // Position the scalebar
+        }
+
+        mapView.scalebar.enabled = false
+        mapView.logo.enabled = false
+        mapView.attribution.enabled = false
+    }
+
+    /**  Hide the layer menu and other UI elements  when appropriate **/
+    private fun determineLayerMenuVisibility() {
+        if (showLayerMenu /* &&!isTablet */) {
+            LayerButtonView.showDatasetButtons(false, binding.outerScrollView, binding.layerMenuButton)
             mapView.scalebar.enabled = true
             showLayerMenu = false
+        }
+
+        binding.timelineView.timelineControls.show(true, binding)
+    }
+
+    /** Keep track of if the phone is in landscape or portrait mode **/
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val controller = window.insetsController
+            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+            } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+                // Account for front-facing camera
+                controller?.show(WindowInsets.Type.displayCutout())
+            }
         }
     }
 }

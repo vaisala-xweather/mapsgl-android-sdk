@@ -1,4 +1,4 @@
-package com.example.mapsgldemo
+package com.xweather.mapsgl
 
 import org.junit.Test
 

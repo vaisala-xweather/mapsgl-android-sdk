@@ -5,13 +5,18 @@ import android.view.View
 import android.widget.LinearLayout
 import com.example.mapsgldemo.LayerButtonView.Companion.createHeadingTextView
 import com.xweather.mapsgl.config.weather.WeatherService
+import com.xweather.mapsgl.layers.style.ParticleStyle
+import com.xweather.mapsgl.map.mapbox.MapboxMapController
+import com.xweather.mapsgl.style.ParticleDensity
+import com.xweather.mapsgl.style.ParticleTrailLength
 
 class LayerMenu {
     companion object {
+        private val buttonList: MutableList<View> = mutableListOf()
+
         /**  Create menu buttons for all the available layers **/
         fun createLayerButtons(
             context: Context,
-            buttonList: MutableList<View>,
             service: WeatherService,
             layout: LinearLayout
         ) {
@@ -83,5 +88,32 @@ class LayerMenu {
                 }
             }
         }
+
+        fun setupButtonListeners( controller: MapboxMapController){
+            for (customView in buttonList) { //for each item created in createLayerButtons()
+                if (customView is LayerButtonView) { // If is custom clickable button
+                    customView.outerView.setOnClickListener {
+                        customView.click()
+                        if (customView.active) {
+                            controller.addWeatherLayer(customView.configuration)
+                            if (customView.configuration.layer.id == "wind-particles") {
+                                val pPaint =
+                                    controller.getLayer(customView.configuration.layer.id)!!.paint as ParticleStyle
+                                pPaint.opacity = 1.0f
+                                pPaint.density = ParticleDensity.EXTREME
+                                //pPaint.density = ParticleDensity.MINIMAL
+                                pPaint.speedFactor = 1.0f
+                                pPaint.trails = true
+                                pPaint.trailsFadeFactor = ParticleTrailLength.NORMAL
+                                pPaint.size = 3.0f
+                            }
+                        }
+                        controller.setLayerVisible(customView.configuration.layer.id, customView.active)
+                    }
+                }
+            }
+
+        }
+
     }
 }
