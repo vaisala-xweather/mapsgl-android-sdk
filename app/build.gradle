@@ -41,13 +41,10 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.16.0'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     api 'androidx.navigation:navigation-compose:2.8.9'
-
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation "com.mapbox.maps:android:$mapbox_version"
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     testImplementation 'junit:junit:4.13.2'
 
-    //implementation files('libs/mapsglmaps-release.aar') // from lib directory //TESTING AAR
-    //implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.1.0-beta.1'
-    implementation 'com.github.jasonsuto:test240815:1.1.0-be'
+    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.1.0-beta.2'
 }
