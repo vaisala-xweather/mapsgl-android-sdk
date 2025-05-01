@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:ignore="ContentDescription" >
 
     <com.mapbox.maps.MapView
         android:id="@+id/mapView"
@@ -32,10 +33,10 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/button_background"
+        android:background="@drawable/button_background_selector"
         android:shadowColor="@color/black"
         android:shadowRadius="10"
-        android:src="@drawable/layer_icon"
+        android:src="@drawable/layer_button_image"
         android:text=""
         android:textColor="@color/button_text"
         android:visibility="invisible"
@@ -51,7 +52,7 @@
         android:padding="8dp"
         android:shadowColor="@color/black"
         android:shadowRadius="10"
-        android:src="@drawable/location"
+        android:src="@drawable/location_button_image"
         android:text=""
         android:textColor="@color/button_text"
         android:visibility="visible"
@@ -95,8 +96,8 @@
         android:text="x"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="8dp"
-        android:visibility="visible"
+        android:textSize="8sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/mapView"
         app:layout_constraintStart_toStartOf="parent"

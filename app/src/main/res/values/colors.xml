@@ -5,6 +5,7 @@
     <color name="button_text">#FFFFFFFF</color>
     <color name="selected_button_text">#FF000000</color>
     <color name="grey_background">#FF1a2023</color>
+    <color name="grey_background_pressed">#FF42484B</color>
     <color name="selected_background">#FFFFFFFF</color>
     <color name="divider_color">#FF555555</color>
 

@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">MapsGL Beta 1.1</string>
-    <string name="mapbox_access_token">YOUR_MAPBOX_ACCESS_TOKEN_HERE</string>
-    <string name="xweather_client_id">YOUR_XWEATHER_CLIENT_ID_HERE</string>
-    <string name="xweather_client_secret">YOUR_XWEATHER_CLIENT_SECRET_HERE</string>
+    <string name="app_name">MapsGL Beta v1.1.0</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiamFzb25zdXRvIiwiYSI6ImNsbjh3ZDA3bjAxbmMybHM0aGkyOWp3MnQifQ.Sco0RT2S6tF7u2_T7_NZPA</string>
+    <string name="xweather_client_id">wgE96YE3scTQLKjnqiMsv</string>
+    <string name="xweather_client_secret">2Hv7vYXBj0YAJED8xaiADX5X1szKbLFhd9waCEWT</string>
 </resources>

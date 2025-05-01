@@ -18,7 +18,6 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
     private lateinit var slideInAnimation: Animation
     private var timelineVisibility: Boolean = false
 
-    // This must match the seekbar's "max" setting, whether in the XML or if it is set programmatically.
     private val seekbarRange = 10000.0
     var seekbarDoubleValue = 0.0
 
@@ -32,7 +31,6 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUserTouch: Boolean) {
                 seekbarDoubleValue = progress.toDouble() / seekbarRange
                 if (fromUserTouch) {
-                    //if (timeline.state == AnimationState.playing) {
                     if (timeline.state == AnimationState.playing) {
                         binding.timelineView.timelineControls.updatePlayButtonImage(true, binding)
                     }
@@ -59,9 +57,9 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
 
     fun updatePlayButtonImage(isPlaying: Boolean, binding: ActivityMainBinding) {
         if (isPlaying) {
-            binding.timelineView.playButtonImage.setImageResource(R.drawable.stop)
+            binding.timelineView.playButtonImage.setImageResource(R.drawable.stop_button_image)
         } else {
-            binding.timelineView.playButtonImage.setImageResource(R.drawable.play)
+            binding.timelineView.playButtonImage.setImageResource(R.drawable.play_button_image)
         }
     }
 
@@ -78,10 +76,12 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
         }
 
         binding.timelineView.intervalBackButton.setOnClickListener {
+            updatePlayButtonImage(false, binding)
             timeline.prevInterval()
         }
 
         binding.timelineView.intervalForwardButton.setOnClickListener {
+            updatePlayButtonImage(false, binding)
             timeline.nextInterval()
         }
 

@@ -7,10 +7,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowInsets
+import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.mapsgldemo.databinding.ActivityMainBinding
+import com.mapbox.common.Cancelable
 import com.mapbox.maps.CameraChangedCallback
 import com.mapbox.maps.MapLoadedCallback
 import com.mapbox.maps.MapView
@@ -34,12 +36,28 @@ import com.xweather.mapsgl.types.Coordinate
 import java.util.Date
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mapView: MapView
+
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mapView: MapView // Keep reference to MapView itself
+    private var mapboxMap: MapboxMap? = null
     private lateinit var controller: MapboxMapController
     private lateinit var xweatherAccount: XweatherAccount
-    private var showLayerMenu = true
     private var isTablet = false
+    private var layerMenu = LayerMenu()
+    private var mapLoadedCancelable: Cancelable? = null
+    private var cameraChangedCancelable: Cancelable? = null
+    private val cameraChangeCallback = CameraChangedCallback { /* Optional: Handle camera changes */ }
+    private val mapLoadedCallback = MapLoadedCallback {
+        binding.timelineView.timelineControls.setupSeekBarChangeListener(binding, controller.timeline) {}
+        controller.timeline.start = Date(Date().time - (3600 * 1000 * 24  )) // 24 hours in the past
+        controller.timeline.end = Date() // The current time
+        controller.timeline.duration = 3.0
+        controller.timeline.goTo(1.0)
+        binding.timelineView.timelineControls.setPosition(controller.timeline.position)
+        TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline)
+        controller.redraw()
+        layerMenu.setupButtonListeners(controller)
+    }
 
     override fun onAttachedToWindow() {
         setTurnScreenOn(true)
@@ -49,117 +67,109 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        mapView = binding.mapView
+        isTablet = LayerButtonView.isTablet(baseContext)
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
 
-        isTablet = LayerButtonView.isTablet(baseContext)
-
-        xweatherAccount = XweatherAccount( //You can store account info in res\values\strings.xml
+        xweatherAccount = XweatherAccount(
             getString(R.string.xweather_client_id),
             getString(R.string.xweather_client_secret)
         )
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        mapView = binding.mapView
         Location.getLocation(this, mapView = mapView)
-        setContentView(binding.root)
-
-        val cameraChangeCallBack = CameraChangedCallback { }
-
-        val mapLoadedCallback = MapLoadedCallback {
-
-            binding.timelineView.timelineControls.setupSeekBarChangeListener(binding, controller.timeline) {}
-
-            controller.timeline.start = Date(Date().time - (3600 * 1000 * 24)) // 24 hours in the past
-            controller.timeline.end = Date() // The current time
-            controller.timeline.duration = 3.0
-            controller.timeline.goTo(1.0)
-
-            binding.timelineView.timelineControls.setPosition(controller.timeline.position)
-
-            TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline)
-
-            controller.timeline.on(AnimationEvent.PLAY) {
-                if (controller.timeline.state == AnimationState.playing) {
-                    binding.timelineView.timelineControls.updatePlayButtonImage(true, binding)
-                } else {
-                    binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
-                }
-            }
-
-            controller.timeline.on(AnimationEvent.ADVANCE) {
-                binding.timelineView.timelineControls.setPosition(controller.timeline.position)
-            }
-
-            controller.timeline.on(AnimationEvent.RANGE_CHANGE) {
-                TimelineTextFormatter.setTimeTextViews(
-                    binding.timelineView,
-                    controller.timeline,
-                    controller.timeline.position
-                )
-            }
-
-            controller.redraw()
-            LayerMenu.setupButtonListeners(controller)
-        }
 
         binding.mapView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
+                // Remove listener to avoid multiple calls
                 binding.mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                controller = MapboxMapController(mapView, baseContext, xweatherAccount, this@MainActivity)
-                binding.timelineView.timelineControls.setupButtonListeners(controller.timeline, binding)
-                setupTimelineListeners()
-                setMapboxPreferences(controller.mapboxMap)
-                controller.mapboxMap.subscribeMapLoaded(mapLoadedCallback)
-                controller.mapboxMap.subscribeCameraChanged(cameraChangeCallBack)
-                LayerMenu.createLayerButtons(baseContext, controller.service, binding.outerLinearLayout)
-                LayerButtonView.setAnimations(baseContext, binding.outerScrollView)
+
+                // --- Initialize Controller and Get MapboxMap ---
+                if (mapView.parent != null) {
+                    controller = MapboxMapController(mapView, baseContext, xweatherAccount, this@MainActivity)
+
+                    // Store the MapboxMap reference locally and nullably
+                    this@MainActivity.mapboxMap = controller.mapboxMap
+
+                    mapboxMap?.let { map -> // Use safe call 'let' block
+                        setMapboxPreferences(map) // Pass the non-null map instance
+                        // Subscribe listeners using stored references
+                        mapLoadedCancelable = map.subscribeMapLoaded(mapLoadedCallback)
+                        cameraChangedCancelable = map.subscribeCameraChanged(cameraChangeCallback)
+                    }
+                    // Setup other UI elements that depend on the controller
+                    binding.timelineView.timelineControls.setupButtonListeners(controller.timeline, binding)
+                    setupTimelineListeners()
+                    layerMenu.createLayerButtons(baseContext, controller.service, binding.outerLinearLayout)
+                    LayerButtonView.setAnimations(baseContext, binding.outerScrollView)
+                }
             }
         })
 
         binding.timelineView.timelineControls.setAnimations(this, binding)
-        setupUIButtonListeners(binding)
+        setupUIButtonListeners(binding) // Setup listeners that don't directly need mapboxMap yet
 
         mapView.setOnTouchListener { _, _ ->
             determineLayerMenuVisibility()
-            false
+            false // Return false to allow map default touch handling
         }
     }
 
-    private fun setupTimelineListeners() {
-        controller.timeline.isDownloading.observe(this) { isLoading -> // Or just 'this' in an Activity
+    private fun setupTimelineListeners(){
+        controller.timeline.isDownloading.observe(this) { isLoading ->
             binding.loadingBar.isVisible = isLoading
         }
+
+        // Setup other timeline listeners
+        controller.timeline.on(AnimationEvent.PLAY){
+            if (controller.timeline.state == AnimationState.playing) {
+                binding.timelineView.timelineControls.updatePlayButtonImage(true, binding)
+            } else {
+                binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
+            }
+        }
+
+        controller.timeline.on(AnimationEvent.ADVANCE){
+            binding.timelineView.timelineControls.setPosition(controller.timeline.position)
+        }
+
+        controller.timeline.on(AnimationEvent.RANGE_CHANGE) {
+            TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline, controller.timeline.position)
+            binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
+        }
     }
 
-    private fun setupUIButtonListeners(binding: ActivityMainBinding) {
+    private fun setupUIButtonListeners(binding: ActivityMainBinding){
         binding.layerMenuButton.setOnClickListener {
             LayerButtonView.showDatasetButtons(true, binding.outerScrollView, binding.layerMenuButton)
-            mapView.scalebar.enabled = false
-            showLayerMenu = true
+            mapView.scalebar.enabled = false // Use safe call
+            layerMenu.visible = true
             binding.timelineView.timelineControls.show(false, binding)
         }
-        binding.timelineView.timelineConstraintLayout.visibility = View.INVISIBLE
+        binding.timelineView.timelineConstraintLayout.visibility = View.INVISIBLE // Consider setting in XML initially
 
         binding.locationButton.setOnClickListener {
+            determineLayerMenuVisibility()
             if (Location.retrieved) {
-                determineLayerMenuVisibility()
-                Location.easeTo(controller.mapboxMap)
+                mapboxMap?.let { map ->
+                    Location.easeTo(map)
+                }
             } else {
-                Location.getLocation(this@MainActivity, controller.mapboxMap, mapView)
+                Location.getLocation(this@MainActivity, mapboxMap, mapView)
             }
         }
     }
 
-    private fun setMapboxPreferences(mapboxMap: MapboxMap) {
-        mapboxMap.setProjection(projection(ProjectionName.MERCATOR)) // This is necessary for this version of MapsGL
+    private fun setMapboxPreferences(mapboxMap: MapboxMap){
+        mapboxMap.setProjection(projection(ProjectionName.MERCATOR))
 
         mapboxMap.loadStyle(Style.LIGHT) { style ->
             style.addSource(geoJsonSource("continent-source") {
-                data("https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson")
+                data("https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson" )
             })
             style.addLayer(lineLayer("continent-layer", "continent-source") {
                 lineColor("#000000")
@@ -168,26 +178,27 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
-        controller.setCenter(Coordinate(28.0, -99.0))
-        controller.setZoom(.9)
-        controller.setBearing(0.0)
-        controller.setPitch(0.0)
-
-        mapView.scalebar.updateSettings {
-            marginTop = 50f // Position the scalebar
+        if (::controller.isInitialized) {
+            controller.setCenter(Coordinate(28.0, -99.0))
+            controller.setZoom(.9)
+            controller.setBearing(0.0)
+            controller.setPitch(0.0)
         }
 
+        mapView.scalebar.updateSettings {
+            marginTop = 150f
+        }
         mapView.scalebar.enabled = false
         mapView.logo.enabled = false
         mapView.attribution.enabled = false
     }
 
-    /**  Hide the layer menu and other UI elements  when appropriate **/
-    private fun determineLayerMenuVisibility() {
-        if (showLayerMenu /* &&!isTablet */) {
+    /**  Hide the layer menu and other UI elements when appropriate **/
+    private fun determineLayerMenuVisibility(){
+        if (layerMenu.visible /* &&!isTablet */ ) {
             LayerButtonView.showDatasetButtons(false, binding.outerScrollView, binding.layerMenuButton)
-            mapView.scalebar.enabled = true
-            showLayerMenu = false
+            mapView.scalebar.enabled = true // Use safe call
+            layerMenu.visible = false
         }
 
         binding.timelineView.timelineControls.show(true, binding)
@@ -196,15 +207,40 @@ class MainActivity : AppCompatActivity() {
     /** Keep track of if the phone is in landscape or portrait mode **/
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        // Using WindowInsetsController requires API 30+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val controller = window.insetsController
+            val insetsController = window.insetsController
+            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+                // Optionally hide status/navigation bars in landscape for immersive mode
+                insetsController?.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                insetsController?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+                // Show system bars and handle display cutout in portrait
+                insetsController?.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+            }
+        } else {
+            // Handle pre-API 30 orientation changes if needed.
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-                // Account for front-facing camera
-                controller?.show(WindowInsets.Type.displayCutout())
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LayerButtonView.showDatasetButtons(layerMenu.visible, binding.outerScrollView, binding.layerMenuButton)
+    }
+
+    override fun onDestroy() {
+        mapLoadedCancelable?.cancel()
+        cameraChangedCancelable?.cancel()
+        mapboxMap = null // Clear the reference to the MapboxMap object
+        mapLoadedCancelable = null // Clear the cancelable reference
+        cameraChangedCancelable = null // Clear the cancelable reference
+        super.onDestroy() // Call super at the end
     }
 }
