@@ -93,7 +93,7 @@ In **AndroidManifest.xml**:
 In the app-level **build.gradle**
 
     dependencies {
-	    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.1.0-beta.1'
+	    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.1.0-beta.2'
     }
 
 
