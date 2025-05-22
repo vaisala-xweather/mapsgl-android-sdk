@@ -1,0 +1,216 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:////PointingToDeclaration/[root]/package-summary.html
+$dokka.location:/AngleUnit///PointingToDeclaration/[root]/AngleUnit.html
+$dokka.location:/CameraAngle///PointingToDeclaration/[root]/CameraAngle.html
+$dokka.location:/DrawPassProvider///PointingToDeclaration/[root]/DrawPassProvider.html
+$dokka.location:/DrawState///PointingToDeclaration/[root]/DrawState.html
+$dokka.location:/EncodedDataGroup///PointingToDeclaration/[root]/EncodedDataGroup.html
+$dokka.location:/EncodedDataset///PointingToDeclaration/[root]/EncodedDataset.html
+$dokka.location:/EventDispatcher///PointingToDeclaration/[root]/EventDispatcher.html
+$dokka.location:/EventJS///PointingToDeclaration/[root]/EventJS.html
+$dokka.location:/ImageKt///PointingToDeclaration/[root]/ImageKt.html
+$dokka.location:/ImageRepresentable///PointingToDeclaration/[root]/ImageRepresentable.html
+$dokka.location:/LayerEvents.Hide///PointingToDeclaration/[root]/LayerEvents.Hide.html
+$dokka.location:/LayerEvents.HideEvent///PointingToDeclaration/[root]/LayerEvents.HideEvent.html
+$dokka.location:/LayerEvents.LoadCompleteEvent///PointingToDeclaration/[root]/LayerEvents.LoadCompleteEvent.html
+$dokka.location:/LayerEvents.LoadStartEvent///PointingToDeclaration/[root]/LayerEvents.LoadStartEvent.html
+$dokka.location:/LayerEvents.PaintChangeEvent///PointingToDeclaration/[root]/LayerEvents.PaintChangeEvent.html
+$dokka.location:/LayerEvents.Show///PointingToDeclaration/[root]/LayerEvents.Show.html
+$dokka.location:/LayerEvents.ShowEvent///PointingToDeclaration/[root]/LayerEvents.ShowEvent.html
+$dokka.location:/LayerEvents.TileDiscardEvent///PointingToDeclaration/[root]/LayerEvents.TileDiscardEvent.html
+$dokka.location:/LayerEvents.TileErrorEvent///PointingToDeclaration/[root]/LayerEvents.TileErrorEvent.html
+$dokka.location:/LayerEvents.TileLoadEvent///PointingToDeclaration/[root]/LayerEvents.TileLoadEvent.html
+$dokka.location:/LayerEvents///PointingToDeclaration/[root]/LayerEvents.html
+$dokka.location:/Measurement///PointingToDeclaration/[root]/Measurement.html
+$dokka.location:/Object3D///PointingToDeclaration/[root]/Object3D.html
+$dokka.location:com.xweather.mapsgl.gl.geometries/BufferAttribute.Companion///PointingToDeclaration/com/xweather/mapsglcore/opengl/geometries/BufferAttribute.Companion.html
+$dokka.location:com.xweather.mapsglmaps.config.weather/AccessToken.Companion///PointingToDeclaration/com/xweather/mapsglmaps/config/weather/AccessToken.Companion.html
+$dokka.location:com.xweather.mapsglmaps.config.weather/MapsGLDataGroup.Companion///PointingToDeclaration/com/xweather/mapsglmaps/config/weather/MapsGLDataGroup.Companion.html
+$dokka.location:com.xweather.mapsglmaps.config.weather/WeatherService.Companion///PointingToDeclaration/com/xweather/mapsglmaps/config/weather/WeatherService.Companion.html
+$dokka.location:com.xweather.mapsglmaps.config.weather/WeatherService.Layer///PointingToDeclaration/com/xweather/mapsglmaps/config/weather/WeatherService.Layer.html
+$dokka.location:com.xweather.mapsglmaps.config.weather/WeatherService.LayerCode///PointingToDeclaration/com/xweather/mapsglmaps/config/weather/WeatherService.LayerCode.html
+$dokka.location:com.xweather.mapsglmaps.config.weather/WeatherService.ParticleWeatherLayerConfiguration///PointingToDeclaration/com/xweather/mapsglmaps/config/weather/WeatherService.ParticleWeatherLayerConfiguration.html
+$dokka.location:com.xweather.mapsglmaps.config.weather/WeatherService.RasterWeatherLayerConfiguration///PointingToDeclaration/com/xweather/mapsglmaps/config/weather/WeatherService.RasterWeatherLayerConfiguration.html
+$dokka.location:com.xweather.mapsglmaps.config.weather/WeatherService.SampleWeatherLayerConfiguration///PointingToDeclaration/com/xweather/mapsglmaps/config/weather/WeatherService.SampleWeatherLayerConfiguration.html
+$dokka.location:com.xweather.mapsglmaps.config.weather/WeatherService.WeatherLayerConfiguration///PointingToDeclaration/com/xweather/mapsglmaps/config/weather/WeatherService.WeatherLayerConfiguration.html
+$dokka.location:com.xweather.mapsglmaps.config.weather/WindDataset.Component///PointingToDeclaration/com/xweather/mapsglmaps/config/weather/WindDataset.Component.html
+$dokka.location:com.xweather.mapsglmaps.coordinates/MapBounds.MapBounds///PointingToDeclaration/com/xweather/mapsglmaps/coordinates/MapBounds.MapBounds.html
+$dokka.location:com.xweather.mapsglmaps.enums/tileState.Color///PointingToDeclaration/com/xweather/mapsglmaps/enums/tileState.Color.html
+$dokka.location:com.xweather.mapsglmaps.events/AuthenticatorEvents.Token///PointingToDeclaration/com/xweather/mapsglmaps/events/AuthenticatorEvents.Token.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.DataChange///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.DataChange.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.LoadComplete///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.LoadComplete.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.LoadStart///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.LoadStart.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.MetadataError///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.MetadataError.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.MetadataLayout///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.MetadataLayout.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.MetadataLoad///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.MetadataLoad.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.MetadataLoadStart///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.MetadataLoadStart.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.TileAdd///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.TileAdd.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.TileDiscard///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.TileDiscard.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.TileError///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.TileError.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.TileLoad///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.TileLoad.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.TileLoadComplete///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.TileLoadComplete.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.TileLoadStart///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.TileLoadStart.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.TileRemove///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.TileRemove.html
+$dokka.location:com.xweather.mapsglmaps.events/DataSourceEvents.TileRequest///PointingToDeclaration/com/xweather/mapsglmaps/events/DataSourceEvents.TileRequest.html
+$dokka.location:com.xweather.mapsglmaps.events/MapControllerEvents.LayerAdd///PointingToDeclaration/com/xweather/mapsglmaps/events/MapControllerEvents.LayerAdd.html
+$dokka.location:com.xweather.mapsglmaps.events/MapControllerEvents.LayerRemove///PointingToDeclaration/com/xweather/mapsglmaps/events/MapControllerEvents.LayerRemove.html
+$dokka.location:com.xweather.mapsglmaps.events/MapControllerEvents.SourceAdd///PointingToDeclaration/com/xweather/mapsglmaps/events/MapControllerEvents.SourceAdd.html
+$dokka.location:com.xweather.mapsglmaps.events/MapControllerEvents.SourceRemove///PointingToDeclaration/com/xweather/mapsglmaps/events/MapControllerEvents.SourceRemove.html
+$dokka.location:com.xweather.mapsglmaps.geo.projection/Mercator.Companion///PointingToDeclaration/com/xweather/mapsglmaps/geo/projection/Mercator.Companion.html
+$dokka.location:com.xweather.mapsglmaps.layers.tile/TileLayer.Companion///PointingToDeclaration/com/xweather/mapsglmaps/layers/tile/TileLayer.Companion.html
+$dokka.location:com.xweather.mapsglmaps.map.mapbox/CameraSync.Companion///PointingToDeclaration/com/xweather/mapsglmaps/map/mapbox/CameraSync.Companion.html
+$dokka.location:com.xweather.mapsglmaps.map.mapbox/MapboxMapController.Companion///PointingToDeclaration/com/xweather/mapsglmaps/map/mapbox/MapboxMapController.Companion.html
+$dokka.location:com.xweather.mapsglmaps.map/MapControllerError.ALREADY_EXISTS///PointingToDeclaration/com/xweather/mapsglmaps/map/MapControllerError.ALREADY_EXISTS.html
+$dokka.location:com.xweather.mapsglmaps.map/MapControllerError.INVALID_SOURCE///PointingToDeclaration/com/xweather/mapsglmaps/map/MapControllerError.INVALID_SOURCE.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore.extensions/ProjectiveTransform3D.Companion///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/extensions/ProjectiveTransform3D.Companion.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore.math/Euler.Companion///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/math/Euler.Companion.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore.math/EulerOrder.Companion///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/math/EulerOrder.Companion.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore.math/Matrix2.Companion///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/math/Matrix2.Companion.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore.math/Matrix3.Companion///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/math/Matrix3.Companion.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore.math/Matrix4.Companion///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/math/Matrix4.Companion.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore.opengl.worldObjects/Mesh.Companion///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/opengl/worldObjects/Mesh.Companion.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore/RenderPass.Companion///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/RenderPass.Companion.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore/RenderPass.Error.CouldntCreateCommandEncoder///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/RenderPass.Error.CouldntCreateCommandEncoder.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore/RenderPass.Error.MustSupplyAtLeastOneMesh///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/RenderPass.Error.MustSupplyAtLeastOneMesh.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore/RenderPass.Error.NewElementsDontMatchVertexDescriptor///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/RenderPass.Error.NewElementsDontMatchVertexDescriptor.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore/RenderPass.Error///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/RenderPass.Error.html
+$dokka.location:com.xweather.mapsglmaps.mapsglcore/UnitQuad2DGeometry.Companion///PointingToDeclaration/com/xweather/mapsglmaps/mapsglcore/UnitQuad2DGeometry.Companion.html
+$dokka.location:com.xweather.mapsglmaps.materials/RenderMaterial.Companion///PointingToDeclaration/com/xweather/mapsglmaps/materials/RenderMaterial.Companion.html
+$dokka.location:com.xweather.mapsglmaps.renderers.pass/PassSequence.Size///PointingToDeclaration/com/xweather/mapsglmaps/renderers/pass/PassSequence.Size.html
+$dokka.location:com.xweather.mapsglmaps.renderers/ProgramType.Companion///PointingToDeclaration/com/xweather/mapsglmaps/renderers/ProgramType.Companion.html
+$dokka.location:com.xweather.mapsglmaps.sources/EncodedTileSource.MetadataSchema///PointingToDeclaration/com/xweather/mapsglmaps/sources/EncodedTileSource.MetadataSchema.html
+$dokka.location:com.xweather.mapsglmaps.sources/ImageTileSource.Companion///PointingToDeclaration/com/xweather/mapsglmaps/sources/ImageTileSource.Companion.html
+$dokka.location:com.xweather.mapsglmaps.sources/ImageTileSource.MetadataSchema///PointingToDeclaration/com/xweather/mapsglmaps/sources/ImageTileSource.MetadataSchema.html
+$dokka.location:com.xweather.mapsglmaps.sources/RasterTileApiEvent.Error///PointingToDeclaration/com/xweather/mapsglmaps/sources/RasterTileApiEvent.Error.html
+$dokka.location:com.xweather.mapsglmaps.sources/RasterTileApiEvent.Reload///PointingToDeclaration/com/xweather/mapsglmaps/sources/RasterTileApiEvent.Reload.html
+$dokka.location:com.xweather.mapsglmaps.sources/RasterTileApiEvent.Success///PointingToDeclaration/com/xweather/mapsglmaps/sources/RasterTileApiEvent.Success.html
+$dokka.location:com.xweather.mapsglmaps.sources/RequestTileSuccess.AlreadyExists///PointingToDeclaration/com/xweather/mapsglmaps/sources/RequestTileSuccess.AlreadyExists.html
+$dokka.location:com.xweather.mapsglmaps.sources/RequestTileSuccess.Companion///PointingToDeclaration/com/xweather/mapsglmaps/sources/RequestTileSuccess.Companion.html
+$dokka.location:com.xweather.mapsglmaps.sources/RequestTileSuccess.Data///PointingToDeclaration/com/xweather/mapsglmaps/sources/RequestTileSuccess.Data.html
+$dokka.location:com.xweather.mapsglmaps.sources/XweatherEncodedTileSource.Companion///PointingToDeclaration/com/xweather/mapsglmaps/sources/XweatherEncodedTileSource.Companion.html
+$dokka.location:com.xweather.mapsglmaps.sources/XweatherEncodedTileSource.Error///PointingToDeclaration/com/xweather/mapsglmaps/sources/XweatherEncodedTileSource.Error.html
+$dokka.location:com.xweather.mapsglmaps.style/ColorLookupTable.Companion///PointingToDeclaration/com/xweather/mapsglmaps/style/ColorLookupTable.Companion.html
+$dokka.location:com.xweather.mapsglmaps.style/DataColorScale.RGB///PointingToDeclaration/com/xweather/mapsglmaps/style/DataColorScale.RGB.html
+$dokka.location:com.xweather.mapsglmaps.tiles/MeshTransform.Companion///PointingToDeclaration/com/xweather/mapsglmaps/tiles/MeshTransform.Companion.html
+$dokka.location:com.xweather.mapsglmaps.tiles/Tile.Companion///PointingToDeclaration/com/xweather/mapsglmaps/tiles/Tile.Companion.html
+$dokka.location:com.xweather.mapsglmaps.tiles/TileCoord.Companion///PointingToDeclaration/com/xweather/mapsglmaps/tiles/TileCoord.Companion.html
+$dokka.location:com.xweather.mapsglmaps.tiles/TilePartial.Companion///PointingToDeclaration/com/xweather/mapsglmaps/tiles/TilePartial.Companion.html
+$dokka.location:com.xweather.mapsglmaps.tiles/TilePyramid.Collection///PointingToDeclaration/com/xweather/mapsglmaps/tiles/TilePyramid.Collection.html
+$dokka.location:com.xweather.mapsglmaps.tiles/TilePyramid.Companion///PointingToDeclaration/com/xweather/mapsglmaps/tiles/TilePyramid.Companion.html
+$dokka.location:com.xweather.mapsglmaps.tiles/TilePyramid.DictionaryProtocol///PointingToDeclaration/com/xweather/mapsglmaps/tiles/TilePyramid.DictionaryProtocol.html
+$dokka.location:com.xweather.mapsglmaps.tiles/TilePyramid.Sequence///PointingToDeclaration/com/xweather/mapsglmaps/tiles/TilePyramid.Sequence.html
+$dokka.location:com.xweather.mapsglmaps.types/SampleChannel.Companion///PointingToDeclaration/com/xweather/mapsglmaps/types/SampleChannel.Companion.html
+$dokka.location:com.xweather.mapsglmaps.types/SourceSpecificationAttribution.Attribution///PointingToDeclaration/com/xweather/mapsglmaps/types/SourceSpecificationAttribution.Attribution.html
+$dokka.location:com.xweather.mapsglmaps.types/SourceSpecificationAttribution.NoAttribution///PointingToDeclaration/com/xweather/mapsglmaps/types/SourceSpecificationAttribution.NoAttribution.html
+$dokka.location:com.xweather.mapsglmaps.utils/DebugConsole.p4///PointingToDeclaration/com/xweather/mapsglmaps/utils/DebugConsole.p4.html
+$dokka.location:com.xweather.mapsglmaps.utils/Vec2.Companion///PointingToDeclaration/com/xweather/mapsglmaps/utils/Vec2.Companion.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.AirQualityIndexCategoriesConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.AirQualityIndexCategoriesConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.AirQualityIndexChinaConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.AirQualityIndexChinaConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.AirQualityIndexCommonConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.AirQualityIndexCommonConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.AirQualityIndexConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.AirQualityIndexConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.AirQualityIndexEuropeanConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.AirQualityIndexEuropeanConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.AirQualityIndexGermanyConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.AirQualityIndexGermanyConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.AirQualityIndexIndiaConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.AirQualityIndexIndiaConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.AirQualityIndexKoreaConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.AirQualityIndexKoreaConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.AirQualityIndexUKConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.AirQualityIndexUKConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.CarbonMonoxideConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.CarbonMonoxideConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.HealthIndexConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.HealthIndexConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.NitricOxideConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.NitricOxideConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.NitrogenDioxideConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.NitrogenDioxideConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.OzoneConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.OzoneConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.ParticulateMatter10MicronConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.ParticulateMatter10MicronConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.ParticulateMatter25MicronConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.ParticulateMatter25MicronConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQuality.SulfurDioxideConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQuality.SulfurDioxideConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/AirQualityColorStops.desc///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/AirQualityColorStops.desc.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.CloudCoverConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.CloudCoverConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.DewPointConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.DewPointConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.FeelsLikeConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.FeelsLikeConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.HeatIndexConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.HeatIndexConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.HumidityConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.HumidityConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.PrecipitationConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.PrecipitationConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.PrecipitationRateConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.PrecipitationRateConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.PressureMeanSeaLevelConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.PressureMeanSeaLevelConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.RadarConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.RadarConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.SatelliteConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.SatelliteConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.SatelliteGeoColor///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.SatelliteGeoColor.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.SatelliteInfraredColor///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.SatelliteInfraredColor.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.SatelliteVisibleConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.SatelliteVisibleConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.SatelliteWaterVaporConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.SatelliteWaterVaporConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.SnowDepthConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.SnowDepthConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.Temperatures1HourChangeConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.Temperatures1HourChangeConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.Temperatures24HourChangeConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.Temperatures24HourChangeConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.TemperaturesConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.TemperaturesConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.UVIndexConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.UVIndexConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.VisibilityConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.VisibilityConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.WindCategoriesConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.WindCategoriesConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.WindChillConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.WindChillConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.WindGustsConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.WindGustsConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.WindParticlesConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.WindParticlesConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.WindSpeedsCatConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.WindSpeedsCatConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Conditions.WindSpeedsConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Conditions.WindSpeedsConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.OceanCurrentsConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.OceanCurrentsConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.OceanCurrentsParticles///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.OceanCurrentsParticles.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.SSTConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.SSTConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.StormSurgeConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.StormSurgeConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.SwellHeights2Config///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.SwellHeights2Config.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.SwellHeights3Config///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.SwellHeights3Config.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.SwellHeightsConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.SwellHeightsConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.SwellPeriods2Config///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.SwellPeriods2Config.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.SwellPeriods3Config///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.SwellPeriods3Config.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.SwellPeriodsConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.SwellPeriodsConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.TideHeightsConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.TideHeightsConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.WaveHeightsConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.WaveHeightsConfig.html
+$dokka.location:com.xweather.mapsglmaps.weather.groups/Maritime.WavePeriodsConfig///PointingToDeclaration/com/xweather/mapsglmaps/weather/groups/Maritime.WavePeriodsConfig.html
+com.xweather.mapsgl.gl.geometries
+com.xweather.mapsglmaps
+com.xweather.mapsglmaps.anim
+com.xweather.mapsglmaps.camera
+com.xweather.mapsglmaps.config.weather
+com.xweather.mapsglmaps.config.weather.account
+com.xweather.mapsglmaps.coordinates
+com.xweather.mapsglmaps.data
+com.xweather.mapsglmaps.data.series
+com.xweather.mapsglmaps.enums
+com.xweather.mapsglmaps.events
+com.xweather.mapsglmaps.geo
+com.xweather.mapsglmaps.geo.projection
+com.xweather.mapsglmaps.geometry
+com.xweather.mapsglmaps.layers.spec
+com.xweather.mapsglmaps.layers.style
+com.xweather.mapsglmaps.layers.tile
+com.xweather.mapsglmaps.map
+com.xweather.mapsglmaps.map.mapbox
+com.xweather.mapsglmaps.mapsglcore
+com.xweather.mapsglmaps.mapsglcore.core
+com.xweather.mapsglmaps.mapsglcore.dist.lib.es6.core
+com.xweather.mapsglmaps.mapsglcore.extensions
+com.xweather.mapsglmaps.mapsglcore.interfaces
+com.xweather.mapsglmaps.mapsglcore.math
+com.xweather.mapsglmaps.mapsglcore.opengl
+com.xweather.mapsglmaps.mapsglcore.opengl.context
+com.xweather.mapsglmaps.mapsglcore.opengl.geometries
+com.xweather.mapsglmaps.mapsglcore.opengl.geometries.bufferAttributes
+com.xweather.mapsglmaps.mapsglcore.opengl.programs
+com.xweather.mapsglmaps.mapsglcore.opengl.targets
+com.xweather.mapsglmaps.mapsglcore.opengl.worldObjects
+com.xweather.mapsglmaps.mapsglcore.opengl.worldObjects.cameras
+com.xweather.mapsglmaps.mapsglcore.textures
+com.xweather.mapsglmaps.mapsglcore.util
+com.xweather.mapsglmaps.mapshaders
+com.xweather.mapsglmaps.materials
+com.xweather.mapsglmaps.network
+com.xweather.mapsglmaps.renderers
+com.xweather.mapsglmaps.renderers.pass
+com.xweather.mapsglmaps.sources
+com.xweather.mapsglmaps.sources.source.spec
+com.xweather.mapsglmaps.sources.types
+com.xweather.mapsglmaps.style
+com.xweather.mapsglmaps.tiles
+com.xweather.mapsglmaps.types
+com.xweather.mapsglmaps.types.math_type
+com.xweather.mapsglmaps.utils
+com.xweather.mapsglmaps.viewmodel
+com.xweather.mapsglmaps.viewmodel.data
+com.xweather.mapsglmaps.weather.groups
+

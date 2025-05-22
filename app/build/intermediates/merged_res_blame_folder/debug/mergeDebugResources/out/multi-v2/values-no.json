@@ -1,0 +1,77 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.mapsgldemo.app-mergeDebugResources-2:/values-no/values-no.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\JASUT\\.gradle\\caches\\8.9\\transforms\\1f90602847b20f46fde363b92cd0c9ed\\transformed\\android-11.6.0\\res\\values-no\\values-no.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,132,209",
+                        "endColumns": "76,76,69",
+                        "endOffsets": "127,204,274"
+                    },
+                    "to": {
+                        "startLines": "10,11,12",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "855,932,1009",
+                        "endColumns": "76,76,69",
+                        "endOffsets": "927,1004,1074"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\JASUT\\.gradle\\caches\\8.9\\transforms\\f3c1aea6f0f83a64fcce431daf6b45cd\\transformed\\maps-compass-11.6.0\\res\\values-no\\values-no.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "127",
+                        "endOffsets": "178"
+                    },
+                    "to": {
+                        "startLines": "9",
+                        "startColumns": "4",
+                        "startOffsets": "727",
+                        "endColumns": "127",
+                        "endOffsets": "850"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\JASUT\\.gradle\\caches\\8.9\\transforms\\012788d713fc8169eb23326f9af6bc68\\transformed\\maps-logo-11.6.0\\res\\values-no\\values-no.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "192",
+                        "endOffsets": "243"
+                    },
+                    "to": {
+                        "startLines": "14",
+                        "startColumns": "4",
+                        "startOffsets": "1301",
+                        "endColumns": "192",
+                        "endOffsets": "1489"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\JASUT\\.gradle\\caches\\8.9\\transforms\\051b27dafddb905c9e1c25a731d7fd3e\\transformed\\maps-attribution-11.6.0\\res\\values-no\\values-no.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,180,335,413,492,562,646,727",
+                        "endColumns": "124,154,77,78,69,83,80,221",
+                        "endOffsets": "175,330,408,487,557,641,722,944"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,13",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,180,335,413,492,562,646,1079",
+                        "endColumns": "124,154,77,78,69,83,80,221",
+                        "endOffsets": "175,330,408,487,557,641,722,1296"
+                    }
+                }
+            ]
+        }
+    ]
+}
