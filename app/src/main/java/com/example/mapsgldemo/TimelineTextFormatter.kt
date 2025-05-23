@@ -35,7 +35,6 @@ class TimelineTextFormatter {
             timeline: Timeline,
         ) {
             val midDate = timeline.currentDate
-            println("TimelineTextFormatter TimeMove setCurrentTimeTextView() midDate: ${midDate}")
             view.currentTimeTextView.text = formatterCurrentTime.format(midDate)
             view.currentDateTextView.text = formatterCurrentDate.format(midDate)
         }
