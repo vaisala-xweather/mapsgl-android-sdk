@@ -48,8 +48,6 @@ class AppSettings {
             marginLeft = 8f
         }
         mapView.scalebar.enabled = false
-        mapView.logo.enabled = false
-        mapView.attribution.enabled = false
     }
 
     fun handleOrientationChanges(config: Configuration, window: Window) {
