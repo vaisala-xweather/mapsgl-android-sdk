@@ -34,7 +34,6 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
 
     /** Set the position of the time seekbar from 0F to 1F **/
     fun setPosition(position: Double) {
-        println("TimelineControls TimeMove setPosition($position)")
         this.progress = (position * seekbarRange).toInt()
     }
 
