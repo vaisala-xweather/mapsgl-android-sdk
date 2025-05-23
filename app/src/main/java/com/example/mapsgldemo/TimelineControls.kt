@@ -257,7 +257,6 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
         }
 
         controller.timeline.on(AnimationEvent.advance) {
-            println("MainActivity TimeMove  AnimatiomEvent.advance position (${controller.timeline.position})")
             binding.timelineView.timelineControls.setPosition(controller.timeline.position)
         }
 
