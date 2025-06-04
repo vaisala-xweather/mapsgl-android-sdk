@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.example.mapsgldemo.app-mergeDebugResources-3:/layout/custom_view_layout.xml",
+        "source": "com.example.mapsgldemo.app-main-6:/layout/custom_view_layout.xml"
+    },
+    {
+        "merged": "com.example.mapsgldemo.app-mergeDebugResources-3:/layout/activity_main.xml",
+        "source": "com.example.mapsgldemo.app-main-6:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.mapsgldemo.app-mergeDebugResources-3:/layout/timeline.xml",
+        "source": "com.example.mapsgldemo.app-main-6:/layout/timeline.xml"
+    }
+]

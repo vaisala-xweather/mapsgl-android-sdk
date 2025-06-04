@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/timeline_constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="0dp"
+    android:visibility="invisible"
+    tools:ignore="HardcodedText">
+
+    <ImageView
+        android:id="@+id/layer_menu_button"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/circle_background_selector"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/layer_button_image"
+        app:layout_constraintBottom_toTopOf="@id/playControlsCS"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/location_button"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/circle_background_selector"
+        android:padding="10dp"
+        android:paddingStart="12dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="8dp"
+        android:src="@drawable/location_button_image"
+        app:layout_constraintBottom_toTopOf="@id/playControlsCS"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <!-- Settings Container for Start and End time controls -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/settingsCS"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dark_rounded_background"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/playControlsCS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/TimeLineHeaderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Timeline"
+            android:textColor="@color/bright_text"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toTopOf="@id/DateRangeHeaderTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/DateRangeHeaderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="Date Range"
+            android:textColor="@color/bright_text"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/startTimeTextView"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/start_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Start"
+            android:textColor="@color/bright_text"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/startTimeTextView"
+            app:layout_constraintStart_toEndOf="@+id/left_arrow_image"
+            app:layout_constraintTop_toTopOf="@+id/startTimeTextView" />
+
+
+        <ImageView
+            android:id="@+id/left_arrow_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/settings_arrow_left_image"
+            app:layout_constraintBottom_toBottomOf="@+id/start_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/start_label"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+        <TextView
+            android:id="@+id/end_Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="End"
+            android:textColor="@color/bright_text"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/endTimeTextview"
+            app:layout_constraintStart_toEndOf="@+id/right_arrow_image"
+            app:layout_constraintTop_toTopOf="@+id/endTimeTextview" />
+
+
+        <ImageView
+            android:id="@+id/right_arrow_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/settings_arrow_right_image"
+            app:layout_constraintBottom_toBottomOf="@+id/end_Label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/end_Label"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/startTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/bright_text"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/startCL"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="2023-01-01 10:00" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/startCL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/right_arrow_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/start_minus_day_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/button_background_selector"
+                android:text="-1 day"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/start_minus_hour_button"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/start_minus_hour_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/button_background_selector"
+                android:text="-1 hour"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/start_minus_day_button"
+                app:layout_constraintEnd_toStartOf="@+id/start_plus_hour_button"
+                app:layout_constraintStart_toEndOf="@+id/start_minus_day_button"
+                app:layout_constraintTop_toTopOf="@+id/start_minus_day_button" />
+
+            <Button
+                android:id="@+id/start_plus_hour_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/button_background_selector"
+                android:text="+1 hour"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/start_minus_hour_button"
+                app:layout_constraintEnd_toStartOf="@+id/start_plus_day_button"
+                app:layout_constraintStart_toEndOf="@+id/start_minus_hour_button"
+                app:layout_constraintTop_toTopOf="@+id/start_minus_hour_button" />
+
+            <Button
+                android:id="@+id/start_plus_day_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/button_background_selector"
+                android:text="+1 day"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/start_plus_hour_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/start_plus_hour_button"
+                app:layout_constraintTop_toTopOf="@+id/start_plus_hour_button" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/endTimeTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/bright_text"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/EndCL"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="2023-01-02 10:00" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/EndCL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/instructionsTextview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/end_minus_day_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/button_background_selector"
+                android:text="-1 day"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/end_minus_hour_button"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/end_minus_hour_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/button_background_selector"
+                android:text="-1 hour"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/end_minus_day_button"
+                app:layout_constraintEnd_toStartOf="@+id/end_plus_hour_button"
+                app:layout_constraintStart_toEndOf="@+id/end_minus_day_button"
+                app:layout_constraintTop_toTopOf="@+id/end_minus_day_button" />
+
+            <Button
+                android:id="@+id/end_plus_hour_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/button_background_selector"
+                android:text="+1 hour"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/end_minus_hour_button"
+                app:layout_constraintEnd_toStartOf="@+id/end_plus_day_button"
+                app:layout_constraintStart_toEndOf="@+id/end_minus_hour_button"
+                app:layout_constraintTop_toTopOf="@+id/end_minus_hour_button" />
+
+            <Button
+                android:id="@+id/end_plus_day_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="0dp"
+                android:background="@drawable/button_background_selector"
+                android:text="+1 day"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/end_plus_hour_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/end_plus_hour_button"
+                app:layout_constraintTop_toTopOf="@+id/end_plus_hour_button" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/instructionsTextview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:text="Shift the start/end times by adding or removing hour or day intervals."
+            android:textColor="@color/dim_text"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/animationTextview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/speed_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/settings_speed_image"
+            app:layout_constraintBottom_toBottomOf="@+id/animationTextview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/animationTextview"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/animationTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="12dp"
+            android:text="Animation Speed"
+            android:textColor="@color/bright_text"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/SpeedCL"
+            app:layout_constraintStart_toEndOf="@+id/speed_image" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/SpeedCL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <!--
+                Buttons will expand/shrink horizontally to share the available space.
+                1. Set layout_width="0dp" for each button.
+                2. Create a horizontal chain.
+                3. Apply a chain style (e.g., spread_inside).
+                4. Constrain the ends of the chain to the parent.
+            -->
+
+            <Button
+                android:id="@+id/speed_quarter_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/button_background_selector"
+                android:text=".25x"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/speed_half_button"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/speed_half_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/button_background_selector"
+                android:text=".5x"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/speed_quarter_button"
+                app:layout_constraintEnd_toStartOf="@+id/speed_one_button"
+                app:layout_constraintStart_toEndOf="@+id/speed_quarter_button"
+                app:layout_constraintTop_toTopOf="@+id/speed_quarter_button" />
+
+            <Button
+                android:id="@+id/speed_one_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/button_background_selector"
+                android:text="1x"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/speed_half_button"
+                app:layout_constraintEnd_toStartOf="@+id/speed_two_button"
+                app:layout_constraintStart_toEndOf="@+id/speed_half_button"
+                app:layout_constraintTop_toTopOf="@+id/speed_half_button" />
+
+            <Button
+                android:id="@+id/speed_two_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="0dp"
+                android:background="@drawable/button_background_selector"
+                android:text="2x"
+                android:textColor="@color/bright_text"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/speed_one_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/speed_one_button"
+                app:layout_constraintTop_toTopOf="@+id/speed_one_button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/settings_close_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/settings_close_button_selector"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/playControlsCS"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_background"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/config_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/circle_background_selector"
+            android:elevation="5dp"
+            android:outlineSpotShadowColor="#00000000"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/settings_button_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/play_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/circle_background_selector"
+            android:elevation="0dp"
+            android:outlineSpotShadowColor="#00000000"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/play_button_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/config_button"
+            app:layout_constraintTop_toTopOf="@+id/config_button" />
+
+        <ImageView
+            android:id="@+id/play_button_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="7dp"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/play_button_image"
+            app:layout_constraintBottom_toBottomOf="@+id/config_button"
+            app:layout_constraintEnd_toEndOf="@+id/play_button"
+            app:layout_constraintStart_toStartOf="@+id/play_button"
+            app:layout_constraintTop_toTopOf="@+id/play_button" />
+
+        <TextView
+            android:id="@+id/currentTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:padding="0dp"
+            android:textColor="@color/bright_text"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toTopOf="@id/currentDateTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Current Time" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:indeterminateTint="@color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/currentDateTextView"
+            app:layout_constraintStart_toEndOf="@+id/currentTimeTextView"
+            app:layout_constraintTop_toTopOf="@+id/currentTimeTextView"
+            tools:visibility="visible" />
+
+
+        <TextView
+            android:id="@+id/currentDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:padding="0dp"
+            android:textColor="@color/dim_text"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Current Date" />
+
+        <ImageView
+            android:id="@+id/interval_back_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/button_background_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/prev_button_image"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/currentTimeTextView"
+            app:layout_constraintStart_toEndOf="@+id/currentTimeTextView"
+            app:layout_constraintTop_toTopOf="@+id/currentTimeTextView" />
+
+        <ImageView
+            android:id="@+id/interval_forward_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/button_background_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/next_button_image"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/interval_back_button"
+            app:layout_constraintStart_toEndOf="@+id/interval_back_button"
+            app:layout_constraintTop_toTopOf="@+id/interval_back_button" />
+
+
+        <com.example.mapsgldemo.TimelineControls
+            android:id="@+id/timeline_controls"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp"
+            android:background="#00000000"
+            android:max="10000"
+            android:progressTint="@color/white"
+            android:secondaryProgressTint="@color/black"
+            android:thumb="@drawable/seekbar_thumb_large"
+            android:thumbTint="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/currentTimeTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

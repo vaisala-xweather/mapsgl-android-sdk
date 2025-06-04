@@ -1,11 +1,21 @@
 jdk:
   - openjdk17
 before_install:
-  - sdk install java 17.0.3-tem
+  # Note: The script below failed in your log. Remove if not needed/present.
+  # - ./scripts/prepareJitpackEnvironment.sh
+  - sdk install java 17.0.3-tem # Using specific Temurin version
   - sdk use java 17.0.3-tem
   - sdk install maven
   - mvn -v
-  - ./scripts/prepareJitpackEnvironment.sh
 install:
-  - FILE="-Dfile=mapsglmaps-release.aar"
-  - mvn install:install-file $FILE -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.1.0-beta.1 -Dpackaging=aar -DgeneratePom=true
+  # 1. Install the main AAR file (as before)
+  #    Ensure 'mapsglmaps-release.aar' exists in the repo root at this tag
+  - mvn install:install-file -Dfile=mapsglmaps-release.aar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.1.0 -Dpackaging=aar -DgeneratePom=true
+
+  # 2. Install the Javadoc JAR
+  #    Ensure 'mapsglmaps-release-javadoc.jar' (or your actual filename) exists in the repo root
+  - mvn install:install-file -Dfile=javadoc.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.1.0 -Dpackaging=jar -Dclassifier=javadoc
+
+  # 3. Install the Sources JAR (HIGHLY RECOMMENDED for KDoc)
+  #    Ensure 'mapsglmaps-release-sources.jar' (or your actual filename) exists in the repo root
+  - mvn install:install-file -Dfile=mapsglmaps-sources.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.1.0 -Dpackaging=jar -Dclassifier=sources
