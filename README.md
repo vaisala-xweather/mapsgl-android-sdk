@@ -94,7 +94,7 @@ In the app-level **build.gradle**
         mavenCentral()
     }
     dependencies {
-	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.1.0"
+	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.0-beta.1"
     }
 
 
