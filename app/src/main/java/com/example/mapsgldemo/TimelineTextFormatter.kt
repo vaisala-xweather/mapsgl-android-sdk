@@ -20,6 +20,7 @@ class TimelineTextFormatter {
         fun setTimeTextViews(
             view: com.example.mapsgldemo.databinding.TimelineBinding,
             timeline: Timeline,
+            position: Double = -1.0
         ) {
             view.startTimeTextView.text = formatter.format(timeline.start)
             view.endTimeTextview.text = formatter.format(timeline.end)

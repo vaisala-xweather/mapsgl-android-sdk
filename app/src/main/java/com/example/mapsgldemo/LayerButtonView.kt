@@ -1,5 +1,6 @@
 package com.example.mapsgldemo
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.view.Gravity
@@ -8,29 +9,30 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
-import com.xweather.mapsgl.config.weather.WeatherService
+import com.xweather.mapsgl.weather.WeatherConfiguration
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class LayerButtonView(
-    context: Context,
-    title: String,
-    val configuration: WeatherService.WeatherLayerConfiguration,
-    status: Int = 0
-) : LinearLayout(context) {
+@SuppressLint("ViewConstructor")
+class LayerButtonView(context: Context, title: String, val configuration: WeatherConfiguration, status: Int = 0) :
+    LinearLayout(context) {
+
+    val code = configuration.code.toString()
+
+    val text: String
+        get() = textView.text.toString()
+
     private val textView: TextView
     var active = false
 
     companion object {
-        lateinit var slideOutAnimation: Animation
-        lateinit var slideInAnimation: Animation
-        var datasetVisibility = true
-
+        private lateinit var slideOutAnimation: Animation
+        private lateinit var slideInAnimation: Animation
+        private var layerButtonVisibility = true
 
         fun isTablet(context: Context): Boolean {
             val metrics = context.resources.displayMetrics
@@ -40,8 +42,9 @@ class LayerButtonView(
             return diagonalInches >= 7.0 // 7 inches is a common cutoff for tablets
         }
 
-        fun setAnimations(scrollView: ScrollView) {
-            val context = scrollView.context
+        fun setAnimations(menuLinearLayout: LinearLayout) {
+
+            val context = menuLinearLayout.context
             slideInAnimation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left)
             slideOutAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_out_left)
 
@@ -49,7 +52,7 @@ class LayerButtonView(
                 override fun onAnimationStart(animation: Animation?) {}
 
                 override fun onAnimationEnd(animation: Animation?) {
-                    scrollView.visibility = View.INVISIBLE
+                    menuLinearLayout.visibility = View.INVISIBLE
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {}
@@ -59,22 +62,25 @@ class LayerButtonView(
                 override fun onAnimationStart(animation: Animation?) {}
 
                 override fun onAnimationEnd(animation: Animation?) {
-                    scrollView.visibility = View.VISIBLE
+                    menuLinearLayout.visibility = View.VISIBLE
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {}
             })
         }
 
-        fun showDatasetButtons(show: Boolean = true, scrollView: ScrollView, layerButton: ImageView) {
-            if (show != datasetVisibility) {
+        fun showDatasetButtons(show: Boolean = true, layerMenu: LinearLayout, layerButton: ImageView) {
+            if (show != layerButtonVisibility) {
                 if (show) {
-                    scrollView.startAnimation(slideInAnimation)
+                    layerMenu.startAnimation(slideInAnimation)
+                    //layerButton.startAnimation(slideOutAnimation)
+                    //layerButton.visibility=View.INVISIBLE
                 } else {
-                    scrollView.startAnimation(slideOutAnimation)
+                    layerMenu.startAnimation(slideOutAnimation)
+                    //layerButton.startAnimation(slideInAnimation)
                     layerButton.visibility = View.VISIBLE
                 }
-                datasetVisibility = show
+                layerButtonVisibility = show
             }
         }
 
@@ -95,7 +101,7 @@ class LayerButtonView(
         val density = context.resources.displayMetrics.density
         layoutParams = LayoutParams(
             //LayoutParams.WRAP_CONTENT,
-            (170 * density).toInt(),
+            (250 * density).toInt(),
             (50 * density).toInt() // resources.getDimensionPixelSize(R.dimen.outer_view_height)
         )
         setBackgroundResource(R.drawable.unselected_background)
@@ -104,10 +110,12 @@ class LayerButtonView(
         gravity = Gravity.CENTER_VERTICAL // Center vertically
 
         textView = TextView(context).apply {
+            //id = R.id.checkTextbox
             layoutParams = LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT
             )
+            //setTypeface(null, Typeface.BOLD)
             setTypeface(null, Typeface.NORMAL)
             textSize = 14f
             setShadowLayer(10f, 0f, 0f, 0xFF000000.toInt())
@@ -118,17 +126,11 @@ class LayerButtonView(
         val params = this.layoutParams as MarginLayoutParams
         params.setMargins(0, 0, 0, 0) //space around individual buttons
         this.layoutParams = params
+
         setTextColor(title, status)
     }
 
-    fun click() {
-        if (!active) {
-            activate()
-        } else {
-            deactivate()
-        }
-    }
-
+    /** Highlight button when selected **/
     fun activate() {
         outerView.setBackgroundResource(R.drawable.selected_background)
         textView.setShadowLayer(10f, 0f, 0f, 0xFFFFFFFF.toInt())
@@ -136,6 +138,7 @@ class LayerButtonView(
         active = true
     }
 
+    /** Remove highlight on button when unselected **/
     fun deactivate() {
         outerView.setBackgroundResource(R.drawable.unselected_background)
         textView.setShadowLayer(10f, 0f, 0f, 0xFF000000.toInt())
