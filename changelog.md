@@ -26,12 +26,12 @@ import { Alert } from '@xweather/docs-theme';
 
 ### ⚠️ Known Issues
 
-* Built-in layers under the ["Admin"](https://www.xweather.com/docs/mapsgl/weather-layers#admin) or ["Roads"](https://www.xweather.com/docs/mapsgl/weather-layers#roads) categories are not yet supported.
-  Admin layers are planned for the final release of `1.2.0`, while road weather layers are planned for a future release.
+* Built-in layers under the ["Roads"](https://www.xweather.com/docs/mapsgl/weather-layers#roads) categories are not yet supported.
+  Road weather layers are planned for a future release.
 
 ### 🐞 Bug Fixes
 
-* Radar now displays rain and mix precipitation, in addtion to rain.
+* Radar now displays rain and mix precipitation, in addition to rain.
 
 ## v1.2.0-beta.1
 June 18, 2025
