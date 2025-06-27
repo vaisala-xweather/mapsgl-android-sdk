@@ -6,10 +6,23 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import com.xweather.mapsgl.layers.style.RasterStyle
+import com.xweather.mapsgl.layers.style.SampleStyle
 import com.xweather.mapsgl.weather.WeatherService
 import com.xweather.mapsgl.map.MapController
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
+import com.xweather.mapsgl.style.ColorScaleOptions
+import com.xweather.mapsgl.style.ColorStop
+import com.xweather.mapsgl.style.ParticleDensity
+import com.xweather.mapsgl.style.ParticleLayerPaint
+import com.xweather.mapsgl.style.ParticleTrailLength
+import com.xweather.mapsgl.style.RasterLayerPaint
+import com.xweather.mapsgl.style.SampleLayerPaint
+import com.xweather.mapsgl.style.SamplePaint
+import com.xweather.mapsgl.types.DataQuality
 import com.xweather.mapsgl.weather.LayerCode
+import com.xweather.mapsgl.weather.WeatherLayerConfiguration
+import java.util.regex.Pattern
 
 class LayerMenu {
 
@@ -17,6 +30,7 @@ class LayerMenu {
     private val buttonList: MutableList<View> = mutableListOf() // Changed name for clarity
     private lateinit var filterEditText: EditText // Keep reference for filtering
     private lateinit var itemsContainerLayout: LinearLayout
+    private var roadLayerId: String? = null
 
     /**  Create menu buttons for all the available layers **/
     fun createLayerButtons(
@@ -26,9 +40,7 @@ class LayerMenu {
         val context = layout.context
 
         LayerCode.entries.forEach {
-            if (!it.value.contains("lightning-density")) {
                 buttonList.add(LayerButtonView(context, it.value, LayerCode.getConfigurationForLayerCode(it, service)))
-            }
         }
 
         layout.layoutParams = LinearLayout.LayoutParams(
@@ -70,6 +82,8 @@ class LayerMenu {
                     if (!customView.active) {
 
                         customView.activate()
+                        roadLayerId = roadLayerId?: getRoadLayerId(controller)
+                        controller.addWeatherLayer(customView.configuration, beforeId = roadLayerId)
 
                         if (controller.hasWeatherLayer(layerCode)) {
                             controller.setWeatherLayerVisibility(layerCode, true)
@@ -88,5 +102,20 @@ class LayerMenu {
     fun hideKeyboard(context: Context) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(filterEditText.windowToken, 0)
+    }
+
+    /**  Find the first road/tunnel/bridge layer in the MapboxMap **/
+    private fun getRoadLayerId(controller: MapboxMapController): String? {
+        var foundId: String? = null
+        controller.mapboxMap?.getStyle { style -> // Ensure style is loaded
+            val roadLayerRegex = "^(?:tunnel|road|bridge)-"
+            for (layerInfo in style.styleLayers) {
+                if (Pattern.compile(roadLayerRegex).matcher(layerInfo.id).find()) {
+                    foundId = layerInfo.id
+                    break
+                }
+            }
+        }
+        return foundId
     }
 }

@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var controller: MapboxMapController
     private lateinit var xweatherAccount: XweatherAccount
     private var layerMenu = LayerMenu()
-    private var appSettings = AppSettings()
+    private var appSettings = MapSettings()
     private var mapLoadedCancelable: Cancelable? = null // For MapLoaded
     private var cameraChangedCancelable: Cancelable? = null // For CameraChanged
     private val cameraChangeCallback = CameraChangedCallback { /* Optional: Handle camera changes */ }

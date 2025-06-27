@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MapsGL Beta v1.2.0-beta.1</string>
+    <string name="app_name">MapsGL Beta v1.2.0</string>
     <string name="mapbox_access_token">your_mapbox_access_token_here</string>
     <string name="xweather_client_id">your_xweather_client_id_here</string>
     <string name="xweather_client_secret">your_xweather_client_secret_here</string>
