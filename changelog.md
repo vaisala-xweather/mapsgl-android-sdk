@@ -11,6 +11,28 @@ import { Alert } from '@xweather/docs-theme';
 
 <Alert variant="warn">**Note:** The MapsGL SDK for Android does not currently support all features provided by the core [MapsGL Javascript SDK](https://www.xweather.com/docs/mapsgl) and are currently in development. Refer to the [development roadmap](./roadmap) for information regarding which versions of the MapsGL SDK for Android support various MapsGL features as they become available.</Alert>
 
+## v1.2.0
+*June 27, 2025*
+
+### ✨ Features
+
+* All vector layers are now supported, including most fill, line, circle, heatmap, symbol, and text weather layers.
+* Add support for vector paint types and style expressions for data-driven styling of vector layers.
+* Add support for Admin layers.
+
+### 🛠 Improvements
+
+* Support providing a GeoJSON string as the data for a GeoJSON data source in addition to the existing remote URL or Turf feature collection methods.
+
+### ⚠️ Known Issues
+
+* Built-in layers under the ["Admin"](https://www.xweather.com/docs/mapsgl/weather-layers#admin) or ["Roads"](https://www.xweather.com/docs/mapsgl/weather-layers#roads) categories are not yet supported.
+  Admin layers are planned for the final release of `1.2.0`, while road weather layers are planned for a future release.
+
+### 🐞 Bug Fixes
+
+* Radar now displays rain and mix precipitation, in addtion to rain.
+
 ## v1.2.0-beta.1
 June 18, 2025
 
