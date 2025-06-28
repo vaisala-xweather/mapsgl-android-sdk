@@ -16,79 +16,81 @@
         tools:layout_editor_absoluteY="-146dp">
     </com.mapbox.maps.MapView>
 
-    <ScrollView
-        android:id="@+id/SCROLLER_ID"
+
+    <TextView
+        android:id="@+id/crosshairTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="8dp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/timeline_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/mapView"
-        app:layout_constraintVertical_bias="1.0">
-
-        <TextView
-            android:id="@+id/statusTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:gravity="end"
-            android:scrollbars="vertical"
-            android:textColor="@color/white"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </ScrollView>
+        android:background="@drawable/white_circle_background"
+        android:text="x"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="8sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/mapView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/timeline_view"
         layout="@layout/timeline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
         android:padding="0dp"
+        tools:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/mapView"
         app:layout_constraintEnd_toEndOf="@+id/mapView" />
 
-    <ScrollView
-        android:id="@+id/outerScrollView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideInset"
-        android:scrollbarSize="8dp"
-        android:scrollbarThumbVertical="@drawable/button_background"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <!--android:fadingEdgeLength="20dp"-->
-        <!--android:requiresFadingEdge="vertical"-->
-        <!--android:fadeScrollbars="true"-->
 
-        <LinearLayout
-            android:id="@+id/outerLinearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+    <LinearLayout
+        android:id="@+id/layerMenuLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="0dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <ScrollView
+            android:id="@+id/outerScrollView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-        </LinearLayout>
-    </ScrollView>
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideInset"
+            android:scrollbarSize="8dp"
+            android:scrollbarThumbVertical="@drawable/button_background"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/outerLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
     <View
         android:id="@+id/empty_view_tl"
         android:layout_width="10dp"
         android:layout_height="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <View
-        android:id="@+id/empty_view_br"
+        android:id="@+id/empty_view_lr"
         android:layout_width="10dp"
         android:layout_height="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

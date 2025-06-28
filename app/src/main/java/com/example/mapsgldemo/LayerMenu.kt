@@ -2,147 +2,120 @@ package com.example.mapsgldemo
 
 import android.content.Context
 import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.LinearLayout
-import com.example.mapsgldemo.LayerButtonView.Companion.createHeadingTextView
-import com.xweather.mapsgl.config.weather.WeatherService
-import com.xweather.mapsgl.layers.style.ParticleStyle
+import android.widget.ScrollView
+import com.xweather.mapsgl.layers.style.RasterStyle
 import com.xweather.mapsgl.layers.style.SampleStyle
+import com.xweather.mapsgl.weather.WeatherService
+import com.xweather.mapsgl.map.MapController
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
+import com.xweather.mapsgl.style.ColorScaleOptions
+import com.xweather.mapsgl.style.ColorStop
 import com.xweather.mapsgl.style.ParticleDensity
+import com.xweather.mapsgl.style.ParticleLayerPaint
 import com.xweather.mapsgl.style.ParticleTrailLength
+import com.xweather.mapsgl.style.RasterLayerPaint
+import com.xweather.mapsgl.style.SampleLayerPaint
+import com.xweather.mapsgl.style.SamplePaint
 import com.xweather.mapsgl.types.DataQuality
+import com.xweather.mapsgl.weather.LayerCode
+import com.xweather.mapsgl.weather.WeatherLayerConfiguration
+import java.util.regex.Pattern
 
 class LayerMenu {
+
     var visible = true
-    private val buttonList: MutableList<View> = mutableListOf()
+    private val buttonList: MutableList<View> = mutableListOf() // Changed name for clarity
+    private lateinit var filterEditText: EditText // Keep reference for filtering
+    private lateinit var itemsContainerLayout: LinearLayout
+    private var roadLayerId: String? = null
 
     /**  Create menu buttons for all the available layers **/
     fun createLayerButtons(
-        controller: MapboxMapController,
-        layout: LinearLayout
+        service: WeatherService,
+        layout: LinearLayout,/* scrollView: ScrollView*/
     ) {
-        val service = controller.service
         val context = layout.context
-        buttonList.add(createHeadingTextView("Conditions", context))
-        buttonList.add(LayerButtonView(context, "Temperatures", WeatherService.Temperatures(service)))
-        buttonList.add(LayerButtonView(context, "24hr Temp Change", WeatherService.Temperatures24HourChange(service)))
-        buttonList.add(LayerButtonView(context, "1hr Temp Change", WeatherService.Temperatures1HourChange(service)))
-        buttonList.add(LayerButtonView(context, "Feels Like", WeatherService.FeelsLike(service)))
-        buttonList.add(LayerButtonView(context, "Heat Index", WeatherService.HeatIndex(service)))
-        buttonList.add(LayerButtonView(context, "Wind Chill", WeatherService.WindChill(service)))
-        buttonList.add(LayerButtonView(context, "Winds", WeatherService.WindSpeeds(service)))
-        buttonList.add(LayerButtonView(context, "Winds: Particles", WeatherService.WindParticles(service)))
-        buttonList.add(LayerButtonView(context, "Wind Gusts", WeatherService.WindGusts(service)))
-        buttonList.add(LayerButtonView(context, "Dew Point", WeatherService.Dewpoint(service)))
-        buttonList.add(LayerButtonView(context, "Humidity", WeatherService.Humidity(service)))
-        buttonList.add(LayerButtonView(context, "MSLP", WeatherService.PressureMeanSeaLevel(service)))
-        buttonList.add(LayerButtonView(context, "Cloud Cover", WeatherService.CloudCover(service)))
-        buttonList.add(LayerButtonView(context, "Precipitation", WeatherService.Precipitation(service)))
-        buttonList.add(LayerButtonView(context, "Snow Depth", WeatherService.SnowDepth(service)))
-        buttonList.add(LayerButtonView(context, "Visibility", WeatherService.Visibility(service)))
-        buttonList.add(LayerButtonView(context, "UV Index", WeatherService.UVIndex(service)))
-        buttonList.add(LayerButtonView(context, "Radar", WeatherService.Radar(service)))
 
-        buttonList.add(createHeadingTextView("Raster", context))
-        buttonList.add(LayerButtonView(context, "Satellite", WeatherService.Satellite(service)))
-        buttonList.add(LayerButtonView(context, "Satellite GeoColor", WeatherService.SatelliteGeoColor(service)))
-        buttonList.add(LayerButtonView(context, "Satellite Visible", WeatherService.SatelliteVisible(service)))
-        buttonList.add(
-            LayerButtonView(
-                context,
-                "Satellite Infrared Color",
-                WeatherService.SatelliteInfraredColor(service)
-            )
-        )
-        buttonList.add(LayerButtonView(context, "Satellite Water Vapor", WeatherService.SatelliteWaterVapor(service)))
-        buttonList.add(createHeadingTextView("Maritime", context))
-        buttonList.add(LayerButtonView(context, "Sea Surface Temps", WeatherService.SST(service)))
-        buttonList.add(LayerButtonView(context, "Currents: Fill", WeatherService.OceanCurrents(service)))
-        buttonList.add(LayerButtonView(context, "Currents: Particles", WeatherService.OceanCurrentsParticles(service)))
-        buttonList.add(LayerButtonView(context, "Wave Heights", WeatherService.WaveHeights(service)))
-        buttonList.add(LayerButtonView(context, "Wave Periods", WeatherService.WavePeriods(service)))
-        buttonList.add(LayerButtonView(context, "Swell 1 Heights", WeatherService.SwellHeights(service)))
-        buttonList.add(LayerButtonView(context, "Swell Periods", WeatherService.SwellPeriods(service)))
-        buttonList.add(LayerButtonView(context, "Swell 2 Heights", WeatherService.SwellHeights2(service)))
-        buttonList.add(LayerButtonView(context, "Swell 2 Periods", WeatherService.SwellPeriods2(service)))
-        buttonList.add(LayerButtonView(context, "Swell 3 Heights", WeatherService.SwellHeights3(service)))
-        buttonList.add(LayerButtonView(context, "Swell 3 Periods", WeatherService.SwellPeriods3(service)))
-        buttonList.add(LayerButtonView(context, "Storm Surge", WeatherService.StormSurge(service)))
-        buttonList.add(LayerButtonView(context, "Tide Heights", WeatherService.TideHeights(service)))
-
-        buttonList.add(createHeadingTextView("Air Quality", context))
-        buttonList.add(LayerButtonView(context, "Air Quality Index", WeatherService.AirQualityIndex(service)))
-        buttonList.add(LayerButtonView(context, "AQI Categories", WeatherService.AirQualityIndexCategories(service)))
-        buttonList.add(LayerButtonView(context, "Health Index", WeatherService.HealthIndex(service)))
-        buttonList.add(LayerButtonView(context, "AQI: China", WeatherService.AirQualityIndexChina(service)))
-        buttonList.add(LayerButtonView(context, "AQI: India", WeatherService.AirQualityIndexIndia(service)))
-        buttonList.add(LayerButtonView(context, "AQI: Common", WeatherService.AirQualityIndexCommon(service)))
-        buttonList.add(LayerButtonView(context, "AQI: European", WeatherService.AirQualityIndexEuropean(service)))
-        buttonList.add(LayerButtonView(context, "AQI: UK", WeatherService.AirQualityIndexUK(service)))
-        buttonList.add(LayerButtonView(context, "AQI: Germany", WeatherService.AirQualityIndexGermany(service)))
-        buttonList.add(LayerButtonView(context, "AQI: Korea", WeatherService.AirQualityIndexKorea(service)))
-        buttonList.add(LayerButtonView(context, "Carbon Monoxide (CO)", WeatherService.CarbonMonoxide(service)))
-        buttonList.add(LayerButtonView(context, "Nitrogen Monoxide (NO)", WeatherService.NitricOxide(service)))
-        buttonList.add(LayerButtonView(context, "Nitrogen Dioxide (NO2)", WeatherService.NitrogenDioxide(service)))
-        buttonList.add(LayerButtonView(context, "Ozone (O3)", WeatherService.Ozone(service)))
-        buttonList.add(LayerButtonView(context, "Sulfur Dioxide (SO2)", WeatherService.SulfurDioxide(service)))
-        buttonList.add(
-            LayerButtonView(
-                context,
-                "Particle Pollution (PM 2.5)",
-                WeatherService.ParticulateMatter25Micron(service)
-            )
-        )
-        buttonList.add(
-            LayerButtonView(
-                context,
-                "Particle Pollution (PM 10)",
-                WeatherService.ParticulateMatter10Micron(service)
-            )
-        )
-
-        for (customView in buttonList) {
-            if (customView is LayerButtonView) { // Layer button
-                (customView.outerView.parent as? ViewGroup)?.removeView(customView.outerView)
-                layout.addView(customView.outerView)
-            } else { //Category label
-                (customView.parent as? ViewGroup)?.removeView(customView)
-                layout.addView(customView)
-            }
+        LayerCode.entries.forEach {
+                buttonList.add(LayerButtonView(context, it.value, LayerCode.getConfigurationForLayerCode(it, service)))
         }
 
-        setupButtonListeners(controller)
+        layout.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT, // Make ScrollView2 as wide as its parent 'layout'
+            LinearLayout.LayoutParams.MATCH_PARENT  // Or 0dp and weight if 'layout' uses weights for height
+        )
+
+        val scrollView = ScrollView(context).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT  // Or 0dp and weight if 'layout' uses weights for height
+            )
+            isFillViewport = true // Good to have, helps when content is shorter than ScrollView
+        }
+
+        itemsContainerLayout = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
+
+        val layerFilter = LayerFilter(context, buttonList, itemsContainerLayout)
+        filterEditText = layerFilter.editText
+        layout.addView(filterEditText)
+        layout.addView(scrollView)
+
+        scrollView.removeAllViews()
+        scrollView.addView(itemsContainerLayout)
+        layerFilter.addAllViews(itemsContainerLayout)
     }
 
     fun setupButtonListeners(controller: MapboxMapController) {
         for (customView in buttonList) { //for each item created in createLayerButtons()
             if (customView is LayerButtonView) { // If is custom clickable button
                 customView.outerView.setOnClickListener {
-                    customView.click()
-                    if (customView.active) {
+                    val layerCode = customView.configuration.code
+                    if (!customView.active) {
 
-                        //Custom configurations for specific layers
-                        if (customView.configuration.layer.id == "temperatures") {
-                            val sPaint = customView.configuration.layer.paint as SampleStyle
-                            sPaint.opacity = 1.0f
-                            sPaint.quality = DataQuality.normal
+                        customView.activate()
+                        roadLayerId = roadLayerId?: getRoadLayerId(controller)
+                        controller.addWeatherLayer(customView.configuration, beforeId = roadLayerId)
+
+                        if (controller.hasWeatherLayer(layerCode)) {
+                            controller.setWeatherLayerVisibility(layerCode, true)
+                        } else {
+                            controller.addWeatherLayer(customView.configuration)
                         }
-
-                        if (customView.configuration.layer.id == "wind-particles") {
-                            val pPaint = customView.configuration.layer.paint as ParticleStyle
-                            pPaint.opacity = 1.0f
-                            pPaint.speedFactor = .60f
-                            pPaint.trails = true
-                            pPaint.trailsFadeFactor = ParticleTrailLength.NORMAL
-                            pPaint.size = 3.0f
-                        }
-
-                        controller.addWeatherLayer(customView.configuration)
+                    } else {
+                        customView.deactivate()
+                        controller.setWeatherLayerVisibility(layerCode, false)
                     }
-                    controller.setLayerVisible(customView.configuration.layer.id, customView.active)
                 }
             }
         }
+    }
+
+    fun hideKeyboard(context: Context) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(filterEditText.windowToken, 0)
+    }
+
+    /**  Find the first road/tunnel/bridge layer in the MapboxMap **/
+    private fun getRoadLayerId(controller: MapboxMapController): String? {
+        var foundId: String? = null
+        controller.mapboxMap?.getStyle { style -> // Ensure style is loaded
+            val roadLayerRegex = "^(?:tunnel|road|bridge)-"
+            for (layerInfo in style.styleLayers) {
+                if (Pattern.compile(roadLayerRegex).matcher(layerInfo.id).find()) {
+                    foundId = layerInfo.id
+                    break
+                }
+            }
+        }
+        return foundId
     }
 }

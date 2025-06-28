@@ -13,10 +13,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import com.example.mapsgldemo.databinding.ActivityMainBinding
-import com.xweather.mapsgl.anim.AnimationEvent
 import com.xweather.mapsgl.anim.AnimationState
 import com.xweather.mapsgl.anim.Timeline
-import com.xweather.mapsgl.map.mapbox.MapboxMapController
 
 class TimelineControls(context: Context, attrs: AttributeSet? = null) :
     androidx.appcompat.widget.AppCompatSeekBar(context, attrs) {
@@ -27,9 +25,8 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
     private lateinit var settingsSlideOutAnimation: Animation
     private lateinit var settingsSlideInAnimation: Animation
     private var timelineVisibility: Boolean = false
-    private var initialSpeedButtonSet = false
-
     private val seekbarRange = 10000.0
+    private var initialSpeedButtonSet = false
     var seekbarDoubleValue = 0.0
 
     /** Set the position of the time seekbar from 0F to 1F **/
@@ -52,8 +49,8 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
                     }
                     timeline.goTo(binding.timelineView.timelineControls.seekbarDoubleValue)
 
-                } else { // seekbar changed programmatically
                 }
+
                 TimelineTextFormatter.setCurrentTimeTextView(
                     binding.timelineView,
                     timeline,
@@ -188,11 +185,9 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
 
             override fun onAnimationRepeat(animation: Animation?) {}
         })
-
-        setConfigAnimations(context, binding)
     }
 
-    private fun setConfigAnimations(context: Context, binding: ActivityMainBinding) {
+    fun setConfigAnimations(context: Context, binding: ActivityMainBinding) {
         settingsSlideOutAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_out_bottom_settings)
         settingsSlideInAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom_settings)
         settingsSlideOutAnimation.setAnimationListener(object : Animation.AnimationListener {
@@ -225,6 +220,7 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
         if (show != timelineVisibility) {
             if (show) {
                 binding.timelineView.timelineConstraintLayout.startAnimation(slideInAnimation)
+
             } else {
 
                 binding.timelineView.timelineConstraintLayout.startAnimation(slideOutAnimation)
@@ -238,30 +234,6 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
             binding.timelineView.settingsCS.startAnimation(settingsSlideInAnimation)
         } else if (binding.timelineView.settingsCS.isVisible) {
             binding.timelineView.settingsCS.startAnimation(settingsSlideOutAnimation)
-        }
-
-    }
-
-    fun setupTimelineListeners(controller: MapboxMapController, binding: ActivityMainBinding) {
-
-        controller.timeline.on(AnimationEvent.play) {
-            if (controller.timeline.state == AnimationState.playing) {
-                binding.timelineView.timelineControls.updatePlayButtonImage(true, binding)
-            } else {
-                binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
-            }
-        }
-        controller.timeline.on(AnimationEvent.stop) {
-            binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
-        }
-
-        controller.timeline.on(AnimationEvent.advance) {
-            binding.timelineView.timelineControls.setPosition(controller.timeline.position)
-        }
-
-        controller.timeline.on(AnimationEvent.range_change) {
-            TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline)
-            binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
         }
     }
 

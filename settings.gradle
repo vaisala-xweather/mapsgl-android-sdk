@@ -2,10 +2,11 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
@@ -21,8 +22,12 @@ dependencyResolutionManagement {
                 password = MAPBOX_DOWNLOADS_TOKEN
             }
         }
+
+        maven { url 'https://maven.ecc.no/releases' }
     }
 }
 
-rootProject.name = "MapsGL Demo v1.1.0"
+rootProject.name = "MapsGL v1.2.0"
 include ':app'
+
+

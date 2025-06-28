@@ -13,7 +13,6 @@ import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.plugin.animation.easeTo
-import com.mapbox.maps.plugin.animation.flyTo
 
 class Location {
 
@@ -42,7 +41,7 @@ class Location {
                     latitude = it.latitude
                     longitude = it.longitude
                     retrieved = true
-                    CircleHelper.addLocationMarkerToMap(latitude, longitude, mapView)
+                    LocationCircle.addLocationMarkerToMap(latitude, longitude, mapView)
                     if (mapboxMap != null) easeTo(mapboxMap)
                 } ?: run {
                     if (mapboxMap != null) {
@@ -50,7 +49,7 @@ class Location {
                     }
                 }
             }.addOnFailureListener { e ->
-                Toast.makeText(activity, "Location Error getting location: ${e.message}", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(activity, "Location Error getting location: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
 

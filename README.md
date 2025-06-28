@@ -68,6 +68,7 @@ In **settings.gradle**:
             google()
             mavenCentral()
             maven { url 'https://jitpack.io' }
+            maven { url 'https://maven.ecc.no/releases' }
             maven {
                 url 'https://api.mapbox.com/downloads/v2/releases/maven'
                 authentication {
@@ -94,7 +95,8 @@ In the app-level **build.gradle**
         mavenCentral()
     }
     dependencies {
-	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.1.0"
+        implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'
+	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.0"
     }
 
 
