@@ -13,7 +13,7 @@ android {
         minSdk 28
         targetSdk 35
         versionCode 1
-        versionName "v1.2.0"
+        versionName "v1.2.1"
     }
 
     buildTypes {
@@ -44,5 +44,5 @@ dependencies {
     implementation "com.mapbox.maps:android:$mapbox_version"
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     testImplementation 'junit:junit:4.13.2'
-    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.0'
+    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.1'
 }
