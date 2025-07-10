@@ -11,6 +11,13 @@ import { Alert } from '@xweather/docs-theme';
 
 <Alert variant="warn">**Note:** The MapsGL SDK for Android does not currently support all features provided by the core [MapsGL Javascript SDK](https://www.xweather.com/docs/mapsgl) and are currently in development. Refer to the [development roadmap](./roadmap) for information regarding which versions of the MapsGL SDK for Android support various MapsGL features as they become available.</Alert>
 
+## v1.2.1
+*July 10, 2025*
+
+### 🐞 Bug Fixes
+
+* Fix for WorkerThreadException that can occur when adding layers at startup.
+
 ## v1.2.0
 *June 27, 2025*
 

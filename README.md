@@ -96,7 +96,7 @@ In the app-level **build.gradle**
     }
     dependencies {
         implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'
-	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.0"
+	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.1"
     }
 
 
@@ -131,7 +131,7 @@ Create your MapboxController:
 Add a MapsGL layer to the map:
 
 	val mapLoadedCallback = MapLoadedCallback {
-		val temperatureLayer = 	mapController.addWeatherLayer(LayerCode.temperatures)
+		val temperatureLayer = 	mapController.addWeatherLayer(LayerCode.TEMPERATURES)
     }
 
 
