@@ -131,7 +131,7 @@ Create your MapboxController:
 Add a MapsGL layer to the map:
 
 	val mapLoadedCallback = MapLoadedCallback {
-		val temperatureLayer = 	mapController.addWeatherLayer(LayerCode.temperatures)
+		val temperatureLayer = 	mapController.addWeatherLayer(LayerCode.TEMPERATURES)
     }
 
 
