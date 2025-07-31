@@ -1,13 +1,24 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+## v1.2.3
+July 31st, 2025
 
----
-title: Changelog
----
-import { Alert } from '@xweather/docs-theme';
+### 🛠 Improvements
 
-# Changelog
+* Better texture memory management.
+* Rectangular particles for wave and swell particle layers.
+
+### 🐞 Bug Fixes
+
+* Fix for a crash that can occur when repeatedly adding and removing removing layers. 
+
+### ⚠️ Known Issues
+
+* To accommodate rectangular particles for wave and swell layers, particle size is now represented by 
+```size: Size(width: Int, height: Int)``` 
+instead of
+```size: Double```
+Please make the necessary changes in your code if necessary.
 
 <Alert variant="warn">**Note:** The MapsGL SDK for Android does not currently support all features provided by the core [MapsGL Javascript SDK](https://www.xweather.com/docs/mapsgl) and are currently in development. Refer to the [development roadmap](./roadmap) for information regarding which versions of the MapsGL SDK for Android support various MapsGL features as they become available.</Alert>
 
