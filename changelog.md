@@ -10,7 +10,7 @@ July 31st, 2025
 
 ### 🐞 Bug Fixes
 
-* Fix for a crash that can occur when repeatedly adding and removing removing layers. 
+* Fix for a crash that can occur when repeatedly adding and removing layers. 
 
 ### ⚠️ Known Issues
 
