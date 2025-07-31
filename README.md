@@ -117,7 +117,7 @@ Create your MapboxController:
 	binding.mapView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener{
 		override fun onGlobalLayout() {
 			binding.mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-			mapController = MapboxMapController(mapView, baseContext, xweatherAccount)
+			mapController = MapboxMapController(mapView, xweatherAccount)
             with(mapController) {
 				mapboxMap.loadStyle(Style.DARK)
 				//Make sure to set Mapbox to Mercator mode
