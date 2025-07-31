@@ -96,7 +96,7 @@ In the app-level **build.gradle**
     }
     dependencies {
         implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'
-	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.2"
+	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.3"
     }
 
 
