@@ -96,7 +96,7 @@ In the app-level **build.gradle**
     }
     dependencies {
         implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'
-	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.2"
+	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.3"
     }
 
 
@@ -117,7 +117,7 @@ Create your MapboxController:
 	binding.mapView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener{
 		override fun onGlobalLayout() {
 			binding.mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-			mapController = MapboxMapController(mapView, baseContext, xweatherAccount)
+			mapController = MapboxMapController(mapView, xweatherAccount)
             with(mapController) {
 				mapboxMap.loadStyle(Style.DARK)
 				//Make sure to set Mapbox to Mercator mode
