@@ -16,7 +16,7 @@
         android:windowLayoutInDisplayCutoutMode="shortEdges"
 
         tools:replace="android:theme"
-        tools:targetApi="34">
+        tools:targetApi="36">
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize"

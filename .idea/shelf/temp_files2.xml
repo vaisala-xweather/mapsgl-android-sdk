@@ -1,0 +1,178 @@
+<changelist name="temp_files2" date="1758721848515" recycled="false">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/temp_files/shelved.patch" />
+  <option name="DESCRIPTION" value="temp files" />
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/assets/debug/mergeDebugAssets/javadoc/package-list" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/[root]/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglcore/opengl/geometries/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/anim/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/camera/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/config/weather/account/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/config/weather/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/coordinates/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/data/series/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/data/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/enums/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/events/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/geo/projection/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/geo/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/geometry/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/layers/spec/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/layers/style/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/layers/tile/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/map/mapbox/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/map/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/core/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/dist/lib/es6/core/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/extensions/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/interfaces/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/math/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/opengl/context/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/opengl/geometries/bufferAttributes/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/opengl/geometries/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/opengl/programs/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/opengl/targets/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/opengl/worldObjects/cameras/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/opengl/worldObjects/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/opengl/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/textures/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/util/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapsglcore/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/mapshaders/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/materials/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/network/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/renderers/pass/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/renderers/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/sources/source/spec/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/sources/types/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/sources/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/style/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/tiles/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/types/math_type/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/types/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/utils/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/viewmodel/data/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/viewmodel/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/weather/groups/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/com/xweather/mapsglmaps/package-summary.html.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/package-list.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/compressed_assets/debug/compressDebugAssets/out/assets/javadoc/package-search-index.js.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/dex_archive_input_jar_hashes/debug/dexBuilderDebug/out" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/dex_number_of_buckets_file/debug/dexBuilderDebug/out" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/build/intermediates/incremental/debug-mergeJavaRes/zip-cache/OYC9oAHxk+ZqnBLz0MLF+OHJCFc=" />
+  </binary>
+</changelist>

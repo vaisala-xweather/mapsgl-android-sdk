@@ -93,6 +93,7 @@ class LayerMenu {
                     } else {
                         customView.deactivate()
                         controller.setWeatherLayerVisibility(layerCode, false)
+                        //controller.removeWeatherLayer(layerCode) //fully remove the layer
                     }
                 }
             }

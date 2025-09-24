@@ -1,5 +1,31 @@
 # Changelog
 
+
+
+
+## v1.2.4
+September 24th, 2025
+
+### 🛠 Improvements
+
+* Improve memory management
+* Add land mask to Maritime layers. This land mask layer will automatically inherit the background color from the current Mapbox map style being used, which currently has limitations when using one of the "satellite" Mapbox styles.
+
+### 🐞 Bug Fixes
+
+* Increased Stability during timeline animation
+* Vector Layers no longer dissapear after Mapbox style changes at runtime.
+* Fixed issue where radar could lose snow colors after being removed and added again.
+
+### ⚠️ Known Issues
+
+* To accommodate rectangular particles for wave and swell layers, particle size is now represented by
+  ```size: Size(width: Int, height: Int)```
+  instead of
+  ```size: Double```
+  For round particles, for example wind particles, you only need to specify one parameter, for example ```size = Size(4)```
+  Please make the necessary changes in your code if necessary.
+
 ## v1.2.3
 July 31st, 2025
 
