@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">MapsGL v1.2.4</string>
-    <string name="amapbox_access_token">your_mapbox_access_token_here</string>
-    <string name="axweather_client_id">your_xweather_client_id_here</string>
-    <string name="axweather_client_secret">your_xweather_client_secret_here</string>
-    <string name="mapbox_access_token">pk.eyJ1IjoiamFzb25zdXRvIiwiYSI6ImNsbjh3ZDA3bjAxbmMybHM0aGkyOWp3MnQifQ.Sco0RT2S6tF7u2_T7_NZPA</string>
-    <string name="xweather_client_id">wgE96YE3scTQLKjnqiMsv</string>
-    <string name="xweather_client_secret">2Hv7vYXBj0YAJED8xaiADX5X1szKbLFhd9waCEWT</string>
+    <string name="mapbox_access_token">your_mapbox_access_token_here</string>
+    <string name="xweather_client_id">your_xweather_client_id_here</string>
+    <string name="xweather_client_secret">your_xweather_client_secret_here</string>
 </resources>
+
