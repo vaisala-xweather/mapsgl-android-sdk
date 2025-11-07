@@ -13,7 +13,7 @@ android {
         minSdk 28
         targetSdk 35
         versionCode 1
-        versionName "v1.2.3"
+        versionName "v1.2.4"
     }
 
     buildTypes {
@@ -47,4 +47,5 @@ dependencies {
     implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.4'
 
 }
+
 
