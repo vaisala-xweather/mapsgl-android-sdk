@@ -106,12 +106,13 @@ class MainActivity : AppCompatActivity() {
                         repeat = true
                         setStartDateUsingRelativeTime("-1 day")
                         setEndDateUsingRelativeTime("now")
+                        goTo(0.0)
                     }
 
                     // Setup other UI elements that depend on the controller
                     binding.timelineView.timelineControls.setupButtonListeners(controller.timeline, binding)
                     setupTimelineListeners()
-                    layerMenu.createLayerButtons(controller.service, binding.layerMenuLinearLayout,)
+                    layerMenu.createLayerButtons(controller.service, binding.layerMenuLinearLayout)
                     LayerButtonView.setAnimations(binding.layerMenuLinearLayout)
                 }
             }
@@ -124,9 +125,14 @@ class MainActivity : AppCompatActivity() {
         mapView.setOnTouchListener { _, _ ->
             if (layerMenu.visible) {
                 binding.timelineView.timelineControls.showSettings(false, binding)
-                LayerButtonView.showDatasetButtons(false, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton)
+                LayerButtonView.showDatasetButtons(
+                    false,
+                    binding.layerMenuLinearLayout,
+                    binding.timelineView.layerMenuButton
+                )
+            } else {
+                binding.timelineView.timelineControls.show(true, binding)
             }
-            else{ binding.timelineView.timelineControls.show(true, binding)  }
 
             layerMenu.visible = !layerMenu.visible
             layerMenu.hideKeyboard(this)
@@ -134,7 +140,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTimelineListeners(){
+    private fun setupTimelineListeners() {
         controller.onLoadStart.observe(this) {
             binding.timelineView.progressBar.isVisible = true
         }
@@ -143,31 +149,39 @@ class MainActivity : AppCompatActivity() {
             binding.timelineView.progressBar.isVisible = false
         }
 
-        controller.timeline.on(AnimationEvent.play){
+        controller.timeline.on(AnimationEvent.play) {
             if (controller.timeline.state == AnimationState.playing) {
                 binding.timelineView.timelineControls.updatePlayButtonImage(true, binding)
             } else {
                 binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
             }
         }
-        controller.timeline.on(AnimationEvent.stop){
+        controller.timeline.on(AnimationEvent.stop) {
             binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
         }
 
-        controller.timeline.on(AnimationEvent.advance){
+        controller.timeline.on(AnimationEvent.advance) {
             binding.timelineView.timelineControls.setPosition(controller.timeline.position)
         }
 
         controller.timeline.on(AnimationEvent.range_change) {
-            TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline, controller.timeline.position)
+            TimelineTextFormatter.setTimeTextViews(
+                binding.timelineView,
+                controller.timeline,
+                controller.timeline.position
+            )
             binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
         }
 
     }
 
-    private fun setupUIButtonListeners(binding: ActivityMainBinding){
+    private fun setupUIButtonListeners(binding: ActivityMainBinding) {
         binding.timelineView.layerMenuButton.setOnClickListener {
-            LayerButtonView.showDatasetButtons(true, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton)
+            LayerButtonView.showDatasetButtons(
+                true,
+                binding.layerMenuLinearLayout,
+                binding.timelineView.layerMenuButton
+            )
             layerMenu.visible = true
             binding.timelineView.timelineControls.show(false, binding)
         }
@@ -175,7 +189,6 @@ class MainActivity : AppCompatActivity() {
         binding.timelineView.timelineConstraintLayout.visibility = View.INVISIBLE // Consider setting in XML initially
         this.baseContext.resources
         binding.timelineView.locationButton.setOnClickListener {
-
             if (Location.retrieved) {
                 mapboxMap?.let { map -> Location.easeTo(map) }
             } else {
@@ -210,7 +223,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        LayerButtonView.showDatasetButtons(layerMenu.visible, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton)
+        LayerButtonView.showDatasetButtons(
+            layerMenu.visible,
+            binding.layerMenuLinearLayout,
+            binding.timelineView.layerMenuButton
+        )
     }
 
     override fun onDestroy() {
