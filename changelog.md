@@ -1,7 +1,12 @@
 # Changelog
+## v1.2.5
+November 7th, 2025
 
+### 🐞 Bug Fixes
 
+* Fix layers sometimes not appearing when added to MapController
 
+* Fix for issue where MapController could get stuck in a loading state.
 
 ## v1.2.4
 September 24th, 2025
@@ -476,3 +481,4 @@ First commit after beta.2
 ### 🐞 Bug Fixes
 * Fixed concurrent modification crash in tileLayer bindTextures()
 * Improvements to zoom code, Still need to correctly incorporate world and view matrices.
+
