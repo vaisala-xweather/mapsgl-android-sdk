@@ -44,7 +44,7 @@ dependencies {
     implementation "com.mapbox.maps:android:$mapbox_version"
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     testImplementation 'junit:junit:4.13.2'
-    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.4'
+    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.3.0'
 
 }
 
