@@ -134,7 +134,6 @@ class MainActivity : AppCompatActivity() {
             } else {
                 binding.timelineView.timelineControls.show(true, binding)
             }
-            else{ binding.timelineView.timelineControls.show(true, binding)  }
 
             layerMenu.visible = !layerMenu.visible
             layerMenu.hideKeyboard(this)
