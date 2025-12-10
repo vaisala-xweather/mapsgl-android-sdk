@@ -73,11 +73,8 @@ class LayerButtonView(context: Context, title: String, val configuration: Weathe
             if (show != layerButtonVisibility) {
                 if (show) {
                     layerMenu.startAnimation(slideInAnimation)
-                    //layerButton.startAnimation(slideOutAnimation)
-                    //layerButton.visibility=View.INVISIBLE
                 } else {
                     layerMenu.startAnimation(slideOutAnimation)
-                    //layerButton.startAnimation(slideInAnimation)
                     layerButton.visibility = View.VISIBLE
                 }
                 layerButtonVisibility = show
@@ -89,7 +86,6 @@ class LayerButtonView(context: Context, title: String, val configuration: Weathe
             textView.text = text
             textView.textSize = 20f
             textView.setBackgroundResource(R.drawable.unselected_background)
-            //textView.setBackgroundColor(0xFF373737.toInt())
             textView.setTextColor(ContextCompat.getColor(context, R.color.bright_text))
             textView.setShadowLayer(10f, 0f, 0f, android.graphics.Color.BLACK)
             textView.setPadding(40, 60, 0, 40)
@@ -115,7 +111,6 @@ class LayerButtonView(context: Context, title: String, val configuration: Weathe
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT
             )
-            //setTypeface(null, Typeface.BOLD)
             setTypeface(null, Typeface.NORMAL)
             textSize = 14f
             setShadowLayer(10f, 0f, 0f, 0xFF000000.toInt())

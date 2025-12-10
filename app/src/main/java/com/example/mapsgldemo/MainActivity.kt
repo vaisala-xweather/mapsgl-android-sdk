@@ -88,8 +88,6 @@ class MainActivity : AppCompatActivity() {
                     calendarEnd.set(2025, Calendar.APRIL, 25, 10, 30, 0)
 
                     controller = MapboxMapController(mapView, xweatherAccount)
-
-                    // Store the MapboxMap reference locally and nullably
                     mapboxMap = controller.mapboxMap
 
                     mapboxMap?.let { map -> // Use safe call 'let' block
@@ -106,13 +104,16 @@ class MainActivity : AppCompatActivity() {
                         repeat = true
                         setStartDateUsingRelativeTime("-1 day")
                         setEndDateUsingRelativeTime("now")
-                        goTo(0.0)
                     }
+
+                    // New for v1.3.0, the data inspector control is now available.
+                    controller.addDataInspectorControl(mapView)
+
 
                     // Setup other UI elements that depend on the controller
                     binding.timelineView.timelineControls.setupButtonListeners(controller.timeline, binding)
                     setupTimelineListeners()
-                    layerMenu.createLayerButtons(controller.service, binding.layerMenuLinearLayout)
+                    layerMenu.createLayerButtons(controller.service, binding.layerMenuLinearLayout,)
                     LayerButtonView.setAnimations(binding.layerMenuLinearLayout)
                 }
             }
@@ -140,7 +141,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTimelineListeners() {
+    private fun setupTimelineListeners(){
         controller.onLoadStart.observe(this) {
             binding.timelineView.progressBar.isVisible = true
         }
@@ -165,11 +166,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         controller.timeline.on(AnimationEvent.range_change) {
-            TimelineTextFormatter.setTimeTextViews(
-                binding.timelineView,
-                controller.timeline,
-                controller.timeline.position
-            )
+            TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline, controller.timeline.position)
             binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
         }
 

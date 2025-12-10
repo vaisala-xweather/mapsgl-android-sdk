@@ -96,7 +96,7 @@ In the app-level **build.gradle**
     }
     dependencies {
         implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'
-	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.2.5"
+	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.3.0"
     }
 
 
@@ -146,7 +146,6 @@ Gradle Version 7.5.1.
 [Xweather API Signup](https://signup.xweather.com/) \
 [Xweather Android SDK](http://www.aerisweather.com/support/docs/toolkits/aeris-android-sdk/) \
 [Xweather Android Maps](https://www.xweather.com/docs/android-sdk/getting-started/weather-maps) 
-
 
 
 
