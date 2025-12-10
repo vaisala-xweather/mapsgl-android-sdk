@@ -4,13 +4,13 @@
 ## v1.3.0
 December 10th, 2025
 
-✨ Features
+### ✨ Features
 
 * Add data inspector control support for MapController, allowing users to tap on the map and view detailed information about the weather data at that location. See the data inspector control documentation for more information.
 * Add preconfigured data presentations for all supported weather layers to use when formatting their data values shown in a data inspector control.
 * Add map feature querying support via MapController#query(coord:layerIds:).
 
-* ### 🐞 Bug Fixes
+### 🐞 Bug Fixes
 
 * Fix particle layers sometimes disappearing at certain zoom levels
 * Fix missing data in Fire layer
@@ -496,4 +496,5 @@ First commit after beta.2
 ### 🐞 Bug Fixes
 * Fixed concurrent modification crash in tileLayer bindTextures()
 * Improvements to zoom code, Still need to correctly incorporate world and view matrices.
+
 
