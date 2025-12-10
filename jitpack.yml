@@ -10,12 +10,13 @@ before_install:
 install:
   # 1. Install the main AAR file (as before)
   #    Ensure 'mapsglmaps-release.aar' exists in the repo root at this tag
-  - mvn install:install-file -Dfile=mapsglmaps-release.aar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.2.4 -Dpackaging=aar -DgeneratePom=true
+  - mvn install:install-file -Dfile=mapsglmaps-release.aar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.3.0 -Dpackaging=aar -DgeneratePom=true
 
   # 2. Install the Javadoc JAR
   #    Ensure 'mapsglmaps-release-javadoc.jar' (or your actual filename) exists in the repo root
-  - mvn install:install-file -Dfile=javadoc.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.2.4 -Dpackaging=jar -Dclassifier=javadoc
+  - mvn install:install-file -Dfile=javadoc.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.3.0 -Dpackaging=jar -Dclassifier=javadoc
 
   # 3. Install the Sources JAR (HIGHLY RECOMMENDED for KDoc)
   #    Ensure 'mapsglmaps-release-sources.jar' (or your actual filename) exists in the repo root
-  - mvn install:install-file -Dfile=mapsglmaps-sources.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.2.4 -Dpackaging=jar -Dclassifier=sources
+  - mvn install:install-file -Dfile=mapsglmaps-sources.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.3.0 -Dpackaging=jar -Dclassifier=sources
+
