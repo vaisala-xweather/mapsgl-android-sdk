@@ -22,6 +22,7 @@ import com.xweather.mapsgl.anim.AnimationEvent
 import com.xweather.mapsgl.anim.AnimationState
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
+import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity() {
         TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline)
         layerMenu.setupButtonListeners(controller)
 
+        val calendarStart = Calendar.getInstance()
+        calendarStart.set(2025, Calendar.MAY, 1, 10, 30, 0)
+        val calendarEnd = Calendar.getInstance()
+        calendarEnd.set(2025, Calendar.MAY, 2, 10, 30, 0)
     }
 
     override fun onAttachedToWindow() {
@@ -76,11 +81,18 @@ class MainActivity : AppCompatActivity() {
 
                 // --- Initialize Controller and Get MapboxMap ---
                 if (mapView.parent != null) {
+
+                    val calendarStart = Calendar.getInstance()
+                    calendarStart.set(2025, Calendar.APRIL, 24, 10, 30, 0)
+                    val calendarEnd = Calendar.getInstance()
+                    calendarEnd.set(2025, Calendar.APRIL, 25, 10, 30, 0)
+
                     controller = MapboxMapController(mapView, xweatherAccount)
                     mapboxMap = controller.mapboxMap
 
                     mapboxMap?.let { map -> // Use safe call 'let' block
                         appSettings.setMapboxPreferences(controller, resources) // Pass the non-null map instance
+                        // Subscribe listeners using stored references
                         mapLoadedCancelable = map.subscribeMapLoaded(mapLoadedCallback)
                         cameraChangedCancelable = map.subscribeCameraChanged(cameraChangeCallback)
                     }
@@ -90,8 +102,8 @@ class MainActivity : AppCompatActivity() {
                         delay = 0.0
                         endDelay = 1.0
                         repeat = true
-                        setStartDateUsingRelativeTime("-1 hour")
-                        setEndDateUsingRelativeTime("+1 day")
+                        setStartDateUsingRelativeTime("-1 day")
+                        setEndDateUsingRelativeTime("now")
                     }
 
                     // New for v1.3.0, the data inspector control is now available.
@@ -103,7 +115,6 @@ class MainActivity : AppCompatActivity() {
                     setupTimelineListeners()
                     layerMenu.createLayerButtons(controller.service, binding.layerMenuLinearLayout,)
                     LayerButtonView.setAnimations(binding.layerMenuLinearLayout)
-
                 }
             }
         })
@@ -115,7 +126,13 @@ class MainActivity : AppCompatActivity() {
         mapView.setOnTouchListener { _, _ ->
             if (layerMenu.visible) {
                 binding.timelineView.timelineControls.showSettings(false, binding)
-                LayerButtonView.showDatasetButtons(false, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton)
+                LayerButtonView.showDatasetButtons(
+                    false,
+                    binding.layerMenuLinearLayout,
+                    binding.timelineView.layerMenuButton
+                )
+            } else {
+                binding.timelineView.timelineControls.show(true, binding)
             }
             else{ binding.timelineView.timelineControls.show(true, binding)  }
 
@@ -134,18 +151,18 @@ class MainActivity : AppCompatActivity() {
             binding.timelineView.progressBar.isVisible = false
         }
 
-        controller.timeline.on(AnimationEvent.play){
+        controller.timeline.on(AnimationEvent.play) {
             if (controller.timeline.state == AnimationState.playing) {
                 binding.timelineView.timelineControls.updatePlayButtonImage(true, binding)
             } else {
                 binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
             }
         }
-        controller.timeline.on(AnimationEvent.stop){
+        controller.timeline.on(AnimationEvent.stop) {
             binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
         }
 
-        controller.timeline.on(AnimationEvent.advance){
+        controller.timeline.on(AnimationEvent.advance) {
             binding.timelineView.timelineControls.setPosition(controller.timeline.position)
         }
 
@@ -156,9 +173,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setupUIButtonListeners(binding: ActivityMainBinding){
+    private fun setupUIButtonListeners(binding: ActivityMainBinding) {
         binding.timelineView.layerMenuButton.setOnClickListener {
-            LayerButtonView.showDatasetButtons(true, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton)
+            LayerButtonView.showDatasetButtons(
+                true,
+                binding.layerMenuLinearLayout,
+                binding.timelineView.layerMenuButton
+            )
             layerMenu.visible = true
             binding.timelineView.timelineControls.show(false, binding)
         }
@@ -166,7 +187,6 @@ class MainActivity : AppCompatActivity() {
         binding.timelineView.timelineConstraintLayout.visibility = View.INVISIBLE // Consider setting in XML initially
         this.baseContext.resources
         binding.timelineView.locationButton.setOnClickListener {
-
             if (Location.retrieved) {
                 mapboxMap?.let { map -> Location.easeTo(map) }
             } else {
@@ -178,28 +198,34 @@ class MainActivity : AppCompatActivity() {
     /** Keep track of the screen orientation. **/
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        } else {
-            window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        }
-
-        // Handle immersive mode specifically for modern APIs (API 30+).
+        // Using WindowInsetsController requires API 30+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val insetsController = window.insetsController
             if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
                 insetsController?.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-                insetsController?.systemBarsBehavior =
-                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            } else {
+                insetsController?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
                 insetsController?.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+            }
+        } else {
+            // Handle pre-API 30 orientation changes if needed.
+            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+            } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        LayerButtonView.showDatasetButtons(layerMenu.visible, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton)
+        LayerButtonView.showDatasetButtons(
+            layerMenu.visible,
+            binding.layerMenuLinearLayout,
+            binding.timelineView.layerMenuButton
+        )
     }
 
     override fun onDestroy() {
