@@ -18,5 +18,6 @@ install:
 
   # 3. Install the Sources JAR (HIGHLY RECOMMENDED for KDoc)
   #    Ensure 'mapsglmaps-release-sources.jar' (or your actual filename) exists in the repo root
-  - mvn install:install-file -Dfile=mapsglmaps-sources.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.3.0 -Dpackaging=jar -Dclassifier=sources
+  - mvn install:install-file -Dfile=mapsglmaps-sources.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.3.1 -Dpackaging=jar -Dclassifier=sources
+
 
