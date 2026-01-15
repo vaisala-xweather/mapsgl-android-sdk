@@ -82,11 +82,6 @@ class MainActivity : AppCompatActivity() {
                 // --- Initialize Controller and Get MapboxMap ---
                 if (mapView.parent != null) {
 
-                    val calendarStart = Calendar.getInstance()
-                    calendarStart.set(2025, Calendar.APRIL, 24, 10, 30, 0)
-                    val calendarEnd = Calendar.getInstance()
-                    calendarEnd.set(2025, Calendar.APRIL, 25, 10, 30, 0)
-
                     controller = MapboxMapController(mapView, xweatherAccount)
                     mapboxMap = controller.mapboxMap
 
