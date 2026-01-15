@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.3.1
+January 15th, 2026
+
+### 🐞 Bug Fixes
+
+* Fix glitchy display of particle layers after adjusting the timeline. (fixes [#24](https://github.com/vaisala-xweather/mapsgl-apple-sdk/issues/24))
+* Fix incorrect colors for Precipitation layer.
 
 ## v1.3.0
 December 10th, 2025
