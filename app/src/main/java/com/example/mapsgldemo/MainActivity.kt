@@ -1,6 +1,7 @@
 package com.example.mapsgldemo
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import com.example.mapsgldemo.databinding.ActivityMainBinding
@@ -21,8 +23,8 @@ import com.mapbox.maps.MapboxMap
 import com.xweather.mapsgl.anim.AnimationEvent
 import com.xweather.mapsgl.anim.AnimationState
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
+import com.xweather.mapsgl.controls.legend.LegendControl
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
-import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,17 +44,15 @@ class MainActivity : AppCompatActivity() {
         binding.timelineView.timelineControls.setPosition(controller.timeline.position)
         TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline)
         layerMenu.setupButtonListeners(controller)
-
-        val calendarStart = Calendar.getInstance()
-        calendarStart.set(2025, Calendar.MAY, 1, 10, 30, 0)
-        val calendarEnd = Calendar.getInstance()
-        calendarEnd.set(2025, Calendar.MAY, 2, 10, 30, 0)
     }
 
     override fun onAttachedToWindow() {
         setTurnScreenOn(true)
         setShowWhenLocked(true)
     }
+
+    fun Int.dpToPx(context: Context): Int =
+        (this * context.resources.displayMetrics.density).toInt()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +85,25 @@ class MainActivity : AppCompatActivity() {
                     controller = MapboxMapController(mapView, xweatherAccount)
                     mapboxMap = controller.mapboxMap
 
+                    // New for v1.4.0 is the LegendControl
+                    val legendControl = LegendControl()
+                    controller.add(legendControl)
+                    val legendView = legendControl.containerView
+                    if (legendView != null) {
+                        legendView.id = View.generateViewId()
+                        val menuIndex = binding.outerConstraint.indexOfChild(binding.layerMenuLinearLayout)
+                        binding.outerConstraint.addView(legendView, menuIndex)
+                        val params = legendView.layoutParams as ConstraintLayout.LayoutParams
+                        val parentID = ConstraintLayout.LayoutParams.PARENT_ID
+                        params.endToEnd = parentID
+                        params.bottomToBottom = parentID
+                        val ctx = legendView.context
+                        params.bottomMargin = 180.dpToPx(mapView.context)
+                        params.marginEnd   = 12.dpToPx(mapView.context)
+                        params.width       = 300.dpToPx(mapView.context)
+                        legendView.layoutParams = params
+                    }
+
                     mapboxMap?.let { map -> // Use safe call 'let' block
                         appSettings.setMapboxPreferences(controller, resources) // Pass the non-null map instance
                         // Subscribe listeners using stored references
@@ -97,18 +116,17 @@ class MainActivity : AppCompatActivity() {
                         delay = 0.0
                         endDelay = 1.0
                         repeat = true
-                        setStartDateUsingRelativeTime("-1 day")
+                        setStartDateUsingRelativeTime("-12 hours")
                         setEndDateUsingRelativeTime("now")
                     }
 
                     // New for v1.3.0, the data inspector control is now available.
                     controller.addDataInspectorControl(mapView)
 
-
                     // Setup other UI elements that depend on the controller
                     binding.timelineView.timelineControls.setupButtonListeners(controller.timeline, binding)
                     setupTimelineListeners()
-                    layerMenu.createLayerButtons(controller.service, binding.layerMenuLinearLayout,)
+                    layerMenu.createLayerButtons(controller.service, binding.layerMenuLinearLayout)
                     LayerButtonView.setAnimations(binding.layerMenuLinearLayout)
                 }
             }
@@ -136,7 +154,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTimelineListeners(){
+    private fun setupTimelineListeners() {
         controller.onLoadStart.observe(this) {
             binding.timelineView.progressBar.isVisible = true
         }
@@ -161,7 +179,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         controller.timeline.on(AnimationEvent.range_change) {
-            TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline, controller.timeline.position)
+            TimelineTextFormatter.setTimeTextViews(
+                binding.timelineView,
+                controller.timeline,
+                controller.timeline.position
+            )
             binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
         }
 
