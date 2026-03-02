@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.4.0
+*March 3rd, 2026*
+
+### ✨ Features
+
+* Add legends support for MapController, allowing a configurable legend view to be displayed along with the MapsGL map content. See the Legend documentation for more information.
+
+* Add preconfigured legend configurations for all supported weather layers so that active layers automatically display an associated legend when active.
+
+### 🐞 Bug Fixes
+
+ * Fix issue where loading indicator would show indefinitely. (fixes [#27](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/27))
+
 ## v1.3.1
 January 15th, 2026
 
@@ -503,5 +516,6 @@ First commit after beta.2
 ### 🐞 Bug Fixes
 * Fixed concurrent modification crash in tileLayer bindTextures()
 * Improvements to zoom code, Still need to correctly incorporate world and view matrices.
+
 
 
