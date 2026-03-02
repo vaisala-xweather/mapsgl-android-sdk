@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.4.0
+## v1.4.0
 *March 3rd, 2026*
 
 ### ✨ Features
@@ -516,6 +516,7 @@ First commit after beta.2
 ### 🐞 Bug Fixes
 * Fixed concurrent modification crash in tileLayer bindTextures()
 * Improvements to zoom code, Still need to correctly incorporate world and view matrices.
+
 
 
 
