@@ -11,10 +11,6 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
@@ -28,22 +24,7 @@ import com.xweather.mapsgl.anim.AnimationEvent
 import com.xweather.mapsgl.anim.AnimationState
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
 import com.xweather.mapsgl.controls.legend.LegendControl
-import com.xweather.mapsgl.controls.legend.Point.Margin
-import com.xweather.mapsgl.controls.legend.Point.PointLegend
-import com.xweather.mapsgl.controls.legend.Point.PointLegendItem
-import com.xweather.mapsgl.controls.legend.bar.BarLegend
-import com.xweather.mapsgl.controls.legend.bar.BarLegendItem
-import com.xweather.mapsgl.controls.legend.bar.BarLegendLabels
-import com.xweather.mapsgl.extensions.UnitTemperature
-import com.xweather.mapsgl.map.MeasurementUnits
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
-import com.xweather.mapsgl.style.CircleLayerPaint
-import com.xweather.mapsgl.style.ColorScaleOptions
-import com.xweather.mapsgl.style.ColorStop
-import com.xweather.mapsgl.style.Expression
-import com.xweather.mapsgl.style.StyleValue
-import com.xweather.mapsgl.weather.WeatherService
-import com.xweather.mapsgl.weather.toColor
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         binding.timelineView.timelineControls.setPosition(controller.timeline.position)
         TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline)
         layerMenu.setupButtonListeners(controller)
-
     }
 
     override fun onAttachedToWindow() {
@@ -146,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                     // Setup other UI elements that depend on the controller
                     binding.timelineView.timelineControls.setupButtonListeners(controller.timeline, binding)
                     setupTimelineListeners()
-                    layerMenu.createLayerButtons(controller.service, binding.layerMenuLinearLayout,)
+                    layerMenu.createLayerButtons(controller.service, binding.layerMenuLinearLayout)
                     LayerButtonView.setAnimations(binding.layerMenuLinearLayout)
                 }
             }
@@ -174,7 +154,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTimelineListeners(){
+    private fun setupTimelineListeners() {
         controller.onLoadStart.observe(this) {
             binding.timelineView.progressBar.isVisible = true
         }
@@ -199,7 +179,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         controller.timeline.on(AnimationEvent.range_change) {
-            TimelineTextFormatter.setTimeTextViews(binding.timelineView, controller.timeline, controller.timeline.position)
+            TimelineTextFormatter.setTimeTextViews(
+                binding.timelineView,
+                controller.timeline,
+                controller.timeline.position
+            )
             binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
         }
 
