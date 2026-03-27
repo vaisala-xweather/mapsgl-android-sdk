@@ -209,6 +209,21 @@ class MainActivity : AppCompatActivity() {
                 Location.getLocation(this@MainActivity, mapboxMap, mapView)
             }
         }
+
+        binding.timelineView.preLoadButton.setOnClickListener {
+            // Option for pre-loading animation data. New for 1.5.0
+            if (controller.animationOptions.shouldPreloadData) {
+                controller.animationOptions.shouldPreloadData = false
+                it.backgroundTintList =
+                    androidx.core.content.ContextCompat.getColorStateList(this, R.color.grey_background)
+            } else {
+                controller.animationOptions.shouldPreloadData = true
+                it.backgroundTintList = androidx.core.content.ContextCompat.getColorStateList(
+                    this,
+                    R.color.settings_button_background_pressed
+                )
+            }
+        }
     }
 
     /** Keep track of the screen orientation. **/
