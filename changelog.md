@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.5.0
+*March 27th, 2026*
+
+### ✨ Features
+
+* Add contour layer support including pre-configured layer definitions for mean sea level pressure, temperature, and wind speed.
+* Add the option to preload animated tile data prior to starting playback. Preloading can be performed automatically by seting MapController.animationOptions.shouldPreloadData or triggered once manually by calling the MapController.preloadAnimationData function.
+
+### 🛠 Improvements
+- Improved blending between neighboring encoded tiles.
+
+## 1.4.0
+*March 3rd, 2026*
+
+### ✨ Features
+
+* Add legends support for MapController, allowing a configurable legend view to be displayed along with the MapsGL map content. See the Legend documentation for more information.
+* Add preconfigured legend configurations for all supported weather layers so that active layers automatically display an associated legend when active.
+
+### 🐞 Bug Fixes
+
+* Fix issue where loading indicator would show indefinitely. (fixes [#27](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/27))
+
 ## v1.3.1
 January 15th, 2026
 
