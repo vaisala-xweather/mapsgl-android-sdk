@@ -11,7 +11,7 @@
 ### 🛠 Improvements
 - Improved blending between neighboring encoded tiles.
 
-## 1.4.0
+## v1.4.0
 *March 3rd, 2026*
 
 ### ✨ Features
