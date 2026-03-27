@@ -2,5 +2,5 @@ jdk:
   - openjdk17
 
 install:
-  - mvn install:install-file -Dfile=mapsglmaps-release.aar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.4.0 -Dpackaging=aar
-  - mvn install:install-file -Dfile=javadoc.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.4.0 -Dpackaging=jar -Dclassifier=javadoc
+  - mvn install:install-file -Dfile=mapsglmaps-release.aar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.5.0 -Dpackaging=aar
+  - mvn install:install-file -Dfile=javadoc.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.5.0 -Dpackaging=jar -Dclassifier=javadoc
