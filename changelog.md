@@ -1,5 +1,13 @@
 # Changelog
 
+
+## 1.5.1
+*April 13th, 2026*
+
+### 🐞 Bug Fixes
+
+* Fix issue where results of MapController.query(...) includes features from previous clicks and other layers. (fixes [#31](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/31))
+
 ## v1.5.0
 *March 27th, 2026*
 
@@ -11,7 +19,7 @@
 ### 🛠 Improvements
 - Improved blending between neighboring encoded tiles.
 
-## v1.4.0
+## 1.4.0
 *March 3rd, 2026*
 
 ### ✨ Features
