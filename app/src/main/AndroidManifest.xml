@@ -18,7 +18,7 @@
         tools:replace="android:theme"
         tools:targetApi="36">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.mapsgldemo.MainActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true">
             <intent-filter>

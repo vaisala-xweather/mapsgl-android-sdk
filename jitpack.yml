@@ -1,6 +1,14 @@
+# Manual artifacts: committed AAR + sources (+ optional javadoc) under delivery/jitpack/.
+# See delivery/jitpack/README.md for exact filenames and release checklist.
+#
+# JitPack treats repos with a root build.gradle as Gradle projects and discovers artifacts from
+# Gradle’s publishToMavenLocal output. The standalone project jitpack-upload publishes the
+# committed binaries from delivery/jitpack/ (mvn install:install-file alone is not enough).
+# https://docs.jitpack.io/building/
+
 jdk:
   - openjdk17
 
+# Android detection can leave cwd outside repo root; script resolves ROOT via git and runs gradlew there.
 install:
-  - mvn install:install-file -Dfile=mapsglmaps-release.aar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.5.1 -Dpackaging=aar
-  - mvn install:install-file -Dfile=javadoc.jar -DgroupId=com.github.vaisala-xweather -DartifactId=mapsgl-android-sdk -Dversion=v1.5.1 -Dpackaging=jar -Dclassifier=javadoc
+  - bash delivery/jitpack/jitpack-gradle-publish.sh
