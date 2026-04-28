@@ -1,7 +1,7 @@
 {
   "formatVersion": "1.1",
   "component": {
-    "group": "com.github.jasonsuto.test240815",
+    "group": "com.github.vaisala-xweather.mapsgl-android-sdk",
     "module": "mapsglmaps",
     "version": "v1.2.4-230-g754815bd",
     "attributes": {
