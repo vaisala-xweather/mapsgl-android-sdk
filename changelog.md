@@ -2,11 +2,11 @@
 
 
 ## 1.5.1
-*April 14th, 2026*
+*April 13th, 2026*
 
 ### 🐞 Bug Fixes
 
-* Fix issue where results of vvvv includes features from previous clicks and other layers. (fixes [#31](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/31))
+* Fix issue where results of MapController.query(...) includes features from previous clicks and other layers. (fixes [#31](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/31))
 
 ## v1.5.0
 *March 27th, 2026*
@@ -534,5 +534,7 @@ First commit after beta.2
 ### 🐞 Bug Fixes
 * Fixed concurrent modification crash in tileLayer bindTextures()
 * Improvements to zoom code, Still need to correctly incorporate world and view matrices.
+
+
 
 
