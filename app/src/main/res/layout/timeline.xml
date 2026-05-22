@@ -527,6 +527,20 @@
             app:layout_constraintTop_toTopOf="@+id/currentTimeTextView"
             tools:visibility="visible" />
 
+        <TextView
+            android:id="@+id/progressTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@+id/progressBar"
+            app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+            app:layout_constraintStart_toStartOf="@+id/progressBar"
+            app:layout_constraintEnd_toEndOf="@+id/progressBar"
+            tools:visibility="visible" />
+
 
         <TextView
             android:id="@+id/currentDateTextView"

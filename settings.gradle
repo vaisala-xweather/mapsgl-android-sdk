@@ -27,5 +27,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MapsGL v1.5.1"
+rootProject.name = "MapsGL v1.6.0"
 include ':app'

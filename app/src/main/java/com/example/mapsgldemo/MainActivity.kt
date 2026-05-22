@@ -157,10 +157,12 @@ class MainActivity : AppCompatActivity() {
     private fun setupTimelineListeners() {
         controller.onLoadStart.observe(this) {
             binding.timelineView.progressBar.isVisible = true
+            binding.timelineView.progressTextView.isVisible = true
         }
 
         controller.onLoadComplete.observe(this) {
             binding.timelineView.progressBar.isVisible = false
+            binding.timelineView.progressTextView.isVisible = false
         }
 
         controller.timeline.on(AnimationEvent.play) {
@@ -187,6 +189,19 @@ class MainActivity : AppCompatActivity() {
             binding.timelineView.timelineControls.updatePlayButtonImage(false, binding)
         }
 
+        controller.onLoadProgress.observe(this) { progress ->
+            val percentInt = if (progress.total > 0) {
+                ((progress.completed.toFloat() / progress.total.toFloat()) * 100f).toInt()
+            } else {
+                0
+            }
+            if (percentInt != 0 && percentInt != 100) {
+                binding.timelineView.progressTextView.text = "${percentInt}%"
+            } else {
+                binding.timelineView.progressTextView.text = ""
+            }
+
+        }
     }
 
     private fun setupUIButtonListeners(binding: ActivityMainBinding) {
