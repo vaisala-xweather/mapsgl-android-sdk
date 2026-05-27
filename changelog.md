@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.6.0
+
+* May 27th, 2026*
+
+### ✨ Features
+
+* Add maritime gridded direction layers, including `wave-dir` and `swell-dir`, with denser sampling, shorter tails, smoother timeline playback, and land-mask ordering that keeps encoded weather layers correctly stacked when layers are toggled.
+* Improve gridded wind barb and arrow rendering by switching to a PNG atlas, aligning icon scale and proportions with the MapsGL JavaScript SDK, and reducing pop-in during panning with viewport-aware spacing updates.
+* Expose gridded-layer weather configuration wrappers so apps can customize symbol styling while preserving built-in layer behavior.
+* Expose `MapLoadProgress` as a public top-level type for `MapController.onLoadProgress` so host apps can safely read progress fields in minified builds.
+
+    ```kotlin
+    mapController.onLoadProgress.observe(this) { progress ->
+        val label = "${progress.completed} / ${progress.total}"
+    }
+    ```
+### 🐞 Bug Fixes
+
+* Fix encoded precipitation and contour rendering to match expected color range and draw-range behavior, including corrected discard thresholds, contour spacing, and JavaScript parity for precipitation accumulation and wind chill handling.
+* Fix data inspector behavior so blank map clicks clear results, duplicate rows from shared sources are removed, and empty pixel values are filtered out instead of showing stale data.
+* Fix layer lifecycle regressions where alerts or gridded layers could stop updating or remain in a loading state after remove-and-add flows, including encoded no-data handling and land-mask reattachment edge cases.
+* Fix map camera and world-wrap issues affecting low-tilt alignment, anti-meridian scrolling, duplicate downloads, and multi-world gridded animation continuity.
+* Fix radar and legend presentation issues, including bar-label visibility, alignment, quality-level consistency, and layer-specific legend value formatting.
+
+### 🛠 Improvements
+
+* Improve gridded timeline interpolation by advancing `dataMeld` with elapsed wall-clock time for smoother animation cadence across frame rates.
+* Improve loading feedback consistency by refining download-queue progress and accounting for texture-bind time before clearing load indicators.
+* Improve runtime performance by moving PNG decoding and selected cell-padding work to native code, reducing heap pressure during gridded rendering.
+
+
 
 ## 1.5.1
 *April 13th, 2026*
