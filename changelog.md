@@ -1,8 +1,8 @@
 # Changelog
 
-## 1.6.0
 
-* May 27th, 2026*
+## 1.6.0
+*May 27th, 2026*
 
 ### ✨ Features
 
