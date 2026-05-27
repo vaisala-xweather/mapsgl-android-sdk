@@ -97,7 +97,6 @@ class MainActivity : AppCompatActivity() {
                         val parentID = ConstraintLayout.LayoutParams.PARENT_ID
                         params.endToEnd = parentID
                         params.bottomToBottom = parentID
-                        val ctx = legendView.context
                         params.bottomMargin = 180.dpToPx(mapView.context)
                         params.marginEnd   = 12.dpToPx(mapView.context)
                         params.width       = 300.dpToPx(mapView.context)

@@ -43,7 +43,5 @@ dependencies {
     implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'
     implementation "com.mapbox.maps:android-ndk27:11.15.3"
     implementation 'com.google.android.gms:play-services-location:21.3.0'
-    testImplementation 'junit:junit:4.13.2'
     implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.6.0'
-    //implementation files('libs/160e.aar')
 }
