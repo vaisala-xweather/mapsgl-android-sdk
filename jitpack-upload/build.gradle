@@ -1,0 +1,187 @@
+/**
+ * Standalone Gradle project used only by JitPack (`./gradlew -p jitpack-upload publishToMavenLocal`).
+ *
+ * Publishes committed AAR + sources (+ optional javadoc) from ../delivery/jitpack/ with maven-publish.
+ * Uses an adhoc SoftwareComponent + separate runtime/sources consumable configurations so the
+ * correct files are attached to the publication.
+ *
+ * Gradle `.module` publication is disabled: JitPack rewrites served
+ * `.module` content (wrong `component` + sources as `*.jar`), so publishing our own file makes
+ * resolution worse. Rely on POM + `*.aar` + `*-sources.jar` (Maven layout).
+ *
+ * https://docs.gradle.org/current/userguide/publishing_customization.html#sec:software-components
+ */
+import org.gradle.api.attributes.Attribute
+import org.gradle.api.attributes.Bundling
+import org.gradle.api.attributes.Category
+import org.gradle.api.attributes.DocsType
+import org.gradle.api.attributes.LibraryElements
+import org.gradle.api.attributes.Usage
+import org.gradle.api.component.SoftwareComponentFactory
+import org.gradle.api.internal.project.ProjectInternal
+plugins {
+    id 'maven-publish'
+}
+
+def repoRoot = rootProject.projectDir.parentFile
+def delivery = new File(repoRoot, "delivery/jitpack")
+def propsFile = new File(delivery, "maven-coordinates.properties")
+
+Map<String, String> parseProps(File f) {
+    def m = [:]
+    if (!f.exists()) return m
+    f.eachLine { String raw ->
+        def line = raw.replace('\r', '').trim()
+        if (line.isEmpty() || line.startsWith('#')) return
+        def i = line.indexOf('=')
+        if (i > 0) m.put(line.substring(0, i).trim(), line.substring(i + 1).trim())
+    }
+    return m
+}
+
+def props = parseProps(propsFile)
+def moduleGroup = props.get('groupId')
+def moduleArtifact = props.get('artifactId')
+def propsVersion = props.get('version')
+
+if (!moduleGroup || !moduleArtifact) {
+    throw new GradleException("Missing groupId or artifactId in ${propsFile}")
+}
+
+def pubVersion
+if ('true' == System.getenv('JITPACK')) {
+    def out = new ByteArrayOutputStream()
+    def rc = exec {
+        workingDir = repoRoot
+        commandLine 'git', 'describe', '--tags', '--exact-match'
+        standardOutput = out
+        errorOutput = new ByteArrayOutputStream()
+        ignoreExitValue = true
+    }.exitValue
+    if (rc == 0) {
+        pubVersion = out.toString().trim()
+    } else {
+        out.reset()
+        exec {
+            workingDir = repoRoot
+            commandLine 'git', 'describe', '--tags', '--always'
+            standardOutput = out
+        }
+        pubVersion = out.toString().trim()
+    }
+    logger.lifecycle("JitPack: publishing version '${pubVersion}' from git")
+} else {
+    pubVersion = propsVersion ?: 'unspecified'
+    logger.lifecycle("Local publish: using version '${pubVersion}' from maven-coordinates.properties")
+}
+
+def aar = new File(delivery, "${moduleArtifact}.aar")
+def src = new File(delivery, "${moduleArtifact}-sources.jar")
+def jdoc = new File(delivery, "${moduleArtifact}-javadoc.jar")
+
+tasks.withType(PublishToMavenLocal).configureEach {
+    doFirst {
+        if (!aar.exists() || !src.exists()) {
+            throw new GradleException("Missing ${aar} or ${src}. Copy release outputs into delivery/jitpack/ (see delivery/jitpack/README.md).")
+        }
+    }
+}
+
+def kotlinPlatformType = Attribute.of('org.jetbrains.kotlin.platform.type', String)
+
+// Runtime AAR only (Kotlin Android consumer attributes).
+configurations.register('mapsglmapsRuntimeElements') {
+    canBeConsumed = true
+    canBeResolved = false
+    attributes {
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.LIBRARY))
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
+        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling, Bundling.EXTERNAL))
+        attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, 'aar'))
+        attribute(kotlinPlatformType, 'androidJvm')
+    }
+    outgoing {
+        artifact(aar)
+    }
+}
+
+// Sources: documentation variant — do NOT set kotlin platform (IDE sources requests omit it).
+configurations.register('mapsglmapsSourcesElements') {
+    canBeConsumed = true
+    canBeResolved = false
+    attributes {
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
+        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling, Bundling.EXTERNAL))
+        attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, DocsType.SOURCES))
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
+        attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, LibraryElements.JAR))
+    }
+    outgoing {
+        artifact(src) {
+            classifier = 'sources'
+            extension = 'jar'
+        }
+    }
+}
+
+SoftwareComponentFactory softwareComponentFactory =
+        ((ProjectInternal) project).services.get(SoftwareComponentFactory)
+def jitpackLib = softwareComponentFactory.adhoc('mapsglmapsJitpackLib')
+jitpackLib.addVariantsFromConfiguration(configurations.named('mapsglmapsRuntimeElements').get()) {
+    mapToMavenScope('runtime')
+}
+jitpackLib.addVariantsFromConfiguration(configurations.named('mapsglmapsSourcesElements').get()) {
+    mapToMavenScope('runtime')
+}
+if (jdoc.exists()) {
+    configurations.register('mapsglmapsJavadocElements') {
+        canBeConsumed = true
+        canBeResolved = false
+        attributes {
+            attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.DOCUMENTATION))
+            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling, Bundling.EXTERNAL))
+            attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType, DocsType.JAVADOC))
+            attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
+            attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, LibraryElements.JAR))
+        }
+        outgoing {
+            artifact(jdoc) {
+                classifier = 'javadoc'
+                extension = 'jar'
+            }
+        }
+    }
+    jitpackLib.addVariantsFromConfiguration(configurations.named('mapsglmapsJavadocElements').get()) {
+        mapToMavenScope('runtime')
+    }
+}
+components.add(jitpackLib)
+
+// com.github.USER.REPO → default JitPack GAV com.github.USER:REPO
+def rest = moduleGroup.startsWith('com.github.') ? moduleGroup.substring('com.github.'.length()) : ''
+def dot = rest.indexOf('.')
+def jpUser = dot > 0 ? rest.substring(0, dot) : ''
+def jpRepo = dot > 0 ? rest.substring(dot + 1) : ''
+
+publishing {
+    publications {
+        // Single publication at the classic JitPack GAV `com.github.USER:REPO` so consumers can use
+        // `implementation 'com.github.jasonsuto:test240815:Tag'` and still get IDE KDoc (direct AAR
+        // + sources on that coordinate — not a POM-only aggregator with a transitive AAR).
+        //
+        // Do not also depend on `com.github.USER.REPO:mapsglmaps` — that would duplicate the same AAR.
+        if (jpUser && jpRepo) {
+            create('jitpackRepo', MavenPublication) {
+                from components.mapsglmapsJitpackLib
+                groupId = "com.github.${jpUser}"
+                artifactId = jpRepo
+                version = pubVersion
+            }
+        }
+    }
+}
+
+// JitPack rewrites `.module`; omit it so IDEs use POM + `*.aar` + `*-sources.jar`.
+tasks.matching { it.name == 'generateMetadataFileForJitpackRepoPublication' }.configureEach { it.enabled = false }
+
+
