@@ -12,10 +12,10 @@ dependencyResolutionManagement {
         mavenCentral()
         maven {
             url 'https://jitpack.io'
-           // metadataSources {
-           //     mavenPom()
-           //     artifact()
-           // }
+            metadataSources {
+                mavenPom()
+                artifact()
+            }
         }
         maven {
             url 'https://api.mapbox.com/downloads/v2/releases/maven'
