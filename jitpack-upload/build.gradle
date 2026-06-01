@@ -78,6 +78,8 @@ if ('true' == System.getenv('JITPACK')) {
 def aar = new File(delivery, "${moduleArtifact}.aar")
 def src = new File(delivery, "${moduleArtifact}-sources.jar")
 def jdoc = new File(delivery, "${moduleArtifact}-javadoc.jar")
+final File jitpackDeliveryDir = delivery
+final File jitpackRepoRootDir = repoRoot
 
 /** @return File whose root element is &lt;dependencies&gt; or a full Maven POM containing one. */
 File resolveJitpackTransitiveDependenciesSource(File deliveryDir, File repoRootDir) {
@@ -94,7 +96,14 @@ File resolveJitpackTransitiveDependenciesSource(File deliveryDir, File repoRootD
 }
 
 void mergeJitpackTransitiveDependenciesIntoPom(Node pomNode, File depsSource) {
-    def parsed = new XmlParser(false, false).parse(depsSource)
+    if (depsSource == null || !depsSource.isFile()) {
+        throw new GradleException(
+                "Missing ${jitpackDeliveryDir}/jitpack-transitive-dependencies.xml — commit it under delivery/jitpack/.")
+    }
+    def parsed
+    depsSource.withInputStream { InputStream stream ->
+        parsed = new XmlParser(false, false).parse(stream)
+    }
     def depNodes = parsed.dependencies?.dependency ?: parsed.dependency
     if (!depNodes) {
         throw new GradleException("No dependencies found in ${depsSource}")
@@ -121,10 +130,10 @@ tasks.withType(PublishToMavenLocal).configureEach {
         if (!aar.exists() || !src.exists()) {
             throw new GradleException("Missing ${aar} or ${src}. Copy release outputs into delivery/jitpack/ (see delivery/jitpack/README.md).")
         }
-        def depsSource = resolveJitpackTransitiveDependenciesSource(delivery, repoRoot)
+        def depsSource = resolveJitpackTransitiveDependenciesSource(jitpackDeliveryDir, jitpackRepoRootDir)
         if (!depsSource) {
             throw new GradleException(
-                    "Missing ${delivery}/jitpack-transitive-dependencies.xml. Copy it from the MapsGL SDK repo " +
+                    "Missing ${jitpackDeliveryDir}/jitpack-transitive-dependencies.xml. Copy it from the MapsGL SDK repo " +
                             "(delivery/jitpack/ after :mapsglmaps:exportJitpackTransitiveDependencies) or run " +
                             "delivery/jitpack/copy-from-gradle.ps1 -SdkRoot <path-to-sdk>.")
         }
@@ -221,7 +230,7 @@ publishing {
                 artifactId = jpRepo
                 version = pubVersion
                 pom.withXml { xml ->
-                    def depsSource = resolveJitpackTransitiveDependenciesSource(delivery, repoRoot)
+                    def depsSource = resolveJitpackTransitiveDependenciesSource(jitpackDeliveryDir, jitpackRepoRootDir)
                     mergeJitpackTransitiveDependenciesIntoPom(xml.asNode(), depsSource)
                 }
             }
