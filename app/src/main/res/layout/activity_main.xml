@@ -1,99 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/outerConstraint"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:ignore="ContentDescription" >
-
-    <com.mapbox.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="70dp"
-        tools:layout_editor_absoluteY="-146dp">
-    </com.mapbox.maps.MapView>
-
+    android:background="@color/black"
+    tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/crosshairTextView"
+        android:id="@+id/menuTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/white_circle_background"
-        android:text="x"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="8sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/mapView"
+        android:layout_marginTop="48dp"
+        android:text="MapsGL Android demo"
+        android:textColor="@color/bright_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/timeline_view"
-        layout="@layout/timeline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        android:padding="0dp"
-        tools:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/mapView"
-        app:layout_constraintEnd_toEndOf="@+id/mapView" />
-
-
-    <LinearLayout
-        android:id="@+id/layerMenuLinearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="0dp"
-        android:background="@color/black"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/menuScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menuTitleTextView">
 
+        <LinearLayout
+            android:id="@+id/menuButtonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="8dp">
 
-        <ScrollView
-            android:id="@+id/outerScrollView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="outsideInset"
-            android:scrollbarSize="8dp"
-            android:scrollbarThumbVertical="@drawable/button_background"
-            android:paddingTop="0dp"
-            android:paddingBottom="0dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/outerLinearLayout"
+            <CheckBox
+                android:id="@+id/checkBoxMapLayersAuto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+                android:contentDescription="Open Map layers on next launch from app icon"
+                app:buttonTint="@color/bright_text" />
 
-    <View
-        android:id="@+id/empty_view_tl"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/menuMapLayersButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/main_menu_button_height"
+                android:layout_weight="1"
+                android:background="@drawable/main_menu_button_background_selector"
+                android:text="Map layers"
+                android:textAllCaps="false"
+                android:textColor="@color/bright_text"
+                android:textSize="@dimen/main_menu_button_text_size" />
+        </LinearLayout>
 
-    <View
-        android:id="@+id/empty_view_lr"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkBoxLocalWeatherAuto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Open Local Weather on next launch from app icon"
+                app:buttonTint="@color/bright_text" />
+
+            <Button
+                android:id="@+id/menuLocalWeatherButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/main_menu_button_height"
+                android:layout_weight="1"
+                android:background="@drawable/main_menu_button_background_selector"
+                android:text="Local Weather"
+                android:textAllCaps="false"
+                android:textColor="@color/bright_text"
+                android:textSize="@dimen/main_menu_button_text_size" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/menuLegendDataInspectorButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Legend and Data Inspector"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuVectorLayersButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Vector Layers"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuSampleLayersButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Sample Layers"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuStencilMaskDemosButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Stencil masks"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuGriddedLayersButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Gridded layers"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuBlankMapButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Blank map"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

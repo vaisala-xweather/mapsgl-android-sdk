@@ -78,6 +78,8 @@ Then **Sync Gradle** (and bump to a **new** library tag after the publisher chan
 5. Replace the binary files under `delivery/jitpack/` with the new build outputs (exact filenames above), including **`jitpack-transitive-dependencies.xml`**.
 6. Commit, tag, push — JitPack runs **`jitpack-upload`** (`publishToMavenLocal`), not the shell script. Consumers get most SDK runtime deps from the POM but must still add **Mapbox** in their app.
 
+**Verify the tag:** `https://jitpack.io/com/github/vaisala-xweather/mapsgl-android-sdk/<tag>/mapsgl-android-sdk-<tag>.pom` must contain `<dependencies>` and `java-vector-tile`. If the POM is empty, apps need `implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'` until you republish.
+
 ## Large binaries
 
 If policy allows, consider **Git LFS** for `.aar` / `.jar` files so the main repo stays lean.

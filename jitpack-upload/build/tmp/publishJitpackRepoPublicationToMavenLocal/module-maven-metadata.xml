@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <groupId>com.github.jasonsuto</groupId>
-  <artifactId>test240815</artifactId>
+  <groupId>com.github.vaisala-xweather</groupId>
+  <artifactId>maspgl-android-sdk</artifactId>
   <versioning>
-    <latest>v1.2.4-230-g754815bd</latest>
-    <release>v1.2.4-230-g754815bd</release>
+    <latest>v1.6.0</latest>
+    <release>v1.6.0</release>
     <versions>
-      <version>v1.2.4-230-g754815bd</version>
+      <version>v1.6.0</version>
     </versions>
-    <lastUpdated>20260424205230</lastUpdated>
+    <lastUpdated>20260601175806</lastUpdated>
   </versioning>
 </metadata>
