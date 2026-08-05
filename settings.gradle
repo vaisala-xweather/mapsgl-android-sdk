@@ -8,6 +8,7 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
         maven {
@@ -33,5 +34,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MapsGL v1.6.0"
+rootProject.name = "MapsGL v1.6.1"
 include ':app'

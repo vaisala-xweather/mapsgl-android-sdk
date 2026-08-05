@@ -39,6 +39,36 @@
             android:label="Vector Layers"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".vector.VectorFillMapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Fill vector layers"
+            android:parentActivityName=".VectorLayersMenuActivity" />
+        <activity
+            android:name=".vector.VectorLineMapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Line vector layers"
+            android:parentActivityName=".VectorLayersMenuActivity" />
+        <activity
+            android:name=".vector.VectorCircleMapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Circle vector layers"
+            android:parentActivityName=".VectorLayersMenuActivity" />
+        <activity
+            android:name=".vector.VectorSymbolMapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Symbol vector layers"
+            android:parentActivityName=".VectorLayersMenuActivity" />
+        <activity
+            android:name=".vector.VectorHeatmapMapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Heatmap vector layers"
+            android:parentActivityName=".VectorLayersMenuActivity" />
+        <activity
             android:name=".SampleLayersMenuActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"

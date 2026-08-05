@@ -6,7 +6,7 @@ plugins {
 android {
     namespace "com.example.mapsgldemo"
     compileSdk 36
-    ndkVersion "25.1.8937393"
+    ndkVersion "27.1.12297006"
     
     defaultConfig {
         applicationId "com.example.mapsgldemoapp"
@@ -42,9 +42,5 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     implementation "com.mapbox.maps:android-ndk27:11.15.3"
-    // Required at runtime (VectorTileSource). JitPack tags must ship a POM with transitive deps;
-    // tag 161b did not — keep this until you depend on a tag built with jitpack-transitive-dependencies.xml.
-    //implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'
-    //implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:161c'
-    implementation 'com.github.jasonsuto:test240815:161a'
+    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.6.1'
 }
