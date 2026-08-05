@@ -64,8 +64,7 @@ import java.util.regex.Pattern
  * and remains visible together with [LayerCode.BOUNDARIES] admin linework.
  *
  * The camera is centered on the pin. The pin uses the device location when permission is granted
- * and fused last location is non-null; otherwise [FALLBACK_PIN_LAT] / [FALLBACK_PIN_LON]. A smaller
- * fixed marker is drawn at 41.470239°N, 81.921516°W. After the
+ * and fused last location is non-null; otherwise [FALLBACK_PIN_LAT] / [FALLBACK_PIN_LON]. After the
  * initial temperatures layer finishes loading, the data inspector opens at that pin. Encoded
  * temperature values in the inspector callout are shown in **°F only** (via [DataInspectorControl.setPresentation]).
  * Anchoring waits for [MapboxMap.subscribeMapIdle] so [MapboxMap.pixelForCoordinate] matches the camera after
@@ -108,9 +107,6 @@ class LocalActivity : AppCompatActivity() {
 
     private var pinAnnotationManager: CircleAnnotationManager? = null
     private var pinAnnotation: CircleAnnotation? = null
-
-    /** Fixed reference point (smaller than [pinAnnotation]). */
-    private var secondaryPinAnnotation: CircleAnnotation? = null
     private var pinLatitude: Double = FALLBACK_PIN_LAT
     private var pinLongitude: Double = FALLBACK_PIN_LON
     private val mapZoom = 8.5
@@ -627,7 +623,6 @@ class LocalActivity : AppCompatActivity() {
                 pinAnnotationManager = mapView.annotations.createCircleAnnotationManager()
             }
             pinAnnotation?.let { pinAnnotationManager?.delete(it) }
-            secondaryPinAnnotation?.let { pinAnnotationManager?.delete(it) }
             val mainRadius = 3.0
             val mainStroke = 1.0
             val options = CircleAnnotationOptions()
@@ -637,15 +632,6 @@ class LocalActivity : AppCompatActivity() {
                 .withCircleStrokeWidth(mainStroke)
                 .withCircleStrokeColor("#FFFFFF")
             pinAnnotation = pinAnnotationManager?.create(options)
-            val smallRadius = 2.0
-            val smallStroke = 0.75
-            val secondaryOptions = CircleAnnotationOptions()
-                .withPoint(Point.fromLngLat(LOCAL_EXTRA_PIN_LON, LOCAL_EXTRA_PIN_LAT))
-                .withCircleRadius(smallRadius)
-                .withCircleColor("#C62828")
-                .withCircleStrokeWidth(smallStroke)
-                .withCircleStrokeColor("#FFFFFF")
-            secondaryPinAnnotation = pinAnnotationManager?.create(secondaryOptions)
             centerViewportOnPin()
         }
     }
@@ -826,9 +812,5 @@ class LocalActivity : AppCompatActivity() {
         /** Used when location permission is denied or no fused fix is available. */
         private const val FALLBACK_PIN_LAT = 41.355701
         private const val FALLBACK_PIN_LON = -81.806944
-
-        /** Secondary map marker (smaller circle than the primary location pin). */
-        private const val LOCAL_EXTRA_PIN_LAT = 41.470239
-        private const val LOCAL_EXTRA_PIN_LON = -81.921516
     }
 }
