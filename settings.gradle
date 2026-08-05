@@ -8,14 +8,15 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
         maven {
             url 'https://jitpack.io'
-           // metadataSources {
-           //     mavenPom()
-           //     artifact()
-           // }
+            metadataSources {
+                mavenPom()
+                artifact()
+            }
         }
         maven {
             url 'https://api.mapbox.com/downloads/v2/releases/maven'
@@ -33,5 +34,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MapsGL v1.6.0"
+rootProject.name = "MapsGL v1.6.1"
 include ':app'

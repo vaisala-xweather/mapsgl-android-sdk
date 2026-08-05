@@ -14,8 +14,11 @@ For **local** installs without Gradle, you can still run `bash delivery/jitpack/
 | `{artifactId}.aar` | yes | Example: `mapsglmaps.aar` — copy/rename from Gradle output (see below). |
 | `{artifactId}-sources.jar` | yes | Example: `mapsglmaps-sources.jar` — KDoc/sources for IDE hovers. |
 | `{artifactId}-javadoc.jar` | no | If present, it is installed with classifier `javadoc`. |
+| `jitpack-transitive-dependencies.xml` | yes | Maven `<dependencies>` merged into the JitPack POM (`java-vector-tile`, etc.). **Mapbox is omitted** — apps must declare Mapbox + the Mapbox Maven repo. Regenerate from the **MapsGL SDK** repo: `:mapsglmaps:exportJitpackTransitiveDependencies`, or `copy-from-gradle.ps1 -SdkRoot <sdk-path>`. |
 
 **Naming rule:** the stem must match `artifactId` in `maven-coordinates.properties` (e.g. `mapsglmaps` → `mapsglmaps.aar`, `mapsglmaps-sources.jar`).
+
+This publish repo has **no** `mapsglmaps` module. Build the SDK elsewhere, then copy artifacts here (see `copy-from-gradle.ps1 -SdkRoot`).
 
 ## Where Gradle writes the binaries (to copy from)
 
@@ -72,8 +75,10 @@ maven {
 Then **Sync Gradle** (and bump to a **new** library tag after the publisher change above). Use a **single** `implementation` line: **`com.github.jasonsuto:test240815:Tag`**.
 
 4. **`version=`** in the properties file is used for **local** `install-to-m2.sh` runs. **On JitPack**, `JITPACK=true` causes the script to **ignore** that value and use **`git describe`** so the Maven version matches the **tag or commit** JitPack is building (otherwise artifacts land under the wrong folder and JitPack cannot find them).
-5. Replace the binary files under `delivery/jitpack/` with the new build outputs (exact filenames above).
-6. Commit, tag, push — JitPack runs **`jitpack-upload`** (`publishToMavenLocal`), not the shell script.
+5. Replace the binary files under `delivery/jitpack/` with the new build outputs (exact filenames above), including **`jitpack-transitive-dependencies.xml`**.
+6. Commit, tag, push — JitPack runs **`jitpack-upload`** (`publishToMavenLocal`), not the shell script. Consumers get most SDK runtime deps from the POM but must still add **Mapbox** in their app.
+
+**Verify the tag:** `https://jitpack.io/com/github/vaisala-xweather/mapsgl-android-sdk/<tag>/mapsgl-android-sdk-<tag>.pom` must contain `<dependencies>` and `java-vector-tile`. If the POM is empty, apps need `implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'` until you republish.
 
 ## Large binaries
 

@@ -78,11 +78,64 @@ if ('true' == System.getenv('JITPACK')) {
 def aar = new File(delivery, "${moduleArtifact}.aar")
 def src = new File(delivery, "${moduleArtifact}-sources.jar")
 def jdoc = new File(delivery, "${moduleArtifact}-javadoc.jar")
+final File jitpackDeliveryDir = delivery
+final File jitpackRepoRootDir = repoRoot
+
+/** @return File whose root element is &lt;dependencies&gt; or a full Maven POM containing one. */
+File resolveJitpackTransitiveDependenciesSource(File deliveryDir, File repoRootDir) {
+    def committed = new File(deliveryDir, 'jitpack-transitive-dependencies.xml')
+    if (committed.isFile()) {
+        return committed
+    }
+    def releasePom = new File(repoRootDir, 'mapsglmaps/build/publications/release/pom-default.xml')
+    if (releasePom.isFile()) {
+        logger.lifecycle("JitPack POM deps: using ${releasePom} (committed jitpack-transitive-dependencies.xml missing)")
+        return releasePom
+    }
+    return null
+}
+
+void mergeJitpackTransitiveDependenciesIntoPom(Node pomNode, File depsSource) {
+    if (depsSource == null || !depsSource.isFile()) {
+        throw new GradleException(
+                "Missing ${jitpackDeliveryDir}/jitpack-transitive-dependencies.xml — commit it under delivery/jitpack/.")
+    }
+    def parsed
+    depsSource.withInputStream { InputStream stream ->
+        parsed = new XmlParser(false, false).parse(stream)
+    }
+    def depNodes = parsed.dependencies?.dependency ?: parsed.dependency
+    if (!depNodes) {
+        throw new GradleException("No dependencies found in ${depsSource}")
+    }
+    if (!(depNodes instanceof List)) {
+        depNodes = [depNodes]
+    }
+    pomNode.dependencies?.each { pomNode.remove(it) }
+    def depsContainer = pomNode.appendNode('dependencies')
+    depNodes.each { dep ->
+        def entry = depsContainer.appendNode('dependency')
+        entry.appendNode('groupId', dep.groupId.text())
+        entry.appendNode('artifactId', dep.artifactId.text())
+        entry.appendNode('version', dep.version.text())
+        def scope = dep.scope?.text()
+        if (scope) {
+            entry.appendNode('scope', scope)
+        }
+    }
+}
 
 tasks.withType(PublishToMavenLocal).configureEach {
     doFirst {
         if (!aar.exists() || !src.exists()) {
             throw new GradleException("Missing ${aar} or ${src}. Copy release outputs into delivery/jitpack/ (see delivery/jitpack/README.md).")
+        }
+        def depsSource = resolveJitpackTransitiveDependenciesSource(jitpackDeliveryDir, jitpackRepoRootDir)
+        if (!depsSource) {
+            throw new GradleException(
+                    "Missing ${jitpackDeliveryDir}/jitpack-transitive-dependencies.xml. Copy it from the MapsGL SDK repo " +
+                            "(delivery/jitpack/ after :mapsglmaps:exportJitpackTransitiveDependencies) or run " +
+                            "delivery/jitpack/copy-from-gradle.ps1 -SdkRoot <path-to-sdk>.")
         }
     }
 }
@@ -166,7 +219,7 @@ def jpRepo = dot > 0 ? rest.substring(dot + 1) : ''
 publishing {
     publications {
         // Single publication at the classic JitPack GAV `com.github.USER:REPO` so consumers can use
-        // `implementation 'com.github.jasonsuto:test240815:Tag'` and still get IDE KDoc (direct AAR
+        // `implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:Tag'` and still get IDE KDoc (direct AAR
         // + sources on that coordinate — not a POM-only aggregator with a transitive AAR).
         //
         // Do not also depend on `com.github.USER.REPO:mapsglmaps` — that would duplicate the same AAR.
@@ -176,6 +229,10 @@ publishing {
                 groupId = "com.github.${jpUser}"
                 artifactId = jpRepo
                 version = pubVersion
+                pom.withXml { xml ->
+                    def depsSource = resolveJitpackTransitiveDependenciesSource(jitpackDeliveryDir, jitpackRepoRootDir)
+                    mergeJitpackTransitiveDependenciesIntoPom(xml.asNode(), depsSource)
+                }
             }
         }
     }
@@ -183,5 +240,3 @@ publishing {
 
 // JitPack rewrites `.module`; omit it so IDEs use POM + `*.aar` + `*-sources.jar`.
 tasks.matching { it.name == 'generateMetadataFileForJitpackRepoPublication' }.configureEach { it.enabled = false }
-
-

@@ -14,7 +14,7 @@
     <color name="bright_text">#FFFAFAFA</color>
     <color name="dim_text">#FF888888</color>
 
-
+    <color name="layer_section_heading">#FFFFEB3B</color>
 
 </resources>
 

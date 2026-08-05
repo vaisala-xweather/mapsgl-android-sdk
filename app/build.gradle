@@ -6,14 +6,14 @@ plugins {
 android {
     namespace "com.example.mapsgldemo"
     compileSdk 36
-    ndkVersion "25.1.8937393"
+    ndkVersion "27.1.12297006"
     
     defaultConfig {
-        applicationId "com.example.mapsglsdk"
+        applicationId "com.example.mapsgldemoapp"
         minSdk 28
         targetSdk 36
         versionCode 1
-        versionName "v1.6.0"
+        versionName "v1.6.1"
     }
 
     buildTypes {
@@ -40,8 +40,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.7.1'
     api 'androidx.navigation:navigation-compose:2.9.6'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
-    implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'
-    implementation "com.mapbox.maps:android-ndk27:11.15.3"
     implementation 'com.google.android.gms:play-services-location:21.3.0'
-    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.6.0'
+    implementation "com.mapbox.maps:android-ndk27:11.15.3"
+    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.6.1'
 }

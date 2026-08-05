@@ -18,7 +18,7 @@
         tools:replace="android:theme"
         tools:targetApi="36">
         <activity
-            android:name="com.example.mapsgldemo.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true">
             <intent-filter>
@@ -27,6 +27,51 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".maplayers.MapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".LocalActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".StencilMaskMenuActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".stencil.Demo1PortugalSatelliteMaskActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Portugal: satellite geocolor mask"
+            android:parentActivityName=".StencilMaskMenuActivity" />
+        <activity
+            android:name=".stencil.Demo2LandMaskTemperatureActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Temperatures (land / water mask)"
+            android:parentActivityName=".StencilMaskMenuActivity" />
+        <activity
+            android:name=".stencil.Demo4PortugalMaskTemperatureActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Portugal: temperature admin mask (invert)"
+            android:parentActivityName=".StencilMaskMenuActivity" />
+        <activity
+            android:name=".stencil.LandHighwayMaskTemperatureActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Temperature (land ∩ highways)"
+            android:parentActivityName=".StencilMaskMenuActivity" />
+        <activity
+            android:name=".stencil.HighwaysConusMaskTemperatureActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Mask customization"
+            android:parentActivityName=".StencilMaskMenuActivity" />
     </application>
 
 </manifest>
