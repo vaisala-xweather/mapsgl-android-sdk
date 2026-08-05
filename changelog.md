@@ -1,5 +1,54 @@
 # Changelog
 
+## 1.6.1
+*August 5, 2026*
+
+### ✨ Features
+
+* Add layer masking parity with the MapsGL JavaScript SDK, including `LayerMaskSpec`, `maskLayerIds`, `LayerMasks` land and water shorthands, stencil-only vector masks, and `ALL`/`ANY` multi-mask combination. Masking is now always applied when a layer configures it, and the `useGlStencilMask` switch has been removed.
+
+    ```kotlin
+    val temperature = mapController.getConfigForCode(LayerCode.TEMPERATURES)
+    temperature.layer.layerMask = LayerMasks.land()
+    mapController.addWeatherLayer(temperature)
+
+    // Or mask against your own on-map layers
+    temperature.layer.maskLayerIds = listOf("admin-mask")
+    ```
+
+* Add progressive playback for long timeline ranges so animation begins at roughly half the download instead of waiting for the full range, playing a coarse pass first while remaining intervals load in the background and upgrading to full resolution at a loop boundary so the change never interrupts motion, with the load indicator reflecting the full process from 0% to 100%.
+
+* Load data sooner after a pan or zoom by prefetching in the background while the map is idle.
+
+* Dismiss the data inspector callout automatically when its anchor point leaves the visible map area.
+
+### 🐞 Bug Fixes
+
+* Fix layers that never appeared on the map at all, including satellite imagery products such as `satellite-geocolor` and `satellite-infrared-color`, and gridded wind barbs and arrows.
+
+* Fix timeline playback issues where animated layers froze on a single frame while the clock advanced, playback stopped after one loop on long ranges, animation did not resume after extending the range mid-play, paused layers snapped to the nearest interval instead of holding the current frame, gridded icons jittered between intervals, and unnecessary downloads occurred on pause and scrub.
+
+* Fix loading feedback so the indicator appears when zooming during playback, no longer briefly reports 100% before loading has finished, and layers no longer intermittently render nothing after being added or after being removed and added again.
+
+* Fix zoom and tile presentation, including blank areas shown while new tiles load instead of a temporary lower-resolution view, visible seams at tile edges, and visual corruption in particle layers when the visible tile set changes.
+
+* Fix data inspector behavior, including callout clipping at the top of the map, sticking near the legend, losing rounded corners while data rows are visible, duplicated rows from shared sources, and zero-precipitation values appearing in results.
+
+* Fix rendering and presentation parity with the MapsGL JavaScript SDK, including precipitation rendering and timeline behavior, `VECTOR` wind rendering, dark legend theme, contour spacing, and `drawRange` behavior.
+
+* Fix masking correctness for maritime water masks and for marine `LAND` masking when water geometry is unavailable.
+
+* Fix place-name labels colliding with one another at low zoom.
+
+* Fix a crash on `addWeatherLayer` ([issue #35](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/35)).
+
+### 🛠 Improvements
+
+* Improve memory use during long playback sessions, reducing peak GPU memory on a representative five-day range from roughly 870 MB to 679 MB, preventing growth as the map is panned across a session, and improving reliability for long-running sessions with satellite and other raster layers.
+
+* Improve playback smoothness with less stutter, particularly while tiles are still loading.
+
+* Expand API documentation across public classes, methods, and properties.
 
 ## 1.6.0
 *May 27th, 2026*
