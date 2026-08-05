@@ -1,6 +1,17 @@
 <resources>
-    <string name="app_name">MapsGL v1.6.0</string>
+    <string name="app_name">MapsGL v1.6.1</string>
     <string name="mapbox_access_token">your_mapbox_access_token_here</string>
     <string name="xweather_client_id">your_xweather_client_id_here</string>
-    <string name="xweather_client_secret">your_xweather_client_secret_here</string>
+    <string name="xweather_client_secret">2Hv7vYXBj0YAJED8xaiADX5X1szKbLFhd9waCEWT</string>
+    <string name="back_to_main_menu">Back to main menu</string>
+    <string name="local_layer_temp">Temperature</string>
+    <string name="local_layer_wind">Wind arrows</string>
+    <string name="local_layer_humidity">Humidity</string>
+    <string name="local_layer_precip">Precipitation</string>
+    <string name="local_layer_radar">Radar</string>
+    <string name="local_abbr_temp">Tmp</string>
+    <string name="local_abbr_wind">Wnd</string>
+    <string name="local_abbr_humidity">Hm</string>
+    <string name="local_abbr_precip">Pcp</string>
+    <string name="local_abbr_radar">Rdr</string>
 </resources>
