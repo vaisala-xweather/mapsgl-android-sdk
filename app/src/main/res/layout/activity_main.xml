@@ -44,87 +44,24 @@
             android:orientation="vertical"
             android:paddingBottom="8dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/checkBoxMapLayersAuto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Open Map layers on next launch from app icon"
-                app:buttonTint="@color/bright_text" />
-
-            <Button
-                android:id="@+id/menuMapLayersButton"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/main_menu_button_height"
-                android:layout_weight="1"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Map layers"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="@dimen/main_menu_button_text_size" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/checkBoxLocalWeatherAuto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Open Local Weather on next launch from app icon"
-                app:buttonTint="@color/bright_text" />
-
-            <Button
-                android:id="@+id/menuLocalWeatherButton"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/main_menu_button_height"
-                android:layout_weight="1"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Local Weather"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="@dimen/main_menu_button_text_size" />
-        </LinearLayout>
-
         <Button
-            android:id="@+id/menuLegendDataInspectorButton"
+            android:id="@+id/menuMapLayersButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_button_height"
             android:layout_marginBottom="@dimen/main_menu_button_spacing"
             android:background="@drawable/main_menu_button_background_selector"
-            android:text="Legend and Data Inspector"
+            android:text="Map layers"
             android:textAllCaps="false"
             android:textColor="@color/bright_text"
             android:textSize="@dimen/main_menu_button_text_size" />
 
         <Button
-            android:id="@+id/menuVectorLayersButton"
+            android:id="@+id/menuLocalWeatherButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_button_height"
             android:layout_marginBottom="@dimen/main_menu_button_spacing"
             android:background="@drawable/main_menu_button_background_selector"
-            android:text="Vector Layers"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
-
-        <Button
-            android:id="@+id/menuSampleLayersButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Sample Layers"
+            android:text="Local Weather"
             android:textAllCaps="false"
             android:textColor="@color/bright_text"
             android:textSize="@dimen/main_menu_button_text_size" />
@@ -133,30 +70,8 @@
             android:id="@+id/menuStencilMaskDemosButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
             android:background="@drawable/main_menu_button_background_selector"
             android:text="Stencil masks"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
-
-        <Button
-            android:id="@+id/menuGriddedLayersButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Gridded layers"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
-
-        <Button
-            android:id="@+id/menuBlankMapButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Blank map"
             android:textAllCaps="false"
             android:textColor="@color/bright_text"
             android:textSize="@dimen/main_menu_button_text_size" />

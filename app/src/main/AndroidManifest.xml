@@ -28,108 +28,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LegendDataInspectorMenuActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".VectorLayersMenuActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Vector Layers"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".vector.VectorFillMapLayersActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Fill vector layers"
-            android:parentActivityName=".VectorLayersMenuActivity" />
-        <activity
-            android:name=".vector.VectorLineMapLayersActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Line vector layers"
-            android:parentActivityName=".VectorLayersMenuActivity" />
-        <activity
-            android:name=".vector.VectorCircleMapLayersActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Circle vector layers"
-            android:parentActivityName=".VectorLayersMenuActivity" />
-        <activity
-            android:name=".vector.VectorSymbolMapLayersActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Symbol vector layers"
-            android:parentActivityName=".VectorLayersMenuActivity" />
-        <activity
-            android:name=".vector.VectorHeatmapMapLayersActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Heatmap vector layers"
-            android:parentActivityName=".VectorLayersMenuActivity" />
-        <activity
-            android:name=".SampleLayersMenuActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Sample Layers"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".legend.LegendCustomizationActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Legend customization (temperature)"
-            android:parentActivityName=".LegendDataInspectorMenuActivity" />
-        <activity
-            android:name=".legend.LegendAlertsCustomizationActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Legend customization (alerts)"
-            android:parentActivityName=".LegendDataInspectorMenuActivity" />
-        <activity
-            android:name=".legend.LegendsGettingStartedActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Using legends (getting started)"
-            android:parentActivityName=".LegendDataInspectorMenuActivity" />
-        <activity
-            android:name=".legend.DataInspectorGettingStartedActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Data inspector (getting started)"
-            android:parentActivityName=".LegendDataInspectorMenuActivity" />
-        <activity
-            android:name=".legend.CustomLegendsActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Custom legends"
-            android:parentActivityName=".LegendDataInspectorMenuActivity" />
-        <activity
-            android:name=".vector.DataDrivenStylingActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Data-driven styling"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".sample.WeatherDataStylingActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Styling weather data"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".vector.CustomDataSourcesActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Custom data sources"
-            android:parentActivityName=".VectorLayersMenuActivity" />
-        <activity
-            android:name=".sample.AnimatingDataGettingStartedActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Animating data (getting started)"
-            android:parentActivityName=".SampleLayersMenuActivity" />
-        <activity
             android:name=".maplayers.MapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".LocalActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
@@ -139,27 +43,11 @@
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".GriddedLayersMenuActivity"
+            android:name=".stencil.Demo1PortugalSatelliteMaskActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".gridded.GriddedWindArrowsDemoActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Gridded wind arrows"
-            android:parentActivityName=".GriddedLayersMenuActivity" />
-        <activity
-            android:name=".stencil.HighwaysConusMaskTemperatureActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Mask customization"
+            android:label="Portugal: satellite geocolor mask"
             android:parentActivityName=".StencilMaskMenuActivity" />
-        <activity
-            android:name=".LocalActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".stencil.Demo2LandMaskTemperatureActivity"
             android:configChanges="orientation|screenSize"
@@ -179,17 +67,11 @@
             android:label="Temperature (land ∩ highways)"
             android:parentActivityName=".StencilMaskMenuActivity" />
         <activity
-            android:name=".stencil.Demo1PortugalSatelliteMaskActivity"
+            android:name=".stencil.HighwaysConusMaskTemperatureActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
-            android:label="Portugal: satellite geocolor mask"
+            android:label="Mask customization"
             android:parentActivityName=".StencilMaskMenuActivity" />
-        <activity
-            android:name=".BlankMapActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Blank map"
-            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

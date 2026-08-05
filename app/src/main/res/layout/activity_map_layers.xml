@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/outerConstraint"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".maplayers.MapLayersActivity"
+    tools:ignore="ContentDescription">
+
+    <!-- Map band from window top to [map_timeline_split] (top of grey [playControlsCS], not the floating icons row in [timeline_view]). -->
+    <FrameLayout
+        android:id="@+id/map_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipChildren="true"
+        android:clipToPadding="true"
+        app:layout_constraintBottom_toTopOf="@+id/map_timeline_split"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- TextureView so map content stays *below* sibling views (SurfaceView would paint over the timeline chrome). -->
+        <com.mapbox.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:mapbox_mapSurface="texture_view"
+            tools:layout_editor_absoluteX="70dp"
+            tools:layout_editor_absoluteY="-146dp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/crosshairTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_circle_background"
+        android:text="x"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="8sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/map_container"
+        app:layout_constraintEnd_toEndOf="@+id/map_container"
+        app:layout_constraintStart_toStartOf="@+id/map_container"
+        app:layout_constraintTop_toTopOf="@+id/map_container" />
+
+    <!-- Stencil / demo triggers; live on the activity so they sit at the window top (not in the bottom timeline strip). -->
+    <ImageView
+        android:id="@+id/test_button_1"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_background_selector"
+        android:elevation="22dp"
+        android:padding="10dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp"
+        android:src="@drawable/location_button_image"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/test_button_2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_background_selector"
+        android:elevation="22dp"
+        android:padding="10dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp"
+        android:src="@drawable/location_button_image"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/test_button_1" />
+
+    <ImageView
+        android:id="@+id/test_button_3"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_background_selector"
+        android:elevation="22dp"
+        android:padding="10dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp"
+        android:src="@drawable/location_button_image"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/test_button_2" />
+
+    <ImageView
+        android:id="@+id/test_button_4"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_background_selector"
+        android:elevation="22dp"
+        android:padding="10dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp"
+        android:src="@drawable/location_button_image"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/test_button_3" />
+
+    <include
+        android:id="@+id/timeline_view"
+        layout="@layout/timeline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:padding="0dp"
+        android:elevation="20dp"
+        tools:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Invisible anchor: top edge follows [timeline_view] top + [playControlsCS] offset so the map uses space above the grey timeline chrome (see [syncMapBottomSplitToPlayControlsTop]). -->
+    <View
+        android:id="@+id/map_timeline_split"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@+id/timeline_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Full-height strip on the start edge; [LayerMenu] adds the filter + scroll content. -->
+    <LinearLayout
+        android:id="@+id/layerMenuLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="0dp"
+        android:background="@color/black"
+        android:elevation="18dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </LinearLayout>
+
+    <!-- Date range / speed panel: content height only, anchored above grey timeline chrome. -->
+    <include
+        android:id="@+id/timeline_settings_panel"
+        layout="@layout/timeline_settings_panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/map_timeline_split"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/empty_view_tl"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/empty_view_lr"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

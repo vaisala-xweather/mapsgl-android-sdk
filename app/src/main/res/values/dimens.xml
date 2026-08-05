@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Top inset for circular back control on full-screen map activities (below status bar). -->
+    <dimen name="map_back_button_margin_top">56dp</dimen>
+    <dimen name="map_bottom_controls_margin">16dp</dimen>
+    <!-- Used when WindowInsets report no nav-bar height (gesture bar / fullscreen). -->
+    <dimen name="map_bottom_controls_nav_fallback">48dp</dimen>
+    <dimen name="back_button_size">45dp</dimen>
+    <dimen name="back_button_padding">10dp</dimen>
+    <dimen name="menu_header_margin_top">72dp</dimen>
+    <dimen name="menu_back_button_spacing_above_first_item">12dp</dimen>
+    <dimen name="back_button_margin_horizontal">8dp</dimen>
+
+    <dimen name="main_menu_button_height">52dp</dimen>
+    <dimen name="main_menu_button_text_size">16sp</dimen>
+    <dimen name="main_menu_button_spacing">12dp</dimen>
+</resources>

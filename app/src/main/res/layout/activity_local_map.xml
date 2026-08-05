@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context=".LocalActivity"
+    tools:ignore="ContentDescription">
+
+    <!-- texture_view: default SurfaceView punches a hole and repaints OVER sibling views (e.g. the
+         data-inspector callout on the activity root), which looks like a horizontal slice through
+         the bubble in the middle of the map. See activity_map_layers.xml. -->
+    <com.mapbox.maps.MapView
+        android:id="@+id/localMapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:mapbox_mapSurface="texture_view"
+        app:layout_constraintBottom_toTopOf="@+id/timeline_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/localBackButton"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="@dimen/map_back_button_margin_top"
+        android:background="@drawable/circle_background_selector"
+        android:contentDescription="Back to main activity"
+        android:padding="6dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_back_arrow"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- wrap_content + bottom anchor: timeline is only as tall as its controls; map fills above. (0dp + top below map stretched the timeline and left empty space above the checkbox strip.) -->
+    <include
+        android:id="@+id/timeline_view"
+        layout="@layout/timeline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:padding="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Timeline settings: content height only, above the timeline strip (does not cover the map). -->
+    <include
+        android:id="@+id/timeline_settings_panel"
+        layout="@layout/timeline_settings_panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/timeline_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
