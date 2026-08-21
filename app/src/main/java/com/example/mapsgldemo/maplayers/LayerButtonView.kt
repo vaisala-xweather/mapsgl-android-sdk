@@ -43,15 +43,14 @@ class LayerButtonView(context: Context, title: String, val configuration: Weathe
             return diagonalInches >= 7.0 // 7 inches is a common cutoff for tablets
         }
 
-        fun setAnimations(menuLinearLayout: LinearLayout) {
+        fun syncMenuShownState(layerMenu: LinearLayout) {
+            layerButtonVisibility = layerMenu.visibility == View.VISIBLE
+        }
 
-            // Sync our cached "is the menu currently shown" flag to the actual View state for this
-            // activity's layout. The flag is a process-wide static, so when MainActivity is finished
-            // and recreated (e.g. via a stencil demo → back → relaunch MainActivity) the value carries
-            // over from the previous instance while the fresh layout starts in its XML default state
-            // (VISIBLE). Without this sync, showDatasetButtons(false, ...) would early-return
-            // because the static says "already hidden", leaving the menu stuck open.
-            layerButtonVisibility = menuLinearLayout.visibility == View.VISIBLE
+        fun setAnimations(menuLinearLayout: LinearLayout) {
+            // Process-wide static: resync to this layout so a leftover "already shown" flag
+            // cannot make showDatasetButtons() no-op on a fresh (or still-hidden) menu.
+            syncMenuShownState(menuLinearLayout)
 
             val context = menuLinearLayout.context
             slideInAnimation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left)
@@ -68,7 +67,9 @@ class LayerButtonView(context: Context, title: String, val configuration: Weathe
             })
 
             slideInAnimation.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationStart(animation: Animation?) {
+                    menuLinearLayout.visibility = View.VISIBLE
+                }
 
                 override fun onAnimationEnd(animation: Animation?) {
                     menuLinearLayout.visibility = View.VISIBLE
@@ -79,18 +80,24 @@ class LayerButtonView(context: Context, title: String, val configuration: Weathe
         }
 
         fun showDatasetButtons(show: Boolean = true, layerMenu: LinearLayout, layerButton: ImageView) {
-            if (show != layerButtonVisibility) {
-                if (show) {
-                    layerMenu.startAnimation(slideInAnimation)
-                    //layerButton.startAnimation(slideOutAnimation)
-                    //layerButton.visibility=View.INVISIBLE
-                } else {
-                    layerMenu.startAnimation(slideOutAnimation)
-                    //layerButton.startAnimation(slideInAnimation)
-                    layerButton.visibility = View.VISIBLE
-                }
+            if (layerMenu.visibility == View.GONE) {
                 layerButtonVisibility = show
+                return
             }
+            val menuShown = layerMenu.visibility == View.VISIBLE
+            if (show == menuShown) {
+                layerButtonVisibility = show
+                return
+            }
+            layerMenu.clearAnimation()
+            if (show) {
+                layerMenu.visibility = View.VISIBLE
+                layerMenu.startAnimation(slideInAnimation)
+            } else {
+                layerMenu.startAnimation(slideOutAnimation)
+                layerButton.visibility = View.VISIBLE
+            }
+            layerButtonVisibility = show
         }
 
         fun createHeadingTextView(text: String, context: Context): View {

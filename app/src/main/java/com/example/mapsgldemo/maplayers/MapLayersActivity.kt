@@ -72,6 +72,28 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
     /** When set with [vectorLayersOnly], only products of this render type appear in the layer menu. */
     protected open fun vectorLayerTypeFilter(): LayerType? = null
 
+    /** When set, only products whose primary render type is in this set appear in the layer menu. */
+    protected open fun vectorLayerTypeFilterSet(): Set<LayerType>? = null
+
+    /** When true, lightning products are listed in a dedicated section at the top of the layer menu. */
+    protected open fun layerMenuLightningSectionFirst(): Boolean = false
+
+    /** When true, place/admin label products are listed in a dedicated section at the top of the layer menu. */
+    protected open fun layerMenuPlacesSectionFirst(): Boolean = false
+
+    /** When true, the layer menu lists only weather products that define label text. */
+    protected open fun textLayersOnly(): Boolean = false
+
+    /** Initial map camera: center coordinate and zoom level. */
+    protected open fun initialCameraPosition(): Pair<Coordinate, Double> =
+        Coordinate(52.4194, 17.7749) to 2.0
+
+    /**
+     * When non-null, builds the layer menu as headed sections. Used by mapTime filter to mirror
+     * JS composite vs individual entries.
+     */
+    protected open fun layerMenuSections(): List<LayerMenuSection>? = null
+
     /** Activity opened by the map back button and system back. */
     protected open fun backNavigationActivity(): Class<out AppCompatActivity> = MainActivity::class.java
 
@@ -125,9 +147,6 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
             controller.timeline,
             startEndLabels = binding.timelineSettingsPanel,
         )
-        layerMenu.setupButtonListeners(controller)
-        onLayerMenuReady(layerMenu, controller)
-
         val calendarStart = Calendar.getInstance()
         calendarStart.set(2025, Calendar.MAY, 1, 10, 30, 0)
         val calendarEnd = Calendar.getInstance()
@@ -175,6 +194,12 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
         binding.timelineView.timelineControls.attachSettingsPanel(binding.timelineSettingsPanel)
         binding.timelineView.timelineControls.adjustPaddingForNavigation(binding.timelineView.playControlsCS)
         attachMapTimelineSplitSync()
+        binding.layerMenuLinearLayout.visibility = View.INVISIBLE
+        layerMenu.visible = false
+        LayerButtonView.setAnimations(binding.layerMenuLinearLayout)
+        binding.timelineView.layerMenuButton.setOnClickListener {
+            toggleLayerMenu()
+        }
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 returnToMenuActivity()
@@ -235,9 +260,9 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                     mapboxMap = controller.mapboxMap
                     stencilDemos = StencilMaskDemos(this@MapLayersActivity, controller)
 
-                    val myLocation = Coordinate(52.4194, 17.7749)
-                    controller.setCenter(myLocation)
-                    controller.setZoom(2.0)
+                    val (center, zoom) = initialCameraPosition()
+                    controller.setCenter(center)
+                    controller.setZoom(zoom)
 
                     controller.add(legendControl)
                     legendControl.setDarkTheme(true)
@@ -273,8 +298,17 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                         binding.layerMenuLinearLayout,
                         vectorLayersOnly = vectorLayersOnly(),
                         vectorLayerType = vectorLayerTypeFilter(),
+                        vectorLayerTypes = vectorLayerTypeFilterSet(),
+                        lightningSectionFirst = layerMenuLightningSectionFirst(),
+                        placesSectionFirst = layerMenuPlacesSectionFirst(),
+                        textLayersOnly = textLayersOnly(),
+                        layerMenuSections = layerMenuSections(),
                     )
+                    binding.layerMenuLinearLayout.visibility = View.INVISIBLE
+                    layerMenu.visible = false
                     LayerButtonView.setAnimations(binding.layerMenuLinearLayout)
+                    layerMenu.setupButtonListeners(controller)
+                    onLayerMenuReady(layerMenu, controller)
 
                     binding.timelineView.timelineControls.setAnimations(this@MapLayersActivity, binding.timelineView)
                     binding.timelineView.timelineControls.setConfigAnimations(
@@ -360,10 +394,7 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
     @SuppressLint("DefaultLocale")
     private fun setupUIButtonListeners(binding: ActivityMapLayersBinding) {
         binding.timelineView.layerMenuButton.setOnClickListener {
-            LayerButtonView.showDatasetButtons(
-                true, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton
-            )
-            layerMenu.visible = true
+            toggleLayerMenu()
         }
 
         // Demo 1: Portugal ∩ motorways + temperature
@@ -453,10 +484,32 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
         setDemoUiVisible(demoUiVisible)
     }
 
+    private fun toggleLayerMenu() {
+        if (layerMenu.visible) {
+            LayerButtonView.showDatasetButtons(
+                false, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton,
+            )
+            layerMenu.visible = false
+            layerMenu.hideKeyboard(this)
+        } else {
+            LayerButtonView.showDatasetButtons(
+                true, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton,
+            )
+            layerMenu.visible = true
+        }
+    }
+
     private fun setDemoUiVisible(visible: Boolean) {
         val visibility = if (visible) View.VISIBLE else View.INVISIBLE
         binding.timelineView.root.visibility = visibility
-        binding.layerMenuLinearLayout.visibility = visibility
+        binding.layerMenuLinearLayout.clearAnimation()
+        if (visible) {
+            binding.layerMenuLinearLayout.visibility =
+                if (layerMenu.visible) View.VISIBLE else View.INVISIBLE
+            LayerButtonView.syncMenuShownState(binding.layerMenuLinearLayout)
+        } else {
+            binding.layerMenuLinearLayout.visibility = View.GONE
+        }
         legendControl.getView().visibility = visibility
         binding.testButton1.visibility = visibility
         binding.testButton2.visibility = visibility
@@ -611,17 +664,18 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
     fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
     /** Timeline from **now** through local midnight at the end of today (device timezone). */
-    private fun applyMapLayersTimelineRange() {
+    protected open fun applyMapLayersTimelineRange() {
         val nowMillis = System.currentTimeMillis()
         val endOfTodayMillis = startOfLocalDayMillis(dayOffsetFromToday = 1)
         applyMapLayersTimelineStartEnd(Date(nowMillis), Date(endOfTodayMillis))
     }
 
     /**
-     * Assigns [controller.timeline] start/end and resets the playhead.
-     * Order matches [LocalActivity.applyTimelineStartEnd] for [TimeAnimation] setter rules.
+     * Assigns [controller.timeline] start/end. Seeks the playhead to wall-clock **now** when that
+     * instant falls inside the range (otherwise clamps to the nearer end) so map-time-gated
+     * products like convective outlook are visible without scrubbing from 0.
      */
-    private fun applyMapLayersTimelineStartEnd(start: Date, end: Date) {
+    protected fun applyMapLayersTimelineStartEnd(start: Date, end: Date) {
         with(controller.timeline) {
             duration = 4.0
             delay = 0.0
@@ -634,7 +688,15 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                 this.end = end
                 this.start = start
             }
-            goTo(0.0)
+            val span = (end.time - start.time).toDouble()
+            val pos = when {
+                span <= 0.0 -> 0.0
+                else -> {
+                    val now = System.currentTimeMillis()
+                    ((now - start.time) / span).coerceIn(0.0, 1.0)
+                }
+            }
+            goTo(pos)
         }
         binding.timelineView.timelineControls.setPosition(controller.timeline.position)
         TimelineTextFormatter.setTimeTextViews(

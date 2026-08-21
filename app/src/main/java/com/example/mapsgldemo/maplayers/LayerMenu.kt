@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
 import com.xweather.mapsgl.sources.source.spec.VectorSourceDescriptor
+import com.xweather.mapsgl.style.GridLayerPaint
+import com.xweather.mapsgl.style.SymbolLayerPaint
 import com.xweather.mapsgl.types.LayerType
 import com.xweather.mapsgl.weather.CompositeWeatherLayerConfiguration
 import com.xweather.mapsgl.weather.LayerCode
@@ -57,9 +59,47 @@ private val VECTOR_MENU_TYPE_ORDER = listOf(
 private fun layerTypeMenuHeading(type: LayerType): String =
     type.value.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
 
+private fun isLightningLayerButton(button: LayerButtonView): Boolean =
+    button.code.contains("lightning", ignoreCase = true)
+
+private fun isPlaceLayerButton(button: LayerButtonView): Boolean =
+    button.code.contains("place", ignoreCase = true)
+
+private fun WeatherLayerConfiguration<*, *>.layerPaintHasText(): Boolean =
+    when (val paint = layer.paint) {
+        is SymbolLayerPaint -> paint.text.isNotEmpty()
+        is GridLayerPaint -> paint.text.isNotEmpty()
+        else -> false
+    }
+
+internal fun WeatherConfiguration.hasSymbolText(): Boolean =
+    when (this) {
+        is WeatherLayerConfiguration<*, *> -> layerPaintHasText()
+        is CompositeWeatherLayerConfiguration ->
+            layers.any { (it as? WeatherConfiguration)?.hasSymbolText() == true }
+        else -> false
+    }
+
+/** One layer row in a demo [LayerMenuSection] (optional display title overrides [LayerCode.value]). */
+data class LayerMenuEntry(
+    val code: LayerCode,
+    val title: String? = null,
+)
+
+/** Headed group of layer buttons for demo allowlists (e.g. mapTime filter). */
+data class LayerMenuSection(
+    val heading: String,
+    val entries: List<LayerMenuEntry>,
+) {
+    constructor(heading: String, vararg codes: LayerCode) : this(
+        heading,
+        codes.map { LayerMenuEntry(it) },
+    )
+}
+
 class LayerMenu {
 
-    var visible = true
+    var visible = false
     /** Called when a layer row is toggled on or off in the menu. */
     var onLayerToggleListener: ((LayerButtonView, active: Boolean) -> Unit)? = null
     private val buttonList: MutableList<View> = mutableListOf() // Changed name for clarity
@@ -67,30 +107,82 @@ class LayerMenu {
     private lateinit var itemsContainerLayout: LinearLayout
     var roadLayerId: String? = null
 
+    fun layerButtons(): List<LayerButtonView> =
+        buttonList.filterIsInstance<LayerButtonView>()
+
+    fun activateLayerIfPresent(controller: MapboxMapController, code: LayerCode): Boolean {
+        val button = layerButtons().firstOrNull { it.configuration.code == code } ?: return false
+        if (button.active) return false
+        button.activate()
+        roadLayerId = roadLayerId ?: getRoadLayerId(controller)
+        controller.addWeatherLayer(button.configuration, beforeId = roadLayerId)
+        onLayerToggleListener?.invoke(button, true)
+        return true
+    }
+
     /**  Create menu buttons for all the available layers (or vector-tile products only). **/
     fun createLayerButtons(
         service: WeatherService,
         layout: LinearLayout,
         vectorLayersOnly: Boolean = false,
         vectorLayerType: LayerType? = null,
+        vectorLayerTypes: Set<LayerType>? = null,
+        lightningSectionFirst: Boolean = false,
+        placesSectionFirst: Boolean = false,
+        textLayersOnly: Boolean = false,
+        layerMenuSections: List<LayerMenuSection>? = null,
     ) {
         val context = layout.context
         buttonList.clear()
 
-        fun makeButton(code: LayerCode, configuration: WeatherConfiguration): LayerButtonView =
-            LayerButtonView(context, code.value, configuration)
+        fun makeButton(code: LayerCode, configuration: WeatherConfiguration, title: String? = null): LayerButtonView =
+            LayerButtonView(context, title ?: code.value, configuration)
 
-        val vectorOnly = vectorLayersOnly || vectorLayerType != null
+        val vectorOnly = vectorLayersOnly || vectorLayerType != null || vectorLayerTypes != null
 
-        fun addButtonFor(code: LayerCode) {
-            val configuration = LayerCode.getConfigurationForLayerCode(code, service)
-            if (vectorOnly && !configuration.usesVectorSource()) return
-            if (vectorLayerType != null && configuration.menuGroupLayerType() != vectorLayerType) return
-            buttonList.add(makeButton(code, configuration))
+        fun matchesTypeFilter(configuration: WeatherConfiguration): Boolean {
+            val effectiveTypes = vectorLayerTypes ?: vectorLayerType?.let { setOf(it) }
+            if (effectiveTypes == null) return true
+            return configuration.menuGroupLayerType() in effectiveTypes
         }
 
-        if (vectorOnly) {
-            if (vectorLayerType != null) {
+        fun addButtonFor(code: LayerCode, title: String? = null) {
+            val configuration = LayerCode.getConfigurationForLayerCode(code, service)
+            if (vectorOnly && !configuration.usesVectorSource()) return
+            if (!matchesTypeFilter(configuration)) return
+            buttonList.add(makeButton(code, configuration, title))
+        }
+
+        if (layerMenuSections != null) {
+            for (section in layerMenuSections) {
+                if (section.entries.isEmpty()) continue
+                buttonList.add(LayerButtonView.createHeadingTextView(section.heading, context))
+                section.entries.forEach { addButtonFor(it.code, it.title) }
+            }
+        } else if (textLayersOnly) {
+            val textButtons = mutableListOf<LayerButtonView>()
+            LayerCode.entries.forEach { code ->
+                val configuration = LayerCode.getConfigurationForLayerCode(code, service)
+                if (code.value.endsWith("-text")) return@forEach
+                if (!configuration.hasSymbolText()) return@forEach
+                textButtons.add(makeButton(code, configuration))
+            }
+            if (placesSectionFirst) {
+                val placeButtons = textButtons.filter(::isPlaceLayerButton).sortedBy { it.text.lowercase() }
+                val otherButtons = textButtons.filterNot(::isPlaceLayerButton).sortedBy { it.text.lowercase() }
+                if (placeButtons.isNotEmpty()) {
+                    buttonList.add(LayerButtonView.createHeadingTextView("Places", context))
+                    buttonList.addAll(placeButtons)
+                }
+                if (otherButtons.isNotEmpty()) {
+                    buttonList.add(LayerButtonView.createHeadingTextView("Other text", context))
+                    buttonList.addAll(otherButtons)
+                }
+            } else {
+                buttonList.addAll(textButtons.sortedBy { it.text.lowercase() })
+            }
+        } else if (vectorOnly) {
+            if (vectorLayerType != null && vectorLayerTypes == null) {
                 val typedButtons = mutableListOf<LayerButtonView>()
                 LayerCode.entries.forEach { code ->
                     val configuration = LayerCode.getConfigurationForLayerCode(code, service)
@@ -104,6 +196,7 @@ class LayerMenu {
                 LayerCode.entries.forEach { code ->
                     val configuration = LayerCode.getConfigurationForLayerCode(code, service)
                     if (!configuration.usesVectorSource()) return@forEach
+                    if (!matchesTypeFilter(configuration)) return@forEach
                     val type = configuration.menuGroupLayerType() ?: return@forEach
                     byType.getOrPut(type) { mutableListOf() }.add(makeButton(code, configuration))
                 }
@@ -112,6 +205,20 @@ class LayerMenu {
                     if (buttons.isEmpty()) return
                     buttonList.add(LayerButtonView.createHeadingTextView(layerTypeMenuHeading(type), context))
                     buttonList.addAll(buttons.sortedBy { it.text.lowercase() })
+                }
+
+                if (lightningSectionFirst) {
+                    val lightningButtons = byType.values
+                        .flatten()
+                        .filter(::isLightningLayerButton)
+                        .sortedBy { it.text.lowercase() }
+                    if (lightningButtons.isNotEmpty()) {
+                        buttonList.add(LayerButtonView.createHeadingTextView("Lightning", context))
+                        buttonList.addAll(lightningButtons)
+                        byType.values.forEach { buttons ->
+                            buttons.removeAll { isLightningLayerButton(it) }
+                        }
+                    }
                 }
 
                 for (type in VECTOR_MENU_TYPE_ORDER) {
@@ -184,6 +291,7 @@ class LayerMenu {
     }
 
     fun hideKeyboard(context: Context) {
+        if (!::filterEditText.isInitialized) return
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(filterEditText.windowToken, 0)
     }

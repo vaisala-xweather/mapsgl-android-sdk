@@ -37,7 +37,7 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
     private var initialSpeedButtonSet = false
     var seekbarDoubleValue = 0.0
 
-    /** 0..1 along the track when wall-clock now lies within [timeline start, end]; null hides the marker. */
+    /** 0..1 along the track for wall-clock now, clamped to the timeline range; null if the range is empty. */
     private var nowMarkerFraction: Float? = null
     private var nowMarkerStartMs: Long = 0L
     private var nowMarkerEndMs: Long = 0L
@@ -66,11 +66,18 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
     }
 
     /**
-     * Shows a small marker on the track when wall-clock time is within the timeline range (inclusive).
+     * Places a tick on the seekbar at wall-clock now. If now is before [start] or after [end],
+     * the tick sits on the nearer end so a “through now” range still shows a mark.
      */
     fun setNowMarkerFromTimeline(start: Date, end: Date) {
         nowMarkerStartMs = start.time
         nowMarkerEndMs = end.time
+        recomputeNowMarkerFraction()
+        scheduleNowMarkerRefresh()
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
         recomputeNowMarkerFraction()
         scheduleNowMarkerRefresh()
     }
@@ -82,26 +89,22 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
 
     private fun recomputeNowMarkerFraction() {
         val span = nowMarkerEndMs - nowMarkerStartMs
-        val nowMs = System.currentTimeMillis()
-        val fraction =
-            if (span <= 0L || nowMs < nowMarkerStartMs || nowMs > nowMarkerEndMs) {
-                null
-            } else {
-                ((nowMs - nowMarkerStartMs).toFloat() / span.toFloat()).coerceIn(0f, 1f)
-            }
+        val fraction = if (span <= 0L) {
+            null
+        } else {
+            val nowMs = System.currentTimeMillis()
+            ((nowMs - nowMarkerStartMs).toFloat() / span.toFloat()).coerceIn(0f, 1f)
+        }
         if (fraction != nowMarkerFraction) {
             nowMarkerFraction = fraction
             invalidate()
-        }
-        if (fraction == null) {
-            removeCallbacks(refreshNowMarkerRunnable)
         }
     }
 
     private fun scheduleNowMarkerRefresh() {
         removeCallbacks(refreshNowMarkerRunnable)
-        if (nowMarkerFraction != null) {
-            postDelayed(refreshNowMarkerRunnable, 60_000L)
+        if (nowMarkerEndMs > nowMarkerStartMs) {
+            postDelayed(refreshNowMarkerRunnable, 30_000L)
         }
     }
 
@@ -109,10 +112,10 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
         super.onDraw(canvas)
         val fraction = nowMarkerFraction ?: return
         val x = trackXForFraction(fraction)
-        val notchTop = paddingTop + height * 0.28f
-        val notchBottom = height - paddingBottom - height * 0.28f
-        nowMarkerPaint.strokeWidth = dp(3f)
-        canvas.drawLine(x, notchTop, x, notchBottom, nowMarkerPaint)
+        val centerY = (paddingTop + height - paddingBottom) / 2f
+        val halfHeight = dp(5f)
+        nowMarkerPaint.strokeWidth = dp(2.5f)
+        canvas.drawLine(x, centerY - halfHeight, x, centerY + halfHeight, nowMarkerPaint)
     }
 
     private fun trackXForFraction(fraction: Float): Float {

@@ -70,8 +70,96 @@
             android:id="@+id/menuStencilMaskDemosButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
             android:background="@drawable/main_menu_button_background_selector"
             android:text="Stencil masks"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <TextView
+            android:id="@+id/menuQa17Header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:text="1.7.0 QA (new since 1.6.1)"
+            android:textColor="@color/bright_text"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/menuMapTimeFilterButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="mapTime filter (tropical / convective)"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuLightningSymbolCircleButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Lightning symbol / circle"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuPlacesTextButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Places text"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuVectorFillButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Vector fill"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuVectorLineButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Vector line"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuVectorCircleButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Vector circle"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuVectorHeatmapButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Vector heatmap"
             android:textAllCaps="false"
             android:textColor="@color/bright_text"
             android:textSize="@dimen/main_menu_button_text_size" />

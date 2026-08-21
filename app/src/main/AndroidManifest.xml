@@ -72,6 +72,48 @@
             android:exported="false"
             android:label="Mask customization"
             android:parentActivityName=".StencilMaskMenuActivity" />
+        <activity
+            android:name=".MapTimeFilterActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="mapTime filter"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".LightningSymbolCircleActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Lightning symbol / circle"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".PlacesTextActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Places text"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".vector.VectorFillMapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Vector fill"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".vector.VectorLineMapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Vector line"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".vector.VectorCircleMapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Vector circle"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".vector.VectorHeatmapMapLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Vector heatmap"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
