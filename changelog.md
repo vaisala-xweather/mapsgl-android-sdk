@@ -51,7 +51,7 @@
 
 ### ⚠️ Breaking Changes
 
-* Raw MVT features are now `com.xweather.mapsgl.mvt.MvtFeature` with `com.xweather.mapsgl.mvt` geometry types, replacing `no.ecc.vectortile.VectorTileDecoder.Feature` and the `org.locationtech.jts.geom` types. This affects `VectorData.rawFeatures` and `MapboxVectorFeature.from` and `fromPropertiesOnly`. Accessor names are unchanged, including `coordinates`, `numGeometries`, `getGeometryN`, `exteriorRing`, `numInteriorRing`, `getInteriorRingN`, and `envelopeInternal`, so code that walks these objects only needs its imports updated. Standard `addWeatherLayer` and `addLayer` usage is unaffected.
+* Raw MVT features are now `com.xweather.mapsgl.mvt.MvtFeature` with `com.xweather.mapsgl.mvt` geometry types, replacing `no.ecc.vectortile.VectorTileDecoder.Feature` and the `org.locationtech.jts.geom` types. This affects `VectorData.rawFeatures` and `MapboxVectorFeature.from` and `fromPropertiesOnly`. Accessor names are unchanged, including `coordinates`, `numGeometries`, `getGeometryN`, `exteriorRing`, `numInteriorRing`, `getInteriorRingN`, and `envelopeInternal`, so code that walks these objects only needs its imports updated. Most apps are unaffected: this is a low-level entry point, and standard `addWeatherLayer` and `addLayer` usage does not touch it.
 
 ## 1.6.1
 *August 5, 2026*
