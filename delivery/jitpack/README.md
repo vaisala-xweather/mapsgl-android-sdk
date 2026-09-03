@@ -1,65 +1,31 @@
-# Manual JitPack artifacts (business requirement)
+# Published artifacts
 
-**On JitPack**, the root `jitpack.yml` runs **`delivery/jitpack/jitpack-gradle-publish.sh`**, which invokes the repo-root **`gradlew`** against **`jitpack-upload/`** (`publishToMavenLocal`). The script resolves the Git root first so Android detection does not break `./gradlew` with “No such file or directory”. The standalone project `jitpack-upload/` applies `maven-publish` and publishes the files in **this folder** to `~/.m2/repository` with the correct coordinates. Plain `mvn install:install-file` is not sufficient (“No build artifacts found”).
+This directory holds the prebuilt MapsGL SDK artifacts that JitPack serves. The SDK is built in a
+separate repository; nothing here is compiled from source.
 
-For **local** installs without Gradle, you can still run `bash delivery/jitpack/install-to-m2.sh` (same coordinates and `~/.m2` layout).
+| File | Purpose |
+|------|---------|
+| `mapsglmaps.aar` | The SDK itself. |
+| `mapsglmaps-sources.jar` | Sources, so the IDE can show KDoc on hover. |
+| `jitpack-transitive-dependencies.xml` | The `<dependencies>` block merged into the published POM. |
 
-## What to commit here (exact names)
+## Depending on the SDK
 
-| File | Required | Notes |
-|------|------------|--------|
-| `jitpack-gradle-publish.sh` | yes | Used by root `jitpack.yml`; must stay **Unix LF** (see root `.gitattributes`). |
-| `jitpack-upload/gradlew` + `jitpack-upload/gradle/wrapper/*` | yes | Self-contained wrapper so JitPack works even when the GitHub repo has **no** repo-root `gradlew` (slim artifact-only repo). Sync with root `gradle/wrapper` when you upgrade Gradle. The publish script falls back to repo-root `gradlew` if present. |
-| `maven-coordinates.properties` | yes | `groupId`, `artifactId`; `version` is for **local** installs only (JitPack uses **git** for version). |
-| `{artifactId}.aar` | yes | Example: `mapsglmaps.aar` — copy/rename from Gradle output (see below). |
-| `{artifactId}-sources.jar` | yes | Example: `mapsglmaps-sources.jar` — KDoc/sources for IDE hovers. |
-| `{artifactId}-javadoc.jar` | no | If present, it is installed with classifier `javadoc`. |
-| `jitpack-transitive-dependencies.xml` | yes | Maven `<dependencies>` fragment (`org.maplibre:earcut4j`, coroutines, lifecycle, Compose, etc.) merged into the JitPack POM by `jitpack-upload`. **Regenerate it every release** — a stale copy is committed as-is and silently republishes dependencies the SDK no longer uses. As of **1.7.0** it must NOT contain `no.ecc.vectortile:java-vector-tile`, `com.google.protobuf:protobuf-java` or `org.locationtech.jts:jts-core`. **Mapbox is omitted** — apps must declare Mapbox Maps SDK and the Mapbox Maven repo themselves (no Gradle exclusions). Regenerate with `:mapsglmaps:exportJitpackTransitiveDependencies` (included in `copy-from-gradle.ps1`). |
+Use a **single** `implementation` line:
 
-**Naming rule:** the stem must match `artifactId` in `maven-coordinates.properties` (e.g. `mapsglmaps` → `mapsglmaps.aar`, `mapsglmaps-sources.jar`).
-
-This publish repo has **no** `mapsglmaps` module. Build the SDK elsewhere, then copy artifacts here (see `copy-from-gradle.ps1 -SdkRoot`).
-
-## Where Gradle writes the binaries (to copy from)
-
-From repo root, after a release build:
-
-1. **AAR** (typical path):  
-   `mapsglmaps/build/outputs/aar/mapsglmaps-release.aar`  
-   → copy here as **`mapsglmaps.aar`** (name must match `artifactId` + `.aar`).
-
-2. **Sources JAR:**  
-   `.\gradlew :mapsglmaps:sourceReleaseJar`  
-   then copy from e.g. `mapsglmaps/build/libs/` the `*-sources.jar` → rename to **`mapsglmaps-sources.jar`**.
-
-3. **Javadoc JAR (optional):**  
-   If you build `dokkaJavadocJar`, copy the `*-javadoc.jar` → **`mapsglmaps-javadoc.jar`**.
-
-## Release checklist
-
-1. **`groupId`** in the properties file uses the **multi-module** form `com.github.<User>.<Repo>` (e.g. `com.github.jasonsuto.test240815` for [jasonsuto/test240815](https://github.com/jasonsuto/test240815/)). The JitPack Gradle publish step **derives** the [classic JitPack GAV](https://docs.jitpack.io/building/) `com.github.<User>:<Repo>` and publishes the **real AAR + `-sources.jar` (+ optional javadoc)** there directly (not a POM-only aggregator). That way `implementation 'com.github.jasonsuto:test240815:Tag'` is a **direct** library dependency and Android Studio can attach sources for **KDoc / hovers**.
-2. **`artifactId`** is the Gradle module name (`mapsglmaps`) — your committed files stay named `mapsglmaps.aar` / `mapsglmaps-sources.jar`.
-3. **Consumers:** use **one** `implementation` line — **`implementation 'com.github.jasonsuto:test240815:Tag'`** (same pattern as [JitPack docs](https://docs.jitpack.io/building/)). Do **not** also add `com.github.jasonsuto.test240815:mapsglmaps` in the same project, or Gradle can put the same library on the classpath twice (**duplicate class** errors). The Gradle publish job for JitPack only publishes the classic coordinate; **`install-to-m2.sh`** still installs **both** GAVs under `~/.m2` for local testing only.
-   After upgrading the dependency, sync Gradle; if hovers stay empty, try **Invalidate Caches / Restart** once. If the **AAR is R8-shrunk** (short obfuscated names) but the **sources JAR is normal Kotlin**, the IDE often cannot tie KDoc to bytecode — prefer a **non-minified AAR** (or `consumerProguardFiles` only) for the artifact you publish to JitPack.
-
-### IDE docs / KDoc hovers (JitPack rewrites Gradle metadata)
-
-**What goes wrong:** Gradle can publish a correct **`mapsglmaps-*.module`** (sources URL ends in **`-sources.jar`**). On **jitpack.io**, the **same URL** can still return **rewritten** JSON: `component` becomes **`com.github.jasonsuto` / `test240815`** and the sources file becomes **`mapsglmaps-*.jar`** instead of **`-sources.jar`**. The IDE then never treats the documentation artifact as sources.
-
-**What we do in this repo:** the JitPack Gradle build **does not publish any `*.module` file** (only **POM + `.aar` + `-sources.jar`**), and the POM does **not** include Gradle’s `published-with-gradle-metadata` marker, so clients behave like plain Maven.
-
-**What app authors should do:** in the **consumer** project, declare JitPack so Gradle does **not** prefer Gradle metadata for that host (belt-and-suspenders if JitPack ever injects a synthetic `.module` again):
-
-```kotlin
-// settings.gradle.kts — inside dependencyResolutionManagement { repositories { ... } }
-maven {
-    url = uri("https://jitpack.io")
-    metadataSources {
-        mavenPom()
-        artifact()
-    }
-}
+```groovy
+implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:<tag>'
 ```
+
+Do not also depend on `com.github.vaisala-xweather.mapsgl-android-sdk:mapsglmaps` — the same library
+would land on the classpath twice and Gradle reports duplicate classes.
+
+**Mapbox is deliberately not a transitive dependency.** Your app declares the Mapbox Maps SDK and
+`https://api.mapbox.com/downloads/v2/releases/maven` itself. No Gradle `exclude` rules are required.
+
+### IDE sources and KDoc
+
+Declare JitPack so Gradle resolves from the POM rather than Gradle metadata:
 
 ```groovy
 // settings.gradle — inside dependencyResolutionManagement { repositories { ... } }
@@ -72,19 +38,33 @@ maven {
 }
 ```
 
-Then **Sync Gradle** (and bump to a **new** library tag after the publisher change above). Use a **single** `implementation` line: **`com.github.jasonsuto:test240815:Tag`**.
+Then sync Gradle. If hovers stay empty, try **Invalidate Caches / Restart** once.
 
-4. **`version=`** in the properties file is used for **local** `install-to-m2.sh` runs. **On JitPack**, `JITPACK=true` causes the script to **ignore** that value and use **`git describe`** so the Maven version matches the **tag or commit** JitPack is building (otherwise artifacts land under the wrong folder and JitPack cannot find them).
-5. Replace the binary files under `delivery/jitpack/` with the new build outputs (exact filenames above), including **`jitpack-transitive-dependencies.xml`** (`.\gradlew :mapsglmaps:exportJitpackTransitiveDependencies` or `copy-from-gradle.ps1`).
-6. Commit, tag, push — JitPack runs **`jitpack-upload`** (`publishToMavenLocal`), not the shell script. Consumers get most SDK runtime deps from the published POM (e.g. `org.maplibre:earcut4j`) and must also add **Mapbox Maps SDK** and `https://api.mapbox.com/downloads/v2/releases/maven` in their app. Since **1.7.0** they no longer need `no.ecc.vectortile:java-vector-tile` or the `maven.ecc.no` repository — tell upgraders to remove both. No Gradle `exclude` rules are required for GeoJSON.
+## Upgrading to 1.7.0 — remove `java-vector-tile`
 
-**Verify the tag:** open `https://jitpack.io/com/github/<user>/<repo>/<tag>/<repo>-<tag>.pom` and confirm a `<dependencies>` block (including `org.maplibre:earcut4j`). An empty POM causes `NoClassDefFoundError` at runtime.
+As of **1.7.0** MapsGL decodes Mapbox Vector Tiles with its own reader, so the published POM no
+longer references `no.ecc.vectortile:java-vector-tile`, `com.google.protobuf:protobuf-java` or
+`org.locationtech.jts:jts-core`. Delete these from your app if you have them:
 
-   As of **1.7.0** also confirm the POM does **not** list `no.ecc.vectortile:java-vector-tile`, `com.google.protobuf:protobuf-java` or `org.locationtech.jts:jts-core`. If any appear, `jitpack-transitive-dependencies.xml` was not regenerated — see step 5. Their presence reintroduces [issue #37](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/37) (`protobuf-java` collides with `protobuf-javalite` at dex time).
+```groovy
+dependencies {
+    implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'   // <- delete
+}
 
-### Bare AAR in `libs/` (no Maven coordinate)
+repositories {
+    maven { url 'https://maven.ecc.no/releases' }               // <- delete
+}
+```
 
-If the host app uses `implementation files('libs/mapsglmaps.aar')` instead of JitPack/Maven, Gradle does **not** resolve transitive dependencies. Add these explicitly (plus Mapbox):
+Also delete anything you added to work around that dependency: `exclude group: 'com.google.protobuf',
+module: 'protobuf-java'` rules, and `-dontwarn no.ecc.vectortile.**` / `-dontwarn org.locationtech.**`
+ProGuard lines. Leaving `java-vector-tile` in place puts `protobuf-java` back on the classpath, where
+it declares the same classes as `protobuf-javalite` and fails dexing with duplicate-class errors.
+
+## Using the AAR directly
+
+If your app uses `implementation files('libs/mapsglmaps.aar')` instead of JitPack, Gradle does not
+resolve transitive dependencies. Add them explicitly:
 
 ```groovy
 dependencies {
@@ -92,38 +72,4 @@ dependencies {
     implementation 'com.mapbox.maps:android-ndk27:11.15.3'
     implementation 'org.maplibre:earcut4j:3.0.0'
 }
-```
-
-As of **1.7.0** `no.ecc.vectortile:java-vector-tile` is no longer needed here either, and neither is the
-`https://maven.ecc.no/releases` repository — MVT decoding runs on `com.xweather.mapsgl.mvt.MvtReader`.
-If you are upgrading a bare-AAR host app, please remove both.
-
-## Large binaries
-
-If policy allows, consider **Git LFS** for `.aar` / `.jar` files so the main repo stays lean.
-
-## Shell script line endings (Windows)
-
-`install-to-m2.sh` **must be committed with Unix LF** only. CRLF causes JitPack errors like `set: pipefail: invalid option name` (the `\r` corrupts the `set` line). Root **`.gitattributes`** forces `eol=lf` for `delivery/jitpack/*.sh`. After changing the script, normalize once:
-
-```bash
-git add --renormalize delivery/jitpack/install-to-m2.sh
-```
-
-Or re-save the file in the editor as **LF** / disable CRLF for `*.sh`.
-
-## Local test
-
-**Same path as JitPack** (from repo root; uses `version` in `maven-coordinates.properties` unless you set `JITPACK=true` to mimic JitPack’s `git describe` version):
-
-```bash
-bash delivery/jitpack/jitpack-gradle-publish.sh
-# or from repo root only: ./gradlew -p jitpack-upload publishToMavenLocal
-```
-
-**Maven-only** (shell script; Linux/macOS or Git Bash):
-
-```bash
-bash delivery/jitpack/install-to-m2.sh
-ls ~/.m2/repository/com/github/jasonsuto/test240815/mapsglmaps/
 ```
