@@ -14,7 +14,7 @@ For **local** installs without Gradle, you can still run `bash delivery/jitpack/
 | `{artifactId}.aar` | yes | Example: `mapsglmaps.aar` — copy/rename from Gradle output (see below). |
 | `{artifactId}-sources.jar` | yes | Example: `mapsglmaps-sources.jar` — KDoc/sources for IDE hovers. |
 | `{artifactId}-javadoc.jar` | no | If present, it is installed with classifier `javadoc`. |
-| `jitpack-transitive-dependencies.xml` | yes | Maven `<dependencies>` merged into the JitPack POM (`java-vector-tile`, etc.). **Mapbox is omitted** — apps must declare Mapbox + the Mapbox Maven repo. Regenerate from the **MapsGL SDK** repo: `:mapsglmaps:exportJitpackTransitiveDependencies`, or `copy-from-gradle.ps1 -SdkRoot <sdk-path>`. |
+| `jitpack-transitive-dependencies.xml` | yes | Maven `<dependencies>` fragment (`org.maplibre:earcut4j`, coroutines, lifecycle, Compose, etc.) merged into the JitPack POM by `jitpack-upload`. **Regenerate it every release** — a stale copy is committed as-is and silently republishes dependencies the SDK no longer uses. As of **1.7.0** it must NOT contain `no.ecc.vectortile:java-vector-tile`, `com.google.protobuf:protobuf-java` or `org.locationtech.jts:jts-core`. **Mapbox is omitted** — apps must declare Mapbox Maps SDK and the Mapbox Maven repo themselves (no Gradle exclusions). Regenerate with `:mapsglmaps:exportJitpackTransitiveDependencies` (included in `copy-from-gradle.ps1`). |
 
 **Naming rule:** the stem must match `artifactId` in `maven-coordinates.properties` (e.g. `mapsglmaps` → `mapsglmaps.aar`, `mapsglmaps-sources.jar`).
 
@@ -75,10 +75,28 @@ maven {
 Then **Sync Gradle** (and bump to a **new** library tag after the publisher change above). Use a **single** `implementation` line: **`com.github.jasonsuto:test240815:Tag`**.
 
 4. **`version=`** in the properties file is used for **local** `install-to-m2.sh` runs. **On JitPack**, `JITPACK=true` causes the script to **ignore** that value and use **`git describe`** so the Maven version matches the **tag or commit** JitPack is building (otherwise artifacts land under the wrong folder and JitPack cannot find them).
-5. Replace the binary files under `delivery/jitpack/` with the new build outputs (exact filenames above), including **`jitpack-transitive-dependencies.xml`**.
-6. Commit, tag, push — JitPack runs **`jitpack-upload`** (`publishToMavenLocal`), not the shell script. Consumers get most SDK runtime deps from the POM but must still add **Mapbox** in their app.
+5. Replace the binary files under `delivery/jitpack/` with the new build outputs (exact filenames above), including **`jitpack-transitive-dependencies.xml`** (`.\gradlew :mapsglmaps:exportJitpackTransitiveDependencies` or `copy-from-gradle.ps1`).
+6. Commit, tag, push — JitPack runs **`jitpack-upload`** (`publishToMavenLocal`), not the shell script. Consumers get most SDK runtime deps from the published POM (e.g. `org.maplibre:earcut4j`) and must also add **Mapbox Maps SDK** and `https://api.mapbox.com/downloads/v2/releases/maven` in their app. Since **1.7.0** they no longer need `no.ecc.vectortile:java-vector-tile` or the `maven.ecc.no` repository — tell upgraders to remove both. No Gradle `exclude` rules are required for GeoJSON.
 
-**Verify the tag:** `https://jitpack.io/com/github/vaisala-xweather/mapsgl-android-sdk/<tag>/mapsgl-android-sdk-<tag>.pom` must contain `<dependencies>` and `java-vector-tile`. If the POM is empty, apps need `implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'` until you republish.
+**Verify the tag:** open `https://jitpack.io/com/github/<user>/<repo>/<tag>/<repo>-<tag>.pom` and confirm a `<dependencies>` block (including `org.maplibre:earcut4j`). An empty POM causes `NoClassDefFoundError` at runtime.
+
+   As of **1.7.0** also confirm the POM does **not** list `no.ecc.vectortile:java-vector-tile`, `com.google.protobuf:protobuf-java` or `org.locationtech.jts:jts-core`. If any appear, `jitpack-transitive-dependencies.xml` was not regenerated — see step 5. Their presence reintroduces [issue #37](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/37) (`protobuf-java` collides with `protobuf-javalite` at dex time).
+
+### Bare AAR in `libs/` (no Maven coordinate)
+
+If the host app uses `implementation files('libs/mapsglmaps.aar')` instead of JitPack/Maven, Gradle does **not** resolve transitive dependencies. Add these explicitly (plus Mapbox):
+
+```groovy
+dependencies {
+    implementation files('libs/mapsglmaps.aar')
+    implementation 'com.mapbox.maps:android-ndk27:11.15.3'
+    implementation 'org.maplibre:earcut4j:3.0.0'
+}
+```
+
+As of **1.7.0** `no.ecc.vectortile:java-vector-tile` is no longer needed here either, and neither is the
+`https://maven.ecc.no/releases` repository — MVT decoding runs on `com.xweather.mapsgl.mvt.MvtReader`.
+If you are upgrading a bare-AAR host app, please remove both.
 
 ## Large binaries
 

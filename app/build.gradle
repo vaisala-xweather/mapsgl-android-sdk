@@ -42,5 +42,5 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     implementation "com.mapbox.maps:android-ndk27:11.15.3"
-    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.6.1'
+    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.7.0'
 }

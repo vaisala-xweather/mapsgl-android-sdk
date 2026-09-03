@@ -29,10 +29,8 @@ dependencyResolutionManagement {
                 password = MAPBOX_DOWNLOADS_TOKEN
             }
         }
-
-        maven { url 'https://maven.ecc.no/releases' }
     }
 }
 
-rootProject.name = "MapsGL v1.6.1"
+rootProject.name = "MapsGL v1.7.0"
 include ':app'
