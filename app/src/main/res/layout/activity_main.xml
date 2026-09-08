@@ -45,12 +45,45 @@
             android:paddingBottom="8dp">
 
         <Button
+            android:id="@+id/menuShowcaseButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Showcase"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
             android:id="@+id/menuMapLayersButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_button_height"
             android:layout_marginBottom="@dimen/main_menu_button_spacing"
             android:background="@drawable/main_menu_button_background_selector"
-            android:text="Map layers"
+            android:text="All Map Layers"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuJsParityLayersButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Sorted Map Layers"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
+            android:id="@+id/menuDocsExamplesButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Documentation Examples"
             android:textAllCaps="false"
             android:textColor="@color/bright_text"
             android:textSize="@dimen/main_menu_button_text_size" />
@@ -122,44 +155,23 @@
             android:textSize="@dimen/main_menu_button_text_size" />
 
         <Button
-            android:id="@+id/menuVectorFillButton"
+            android:id="@+id/menuAnimatedVectorLayersButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
             android:background="@drawable/main_menu_button_background_selector"
-            android:text="Vector fill"
+            android:text="Animated Vector Layers"
             android:textAllCaps="false"
             android:textColor="@color/bright_text"
             android:textSize="@dimen/main_menu_button_text_size" />
 
-        <Button
-            android:id="@+id/menuVectorLineButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Vector line"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
 
         <Button
-            android:id="@+id/menuVectorCircleButton"
+            android:id="@+id/menuLayerCustomizationsButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:layout_marginTop="@dimen/main_menu_button_spacing"
             android:background="@drawable/main_menu_button_background_selector"
-            android:text="Vector circle"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
-
-        <Button
-            android:id="@+id/menuVectorHeatmapButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Vector heatmap"
+            android:text="Layer Customizations"
             android:textAllCaps="false"
             android:textColor="@color/bright_text"
             android:textSize="@dimen/main_menu_button_text_size" />
