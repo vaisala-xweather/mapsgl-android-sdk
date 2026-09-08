@@ -1,5 +1,58 @@
 # Changelog
 
+## 1.7.0
+*September 3, 2026*
+
+### ✨ Features
+
+* Add native vector rendering so fill, line, circle, heatmap, symbol, and text layers draw through MapsGL's own OpenGL ES pipeline instead of Mapbox style layers. Vector weather products such as alerts, lightning, hail, tropical cyclones, fires, and earthquakes now share the same custom-layer pass as encoded, particle, and contour content, with closer visual parity to the MapsGL JavaScript SDK. Existing `addWeatherLayer` and `addLayer` calls continue to work and no host application change is required.
+
+* Add animated vector timelines so time-series vector layers play with the map timeline, each holding a covering frame until its tiles are ready and then animating independently as the global clock advances, including alerts, lightning, hail threats, heatmaps, and tropical tracks.
+
+* Add `["map-time"]` style expressions through `Expression.mapTime` so vector feature visibility can follow the active timeline position. Built-in tropical tracks and convective outlooks use this automatically, and custom vector layers can do the same.
+
+* Add place-name weather layers `place-city`, `place-country`, `place-state`, `place-neighborhood`, and `places`, with text layout, ranking, and collision.
+
+* Add custom GLSL fragment shaders on symbol icons through `IconPaint.shader` and `IconPaint.factor`, matching the MapsGL JavaScript SDK. Custom fragment shaders must declare `precision highp float` to match the symbol vertex stage, and `MapController.refreshGlVectorLayerPaint` must be called after changing icon paint at runtime.
+
+* Expand vector paint and descriptor parity with the MapsGL JavaScript SDK, including fill and circle sort keys, heatmap blur, icon scale, source and placement, optional fill stroke, and per-layer timing and mask fields on vector descriptors.
+
+* Expand style expressions for vector paint and filters, including `has`, `rgb` and `rgba`, `ceil`, `abs` and `mod`, `interpolate` with linear, exponential, and cubic-bezier easing, `let` and `var`, and string and array operations. Existing `Expression` factories are unchanged and more of them now evaluate.
+
+### 🐞 Bug Fixes
+
+* Fix a shader that fails to compile terminating the host application. The failure is now contained at the Mapbox custom-layer boundary, the affected layer is disabled after a few retries, and the driver's own message is reported instead of a generic error. This mainly affects the particle layers on OpenGL ES 3.0 devices, whose shaders require OpenGL ES 3.1 and cannot compile there.
+
+* Fix the shader `u_time` uniform being uploaded as time since device boot, which on a long-running device quantized away the spatial terms in trigonometric shader effects and coarsened icon spin. It is now measured from process start.
+
+* Fix tropical cyclone tracks, forecast cones, and icons wrapping incorrectly across the dateline, and fill forecast-error cones that previously stayed empty.
+
+* Fix place labels colliding, flickering, drifting on zoom, going blank after pan, or running out of memory on coarse tiles.
+
+* Fix vector playback freezing, flashing, or leaving gaps when panning, zooming, or looping a long timeline, and fix hail-threat polygons not classifying correctly across timeline intervals.
+
+* Fix circle strokes compositing in the wrong order and circle layers hiding neighboring fill layers.
+
+* Fix encoded layers missing one side of the antimeridian, and honor `sample.meld` during encoded playback.
+
+* Fix the load indicator for vector, raster, and combined loads, and stop playback freezing when a vector layer keeps the map rendering.
+
+### 🛠 Improvements
+
+* Remove the `no.ecc.vectortile`, `protobuf-java`, and JTS dependencies. MVT decoding now runs on the SDK's own reader, so the published artifact no longer pulls in `no.ecc.vectortile:java-vector-tile`, `com.google.protobuf:protobuf-java`, or `org.locationtech.jts:jts-core`. Applications that use `protobuf-javalite` for their own protocol buffers previously hit duplicate-class failures at dex time and had to exclude `protobuf-java`, which then broke MVT decoding at runtime because the generated message classes require the full protobuf runtime. No exclusion or `-dontwarn` rule is needed any more. Decoding is also measurably faster and allocates less. If you are upgrading, remove `no.ecc.vectortile:java-vector-tile:1.4.1` and the `https://maven.ecc.no/releases` repository from your project.
+
+* Improve vector rendering speed and smoothness by pruning unused MVT attributes during decode, instancing circle quads on the GPU, revealing map-time fills and lines on the GPU, and reusing symbol and circle meshes while scrubbing.
+
+* Bound memory during vector timeline playback and reduce garbage collection churn while interval tiles load.
+
+* Improve tropical position icon spin smoothness, and tropical icon and outline parity with the MapsGL JavaScript SDK.
+
+* Update radar color scales for rain, snow, and mixed precipitation.
+
+### ⚠️ Breaking Changes
+
+* Raw MVT features are now `com.xweather.mapsgl.mvt.MvtFeature` with `com.xweather.mapsgl.mvt` geometry types, replacing `no.ecc.vectortile.VectorTileDecoder.Feature` and the `org.locationtech.jts.geom` types. This affects `VectorData.rawFeatures` and `MapboxVectorFeature.from` and `fromPropertiesOnly`. Accessor names are unchanged, including `coordinates`, `numGeometries`, `getGeometryN`, `exteriorRing`, `numInteriorRing`, `getInteriorRingN`, and `envelopeInternal`, so code that walks these objects only needs its imports updated. Most apps are unaffected: this is a low-level entry point, and standard `addWeatherLayer` and `addLayer` usage does not touch it.
+
 ## 1.6.1
 *August 5, 2026*
 
