@@ -53,15 +53,65 @@
                 android:layout_gravity="start"
                 android:layout_marginBottom="@dimen/menu_back_button_spacing_above_first_item" />
 
-            <Button
+            <LinearLayout
                 android:id="@+id/menuAddGeojsonLayerButton"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Adding custom GeoJSON data"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+                style="@style/DocsExampleCard">
+
+                <ImageView
+                    style="@style/DocsExampleCardImage"
+                    android:contentDescription="A polygon of Portugal filled in red with a thicker red outline"
+                    android:src="@drawable/example_add_geojson_layer" />
+
+                <TextView
+                    style="@style/DocsExampleCardTitle"
+                    android:text="Adding custom GeoJSON data" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuAddRasterLayerButton"
+                style="@style/DocsExampleCard">
+
+                <ImageView
+                    style="@style/DocsExampleCardImage"
+                    android:contentDescription="Satellite geocolor imagery over Europe at partial opacity"
+                    android:src="@drawable/example_add_raster_layer" />
+
+                <TextView
+                    style="@style/DocsExampleCardTitle"
+                    android:text="Adding a custom raster layer" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuAddVectorLayerButton"
+                style="@style/DocsExampleCard">
+
+                <ImageView
+                    style="@style/DocsExampleCardImage"
+                    android:contentDescription="North Atlantic coastlines outlined in dark grey lines"
+                    android:src="@drawable/example_add_vector_layer" />
+
+                <TextView
+                    style="@style/DocsExampleCardTitle"
+                    android:text="Adding a custom vector tile layer" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuChangeMapUnitsButton"
+                style="@style/DocsExampleCard">
+
+                <ImageView
+                    style="@style/DocsExampleCardImage"
+                    android:contentDescription="Wind speeds over the United States with a legend reading in miles per hour"
+                    android:src="@drawable/example_change_map_units" />
+
+                <TextView
+                    style="@style/DocsExampleCardTitle"
+                    android:text="Change map units" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

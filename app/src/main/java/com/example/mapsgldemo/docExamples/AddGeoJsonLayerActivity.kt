@@ -21,7 +21,6 @@ import com.xweather.mapsgl.config.weather.account.XweatherAccount
 import com.xweather.mapsgl.layers.spec.FillLayerDescriptor
 import com.xweather.mapsgl.layers.spec.LineLayerDescriptor
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
-import com.xweather.mapsgl.sources.GeoJSONSource
 import com.xweather.mapsgl.sources.source.spec.GeoJSONSourceDescriptor
 import com.xweather.mapsgl.style.FillLayerPaint
 import com.xweather.mapsgl.style.FillPaint
@@ -37,14 +36,20 @@ import com.xweather.mapsgl.types.Coordinate
  * Renders a static polygon (Portugal) from an in-line GeoJSON object, then associates two style
  * layers with that one source: a semi-transparent fill and a thicker outline along the edges.
  *
- * The JS example calls `controller.addSource('country-region', { type: 'geojson', data: … })`. On
- * Android a GeoJSON source is added by descriptor and the data assigned afterwards, because
- * [GeoJSONSourceDescriptor] carries no `data` field:
+ * The JS example calls `controller.addSource('country-region', { type: 'geojson', data: … })`.
+ * [GeoJSONSourceDescriptor.data] is the Android equivalent, assigned on the descriptor before it is
+ * added:
  *
  * ```kotlin
- * controller.addSource(GeoJSONSourceDescriptor(id = SOURCE_ID))
- * (controller.getSource(SOURCE_ID) as? GeoJSONSource)?.data = FeatureCollection.fromJson(json)
+ * controller.addSource(
+ *     GeoJSONSourceDescriptor(id = SOURCE_ID).apply {
+ *         data = FeatureCollection.fromJson(json)
+ *     },
+ * )
  * ```
+ *
+ * Assigning [com.xweather.mapsgl.sources.GeoJSONSource.data] after `addSource` still works and is
+ * the right choice when the features arrive later than the source does.
  *
  * Layer setup is inlined in [onCreate] so the whole flow reads top to bottom, matching the JS
  * example's single `controller.on('load')` block.
@@ -87,19 +92,25 @@ class AddGeoJsonLayerActivity : AppCompatActivity() {
                 controller = MapboxMapController(mapView, xweatherAccount)
                 mapboxMap = controller.mapboxMap
 
+                // Set the projection before the first frame is drawn. Doing it inside
+                // subscribeMapLoaded (on `style`) is too late — the map paints as a globe and then
+                // visibly snaps flat. MapSettings.setMapboxPreferences does the same for the other
+                // demo screens, which is why they open flat.
+                mapboxMap?.setProjection(projection(ProjectionName.MERCATOR))
+
                 // Matches the JS example's `center: [-8, 40], zoom: 5`. Coordinate is (lat, lon).
                 controller.setCenter(Coordinate(40.0, -8.0))
                 controller.setZoom(5.0)
 
                 mapLoadedCancelable = mapboxMap?.subscribeMapLoaded {
-                    mapboxMap?.style?.setProjection(projection(ProjectionName.MERCATOR))
-
                     // Add the custom polygon as GeoJSON data.
                     if (!controller.hasSource(SOURCE_ID)) {
-                        controller.addSource(GeoJSONSourceDescriptor(id = SOURCE_ID))
+                        controller.addSource(
+                            GeoJSONSourceDescriptor(id = SOURCE_ID).apply {
+                                data = FeatureCollection.fromJson(COUNTRY_REGION_GEOJSON)
+                            },
+                        )
                     }
-                    (controller.getSource(SOURCE_ID) as? GeoJSONSource)?.data =
-                        FeatureCollection.fromJson(COUNTRY_REGION_GEOJSON)
 
                     // Fill the polygon region.
                     if (!controller.hasLayer(FILL_LAYER_ID)) {
