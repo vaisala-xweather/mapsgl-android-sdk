@@ -1,5 +1,5 @@
 # Manual artifacts: committed AAR + sources (+ optional javadoc) under delivery/jitpack/.
-# See delivery/jitpack/README.md for exact filenames and release checklist.
+# See delivery/jitpack/README.md for the artifact filenames.
 #
 # JitPack treats repos with a root build.gradle as Gradle projects and discovers artifacts from
 # Gradle’s publishToMavenLocal output. The standalone project jitpack-upload publishes the

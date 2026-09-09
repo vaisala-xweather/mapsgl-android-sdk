@@ -68,7 +68,6 @@ In **settings.gradle**:
             google()
             mavenCentral()
             maven { url 'https://jitpack.io' }
-            maven { url 'https://maven.ecc.no/releases' }
             maven {
                 url 'https://api.mapbox.com/downloads/v2/releases/maven'
                 authentication {
@@ -95,9 +94,33 @@ In the app-level **build.gradle**
         mavenCentral()
     }
     dependencies {
-        implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'
-	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.6.0"
+	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.7.0"
     }
+
+#### Upgrading from 1.6.1 or earlier — remove `java-vector-tile`
+
+As of **1.7.0** MapsGL decodes Mapbox Vector Tiles with its own reader
+(`com.xweather.mapsgl.mvt.MvtReader`). **`no.ecc.vectortile:java-vector-tile` is no longer needed**
+and the published POM no longer references it, nor `com.google.protobuf:protobuf-java` or
+`org.locationtech.jts:jts-core`.
+
+**Please remove it from your app.** Delete all of the following if you have them:
+
+    dependencies {
+        implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'   // <- delete
+    }
+
+    repositories {
+        maven { url 'https://maven.ecc.no/releases' }               // <- delete
+    }
+
+Also delete anything you added to work around it:
+
+* `exclude group: 'com.google.protobuf', module: 'protobuf-java'` exclusion rules
+* `-dontwarn no.ecc.vectortile.**` / `-dontwarn org.locationtech.**` ProGuard lines
+
+Leaving `java-vector-tile` in place puts `protobuf-java` back on the classpath, which declares the same
+classes as `protobuf-javalite` and fails dexing with duplicate-class errors.
 
 
 

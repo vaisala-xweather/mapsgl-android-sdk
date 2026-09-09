@@ -29,8 +29,6 @@ dependencyResolutionManagement {
                 password = MAPBOX_DOWNLOADS_TOKEN
             }
         }
-
-        maven { url 'https://maven.ecc.no/releases' }
     }
 }
 
