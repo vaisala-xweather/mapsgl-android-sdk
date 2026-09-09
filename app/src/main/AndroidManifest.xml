@@ -171,6 +171,12 @@
             android:label="Change timeline range"
             android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
+            android:name=".docExamples.CustomEarthquakeShaderActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Custom earthquake shader"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
             android:name=".docExamples.CustomAlertStylesActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"

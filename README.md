@@ -11,6 +11,15 @@ The Xweather MapsGL SDK for Android allows a developer to quickly and easily add
 -High-performance layer rendering with OpenGLES
 -Customizable presentation and styling of weather and geospatial information client-side
 
+## Worked Examples
+
+Ports of the MapsGL JavaScript examples, each with a runnable screen in this app and notes on
+what changes between the two SDKs:
+
+- [Custom earthquake symbols using a shader](docs/examples/custom-earthquake-shader.md) — a
+  procedural GLSL fragment shader on symbol icons, with no sprite at all
+  (**Documentation Examples → Custom earthquake symbols using a shader**)
+
 ## Getting Started
 
 View the latest installation and implementation details at Xweather under the [Xweather Android SDK toolkit documentation](https://www.xweather.com/docs/android-sdk/getting-started/).

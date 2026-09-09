@@ -11,6 +11,7 @@ import com.example.mapsgldemo.docExamples.AddVectorLayerActivity
 import com.example.mapsgldemo.docExamples.ChangeMapUnitsActivity
 import com.example.mapsgldemo.docExamples.ChangeTimelineRangeActivity
 import com.example.mapsgldemo.docExamples.CustomAlertStylesActivity
+import com.example.mapsgldemo.docExamples.CustomEarthquakeShaderActivity
 
 /**
  * Sub-menu for the MapsGL documentation examples ported to Android. Each button opens one activity
@@ -57,6 +58,10 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
 
         binding.menuCustomAlertStylesButton.setOnClickListener {
             startActivity(Intent(this, CustomAlertStylesActivity::class.java))
+        }
+
+        binding.menuCustomEarthquakeShaderButton.setOnClickListener {
+            startActivity(Intent(this, CustomEarthquakeShaderActivity::class.java))
         }
     }
 

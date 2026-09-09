@@ -66,6 +66,16 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
     protected abstract fun customizeLayers(controller: MapboxMapController)
 
     /**
+     * Menu this demo returns to.
+     *
+     * Defaults to the layer-customization menu, which is where most of these demos are listed.
+     * A demo published under a different menu overrides this so the back control and the system
+     * back gesture both land where the user came from.
+     */
+    protected open fun menuActivity(): Class<out AppCompatActivity> =
+        LayerCustomizationMenuActivity::class.java
+
+    /**
      * Add the demo's interactive controls with [addSlider] and [addToggle].
      *
      * Called straight after [customizeLayers]. Optional - a demo with nothing to tweak can leave
@@ -344,7 +354,7 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
 
     private fun returnToMenu() {
         startActivity(
-            Intent(this, LayerCustomizationMenuActivity::class.java)
+            Intent(this, menuActivity())
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
         )
         finish()

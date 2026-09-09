@@ -164,6 +164,21 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/menuCustomEarthquakeShaderButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Earthquakes across south-east Asia drawn as orange concentric ripples by a custom shader"
+                        android:src="@drawable/example_custom_earthquake_shader" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Custom earthquake symbols using a shader" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
