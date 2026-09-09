@@ -5,36 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".StencilMaskMenuActivity">
+    tools:context=".MoreExamplesMenuActivity">
 
     <include
-        android:id="@+id/stencilMenuBackToMainButton"
+        android:id="@+id/moreExamplesMenuBackToMainButton"
         layout="@layout/widget_back_button"
         android:layout_width="@dimen/back_button_size"
         android:layout_height="@dimen/back_button_size"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/stencilMenuTitleTextView"
+        app:layout_constraintBottom_toBottomOf="@id/moreExamplesMenuTitleTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/stencilMenuTitleTextView" />
+        app:layout_constraintTop_toTopOf="@id/moreExamplesMenuTitleTextView" />
 
     <TextView
-        android:id="@+id/stencilMenuTitleTextView"
+        android:id="@+id/moreExamplesMenuTitleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="@dimen/menu_header_margin_top"
         android:layout_marginEnd="16dp"
         android:gravity="start|center_vertical"
-        android:text="Stencil masks"
+        android:text="More Examples"
         android:textColor="@color/bright_text"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/stencilMenuBackToMainButton"
+        app:layout_constraintStart_toEndOf="@id/moreExamplesMenuBackToMainButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/stencilMenuScrollView"
+        android:id="@+id/moreExamplesMenuScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -44,10 +44,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stencilMenuTitleTextView">
+        app:layout_constraintTop_toBottomOf="@id/moreExamplesMenuTitleTextView">
 
         <LinearLayout
-            android:id="@+id/stencilMenuButtonContainer"
+            android:id="@+id/moreExamplesMenuButtonContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -57,59 +57,69 @@
             android:orientation="vertical"
             android:paddingBottom="8dp">
 
-            <Button
-                android:id="@+id/menuPortugalSatelliteButton"
+            <TextView
+                android:id="@+id/moreExamplesQa17Header"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Portugal: satellite geocolor mask"
-                android:textAllCaps="false"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/main_menu_button_spacing"
+                android:text="1.7.0 QA (new since 1.6.1)"
                 android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <Button
-                android:id="@+id/menuDemo2LandMaskTemperatureButton"
+                android:id="@+id/menuMapTimeFilterButton"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
+                android:layout_height="@dimen/main_menu_button_height"
+                android:layout_marginBottom="@dimen/main_menu_button_spacing"
                 android:background="@drawable/main_menu_button_background_selector"
-                android:text="Temperatures (land / water mask)"
+                android:text="mapTime filter (tropical / convective)"
                 android:textAllCaps="false"
                 android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+                android:textSize="@dimen/main_menu_button_text_size" />
 
             <Button
-                android:id="@+id/menuDemo4PortugalMaskTemperatureButton"
+                android:id="@+id/menuLightningSymbolCircleButton"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
+                android:layout_height="@dimen/main_menu_button_height"
+                android:layout_marginBottom="@dimen/main_menu_button_spacing"
                 android:background="@drawable/main_menu_button_background_selector"
-                android:text="Portugal: temperature admin mask (invert)"
+                android:text="Lightning symbol / circle"
                 android:textAllCaps="false"
                 android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+                android:textSize="@dimen/main_menu_button_text_size" />
 
             <Button
-                android:id="@+id/menuLandHighwayMaskTemperatureButton"
+                android:id="@+id/menuPlacesTextButton"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
+                android:layout_height="@dimen/main_menu_button_height"
+                android:layout_marginBottom="@dimen/main_menu_button_spacing"
                 android:background="@drawable/main_menu_button_background_selector"
-                android:text="Temperature (land ∩ highways)"
+                android:text="Places text"
                 android:textAllCaps="false"
                 android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+                android:textSize="@dimen/main_menu_button_text_size" />
 
             <Button
-                android:id="@+id/menuHighwaysConusMaskTemperatureButton"
+                android:id="@+id/menuAnimatedVectorLayersButton"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="@dimen/main_menu_button_height"
+                android:layout_marginBottom="@dimen/main_menu_button_spacing"
                 android:background="@drawable/main_menu_button_background_selector"
-                android:text="Mask customization"
+                android:text="Animated Vector Layers"
                 android:textAllCaps="false"
                 android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+                android:textSize="@dimen/main_menu_button_text_size" />
+
+            <Button
+                android:id="@+id/menuLayerCustomizationsButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/main_menu_button_height"
+                android:background="@drawable/main_menu_button_background_selector"
+                android:text="Layer Customizations"
+                android:textAllCaps="false"
+                android:textColor="@color/bright_text"
+                android:textSize="@dimen/main_menu_button_text_size" />
 
         </LinearLayout>
 

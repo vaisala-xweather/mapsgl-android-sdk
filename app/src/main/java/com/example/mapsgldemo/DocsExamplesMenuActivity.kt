@@ -6,6 +6,11 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsgldemo.databinding.ActivityDocsExamplesMenuBinding
 import com.example.mapsgldemo.docExamples.AddGeoJsonLayerActivity
+import com.example.mapsgldemo.docExamples.AddRasterLayerActivity
+import com.example.mapsgldemo.docExamples.AddVectorLayerActivity
+import com.example.mapsgldemo.docExamples.ChangeMapUnitsActivity
+import com.example.mapsgldemo.docExamples.ChangeTimelineRangeActivity
+import com.example.mapsgldemo.docExamples.CustomAlertStylesActivity
 
 /**
  * Sub-menu for the MapsGL documentation examples ported to Android. Each button opens one activity
@@ -35,6 +40,23 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
     private fun wireMenuButtons() {
         binding.menuAddGeojsonLayerButton.setOnClickListener {
             startActivity(Intent(this, AddGeoJsonLayerActivity::class.java))
+        }
+        binding.menuAddRasterLayerButton.setOnClickListener {
+            startActivity(Intent(this, AddRasterLayerActivity::class.java))
+        }
+        binding.menuAddVectorLayerButton.setOnClickListener {
+            startActivity(Intent(this, AddVectorLayerActivity::class.java))
+        }
+        binding.menuChangeMapUnitsButton.setOnClickListener {
+            startActivity(Intent(this, ChangeMapUnitsActivity::class.java))
+        }
+
+        binding.menuChangeTimelineRangeButton.setOnClickListener {
+            startActivity(Intent(this, ChangeTimelineRangeActivity::class.java))
+        }
+
+        binding.menuCustomAlertStylesButton.setOnClickListener {
+            startActivity(Intent(this, CustomAlertStylesActivity::class.java))
         }
     }
 

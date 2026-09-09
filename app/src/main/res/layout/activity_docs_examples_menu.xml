@@ -8,17 +8,30 @@
     tools:context=".DocsExamplesMenuActivity"
     tools:ignore="HardcodedText">
 
+    <include
+        android:id="@+id/docsExamplesMenuBackToMainButton"
+        layout="@layout/widget_back_button"
+        android:layout_width="@dimen/back_button_size"
+        android:layout_height="@dimen/back_button_size"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/docsExamplesMenuTitleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/docsExamplesMenuTitleTextView" />
+
     <TextView
         android:id="@+id/docsExamplesMenuTitleTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/menu_header_margin_top"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="start|center_vertical"
         android:text="Documentation Examples"
         android:textColor="@color/bright_text"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/docsExamplesMenuBackToMainButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
@@ -44,14 +57,6 @@
             android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="8dp">
-
-            <include
-                android:id="@+id/docsExamplesMenuBackToMainButton"
-                layout="@layout/widget_back_button"
-                android:layout_width="@dimen/back_button_size"
-                android:layout_height="@dimen/back_button_size"
-                android:layout_gravity="start"
-                android:layout_marginBottom="@dimen/menu_back_button_spacing_above_first_item" />
 
             <LinearLayout
                 android:id="@+id/menuAddGeojsonLayerButton"
@@ -112,6 +117,37 @@
                     android:text="Change map units" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuChangeTimelineRangeButton"
+                style="@style/DocsExampleCard">
+
+                <ImageView
+                    style="@style/DocsExampleCardImage"
+                    android:contentDescription="Wind particles over Europe with timeline range controls"
+                    android:src="@drawable/example_change_timeline_range" />
+
+                <TextView
+                    style="@style/DocsExampleCardTitle"
+                    android:text="Change timeline range" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menuCustomAlertStylesButton"
+                style="@style/DocsExampleCard">
+
+                <ImageView
+                    style="@style/DocsExampleCardImage"
+                    android:contentDescription="Severe weather alert polygons over the United States coloured by severity"
+                    android:src="@drawable/example_custom_alert_styles" />
+
+                <TextView
+                    style="@style/DocsExampleCardTitle"
+                    android:text="Customizing alert polygon styles" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

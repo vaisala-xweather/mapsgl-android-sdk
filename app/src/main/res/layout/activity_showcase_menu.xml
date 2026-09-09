@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ShowcaseMenuActivity">
+
+    <include
+        android:id="@+id/showcaseMenuBackToMainButton"
+        layout="@layout/widget_back_button"
+        android:layout_width="@dimen/back_button_size"
+        android:layout_height="@dimen/back_button_size"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/showcaseMenuTitleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/showcaseMenuTitleTextView" />
+
+    <TextView
+        android:id="@+id/showcaseMenuTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="@dimen/menu_header_margin_top"
+        android:layout_marginEnd="16dp"
+        android:gravity="start|center_vertical"
+        android:text="Showcase"
+        android:textColor="@color/bright_text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/showcaseMenuBackToMainButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/showcaseMenuScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/showcaseMenuTitleTextView">
+
+        <LinearLayout
+            android:id="@+id/showcaseMenuButtonContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/showcaseMenuIntroTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:lineSpacingExtra="3dp"
+                android:text="A short path through the APIs you would call in an app. Each screen is a live MapsGL map."
+                android:textColor="@color/dim_text"
+                android:textSize="14sp" />
+
+            <include
+                android:id="@+id/showcaseWeatherItem"
+                layout="@layout/widget_showcase_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" />
+
+            <include
+                android:id="@+id/showcaseForecastItem"
+                layout="@layout/widget_showcase_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" />
+
+            <include
+                android:id="@+id/showcaseLocalItem"
+                layout="@layout/widget_showcase_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" />
+
+            <include
+                android:id="@+id/showcaseTropicalItem"
+                layout="@layout/widget_showcase_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp" />
+
+            <include
+                android:id="@+id/showcaseMaskItem"
+                layout="@layout/widget_showcase_menu_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

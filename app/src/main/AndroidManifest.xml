@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -9,6 +10,8 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MapsGLDemo"
@@ -27,6 +30,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ShowcaseMenuActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Showcase"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ShowcaseWeatherActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Animated weather"
+            android:parentActivityName=".ShowcaseMenuActivity" />
+        <activity
+            android:name=".ShowcaseForecastActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="7-day forecast"
+            android:parentActivityName=".ShowcaseMenuActivity" />
+        <activity
+            android:name=".ShowcaseTropicalActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Tropical cyclones"
+            android:parentActivityName=".ShowcaseMenuActivity" />
         <activity
             android:name=".maplayers.MapLayersActivity"
             android:configChanges="orientation|screenSize"
@@ -73,47 +100,142 @@
             android:label="Mask customization"
             android:parentActivityName=".StencilMaskMenuActivity" />
         <activity
+            android:name=".MoreExamplesMenuActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="More Examples"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".MapTimeFilterActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="mapTime filter"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MoreExamplesMenuActivity" />
         <activity
             android:name=".LightningSymbolCircleActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="Lightning symbol / circle"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MoreExamplesMenuActivity" />
         <activity
             android:name=".PlacesTextActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="Places text"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".JsParityLayersActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Sorted Map Layers"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".AnimatedVectorLayersMenuActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".DocsExamplesMenuActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Documentation Examples"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".docExamples.AddGeoJsonLayerActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Adding custom GeoJSON data"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.AddRasterLayerActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Adding a custom raster layer"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.AddVectorLayerActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Adding a custom vector tile layer"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.ChangeMapUnitsActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Change map units"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.ChangeTimelineRangeActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Change timeline range"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.CustomAlertStylesActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Customizing alert polygon styles"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
             android:name=".vector.VectorFillMapLayersActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="Vector fill"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".AnimatedVectorLayersMenuActivity" />
         <activity
             android:name=".vector.VectorLineMapLayersActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="Vector line"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".AnimatedVectorLayersMenuActivity" />
         <activity
             android:name=".vector.VectorCircleMapLayersActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="Vector circle"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".AnimatedVectorLayersMenuActivity" />
         <activity
             android:name=".vector.VectorHeatmapMapLayersActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="Vector heatmap"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".AnimatedVectorLayersMenuActivity" />
+        <activity
+            android:name=".LayerCustomizationMenuActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Layer customizations"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".customize.DataDrivenColorActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Data-driven colour"
+            android:parentActivityName=".LayerCustomizationMenuActivity" />
+        <activity
+            android:name=".customize.CustomShaderActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Custom icon shader"
+            android:parentActivityName=".LayerCustomizationMenuActivity" />
+        <activity
+            android:name=".customize.FillSortOrderActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Polygon draw order"
+            android:parentActivityName=".LayerCustomizationMenuActivity" />
+        <activity
+            android:name=".customize.HeatmapTuningActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Heatmap tuning"
+            android:parentActivityName=".LayerCustomizationMenuActivity" />
+       <activity
+            android:name=".customize.IconOrientationActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Icon orientation"
+            android:parentActivityName=".LayerCustomizationMenuActivity" />
     </application>
 
 </manifest>

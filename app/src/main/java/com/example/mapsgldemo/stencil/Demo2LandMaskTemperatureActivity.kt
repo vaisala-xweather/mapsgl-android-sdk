@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.mapsgldemo.R
+import com.example.mapsgldemo.ShowcaseMenuActivity
 import com.example.mapsgldemo.StencilMaskMenuActivity
 import com.example.mapsgldemo.databinding.ActivityDemo2LandMaskTemperatureBinding
 import com.example.mapsgldemo.helpers.TimelineTextFormatter
@@ -220,8 +221,13 @@ class Demo2LandMaskTemperatureActivity : AppCompatActivity() {
 
     private fun returnToStencilMenu() {
         mapLifecycle.destroyMapController()
+        val up = if (intent.getBooleanExtra(ShowcaseMenuActivity.EXTRA_RETURN_TO_SHOWCASE, false)) {
+            ShowcaseMenuActivity::class.java
+        } else {
+            StencilMaskMenuActivity::class.java
+        }
         startActivity(
-            Intent(this, StencilMaskMenuActivity::class.java)
+            Intent(this, up)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
         )
         finish()

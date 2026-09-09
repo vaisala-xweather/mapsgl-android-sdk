@@ -45,6 +45,27 @@
         app:layout_constraintStart_toStartOf="@+id/map_container"
         app:layout_constraintTop_toTopOf="@+id/map_container" />
 
+    <!-- Back to menu. Lives on the activity (not in the bottom [timeline_view] strip) so it sits at
+         the window top-start, matching every other map activity. Elevation stays below
+         [layerMenuLinearLayout] (24dp) so an open layer menu covers it, same as the layer button.
+         Shown/hidden at runtime by MapLayersActivity. -->
+    <ImageView
+        android:id="@+id/mapLayersBackButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/map_back_button_margin_top"
+        android:background="@drawable/circle_background_selector"
+        android:contentDescription="Back to main menu"
+        android:elevation="6dp"
+        android:outlineProvider="background"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_back_arrow"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Stencil / demo triggers; live on the activity so they sit at the window top (not in the bottom timeline strip). -->
     <ImageView
         android:id="@+id/test_button_1"
@@ -58,7 +79,7 @@
         android:paddingStart="12dp"
         android:paddingEnd="8dp"
         android:src="@drawable/location_button_image"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,7 +95,7 @@
         android:paddingStart="12dp"
         android:paddingEnd="8dp"
         android:src="@drawable/location_button_image"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/test_button_1" />
 
@@ -90,7 +111,7 @@
         android:paddingStart="12dp"
         android:paddingEnd="8dp"
         android:src="@drawable/location_button_image"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/test_button_2" />
 
@@ -106,7 +127,7 @@
         android:paddingStart="12dp"
         android:paddingEnd="8dp"
         android:src="@drawable/location_button_image"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/test_button_3" />
 
@@ -135,7 +156,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Start-edge strip above the timeline so chrome cannot steal layer-row taps. -->
+    <!-- Start-edge strip: window top down to the top of the grey [playControlsCS] box, via the
+         [map_timeline_split] anchor. Elevation stays above [timeline_view] (20dp) on purpose, so the
+         open menu covers the floating [layer_menu_button] / [mapLayersBackButton] column instead of
+         stopping short of it. Because touch dispatch follows Z order, that higher elevation also
+         keeps the timeline chrome from stealing layer-row taps. A map tap still dismisses the menu. -->
     <LinearLayout
         android:id="@+id/layerMenuLinearLayout"
         android:layout_width="wrap_content"
@@ -148,7 +173,7 @@
         android:elevation="24dp"
         android:visibility="invisible"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/timeline_view"
+        app:layout_constraintBottom_toTopOf="@+id/map_timeline_split"
         app:layout_constraintStart_toStartOf="parent">
 
     </LinearLayout>

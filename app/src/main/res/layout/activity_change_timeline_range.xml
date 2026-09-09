@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/changeTimelineRangeRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".docExamples.ChangeTimelineRangeActivity"
+    tools:ignore="ContentDescription,HardcodedText">
+
+    <com.mapbox.maps.MapView
+        android:id="@+id/changeTimelineRangeMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mapbox_mapSurface="texture_view" />
+
+    <ImageView
+        android:id="@+id/changeTimelineRangeBackButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/map_back_button_margin_top"
+        android:background="@drawable/circle_background_selector"
+        android:contentDescription="Back to documentation examples menu"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- One panel behind the range controls, so the labels stay readable over a light base map. -->
+    <LinearLayout
+        android:id="@+id/changeTimelineRangeControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/dark_rounded_background"
+        android:orientation="vertical"
+        android:padding="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/changeTimelineRangeBackButton">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Range start"
+                    android:textColor="@color/bright_text"
+                    android:textSize="13sp" />
+
+                <Spinner
+                    android:id="@+id/changeTimelineRangeStartSpinner"
+                    android:layout_width="130dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/map_overlay_spinner_field_background"
+                    android:popupBackground="@drawable/map_overlay_spinner_popup_background" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Range end"
+                    android:textColor="@color/bright_text"
+                    android:textSize="13sp" />
+
+                <Spinner
+                    android:id="@+id/changeTimelineRangeEndSpinner"
+                    android:layout_width="130dp"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/map_overlay_spinner_field_background"
+                    android:popupBackground="@drawable/map_overlay_spinner_popup_background" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/changeTimelineRangeStartLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/bright_text"
+            android:textSize="13sp"
+            tools:text="Start: Tue 3:45:58 PM" />
+
+        <TextView
+            android:id="@+id/changeTimelineRangeEndLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/bright_text"
+            android:textSize="13sp"
+            tools:text="End: Wed 3:45:58 PM" />
+
+        <!-- Loading sits inside the panel: a changed range reloads intervals, and a spinner in a
+             screen corner is easy to miss against animating weather data. -->
+        <LinearLayout
+            android:id="@+id/changeTimelineRangeLoadingRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ProgressBar
+                android:id="@+id/changeTimelineRangeProgress"
+                android:layout_width="18dp"
+                android:layout_height="18dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Loading intervals…"
+                android:textColor="@color/bright_text"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/changeTimelineRangePlayButton"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/main_menu_button_background_selector"
+        android:minWidth="100dp"
+        android:text="@string/timeline_play"
+        android:textAllCaps="false"
+        android:textColor="@color/bright_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/changeTimelineRangePauseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/main_menu_button_background_selector"
+        android:enabled="false"
+        android:minWidth="100dp"
+        android:text="@string/timeline_pause"
+        android:textAllCaps="false"
+        android:textColor="@color/bright_text"
+        app:layout_constraintBottom_toBottomOf="@id/changeTimelineRangePlayButton"
+        app:layout_constraintStart_toEndOf="@id/changeTimelineRangePlayButton"
+        app:layout_constraintTop_toTopOf="@id/changeTimelineRangePlayButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

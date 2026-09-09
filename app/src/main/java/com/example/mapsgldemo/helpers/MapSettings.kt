@@ -1,6 +1,7 @@
 package com.example.mapsgldemo.helpers
 
 import android.content.res.Resources
+import com.mapbox.bindgen.Value
 import com.mapbox.maps.MapView
 import com.mapbox.maps.Style
 import com.mapbox.maps.extension.style.layers.generated.lineLayer
@@ -18,6 +19,9 @@ import com.xweather.mapsgl.map.mapbox.MapboxMapController
 class MapSettings {
     var styleString = Style.DARK
     private var currentStyle: Style? = null
+
+    /** When true, Mapbox Dark place-name symbol layers (cities, states, countries) are hidden. */
+    var hideMapboxPlaceNameLabels: Boolean = false
 
     /**
      * @param onDarkStyleLoaded Optional hook invoked on the Mapbox thread after the dark style
@@ -48,6 +52,7 @@ class MapSettings {
             }
         ) { loadedStyle ->
             currentStyle = loadedStyle
+            applyMapboxPlaceNameLabelVisibility(loadedStyle)
             onDarkStyleLoaded?.invoke()
         }
 
@@ -89,6 +94,40 @@ class MapSettings {
                 }
 
             }
-        )
+        ) { loadedStyle ->
+            currentStyle = loadedStyle
+            applyMapboxPlaceNameLabelVisibility(loadedStyle)
+        }
+    }
+
+    /**
+     * Hides Mapbox Dark `settlement-*` / `country-label` / `state-label` (and older `place-city*` ids)
+     * so MapsGL GLES place text is not sitting under the basemap’s own city names.
+     */
+    private fun applyMapboxPlaceNameLabelVisibility(style: Style) {
+        if (!hideMapboxPlaceNameLabels) return
+        val hidden = Value.valueOf("none")
+        for (layerInfo in style.styleLayers) {
+            if (!isMapboxPlaceNameLayerId(layerInfo.id)) continue
+            runCatching {
+                style.setStyleLayerProperty(layerInfo.id, "visibility", hidden)
+            }
+        }
+    }
+
+    companion object {
+        private fun isMapboxPlaceNameLayerId(id: String): Boolean {
+            val key = id.lowercase()
+            return key.contains("settlement") ||
+                key == "country-label" ||
+                key == "state-label" ||
+                key.startsWith("place-city") ||
+                key.startsWith("place-town") ||
+                key.startsWith("place-village") ||
+                key.startsWith("place-hamlet") ||
+                key.startsWith("place-suburb") ||
+                key.startsWith("place-state") ||
+                key.startsWith("place-country")
+        }
     }
 }

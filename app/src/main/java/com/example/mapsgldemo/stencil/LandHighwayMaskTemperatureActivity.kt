@@ -8,8 +8,8 @@ import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.example.mapsgldemo.MainActivity
 import com.example.mapsgldemo.R
+import com.example.mapsgldemo.StencilMaskMenuActivity
 import com.example.mapsgldemo.databinding.ActivityLandHighwayMaskTemperatureBinding
 import com.example.mapsgldemo.helpers.StencilMaskDemos
 import com.example.mapsgldemo.helpers.TimelineTextFormatter
@@ -57,10 +57,10 @@ class LandHighwayMaskTemperatureActivity : AppCompatActivity() {
             getString(R.string.xweather_client_secret),
         )
 
-        binding.landHighwayMaskTemperatureBackButton.setOnClickListener { returnToMainActivity() }
+        binding.landHighwayMaskTemperatureBackButton.setOnClickListener { returnToStencilMenu() }
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                returnToMainActivity()
+                returnToStencilMenu()
             }
         })
 
@@ -201,9 +201,9 @@ class LandHighwayMaskTemperatureActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun returnToMainActivity() {
+    private fun returnToStencilMenu() {
         startActivity(
-            Intent(this, MainActivity::class.java)
+            Intent(this, StencilMaskMenuActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
         )
         finish()

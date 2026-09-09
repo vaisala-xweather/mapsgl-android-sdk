@@ -97,8 +97,11 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
     /** Activity opened by the map back button and system back. */
     protected open fun backNavigationActivity(): Class<out AppCompatActivity> = MainActivity::class.java
 
-    /** Stencil-mask shortcut buttons on the timeline row (not used in the vector-only browser). */
-    protected open fun showStencilDemoButtons(): Boolean = true
+    /** When true, Mapbox Dark city / state / country labels are hidden so GLES place text is unobstructed. */
+    protected open fun hideMapboxPlaceNameLabels(): Boolean = false
+
+    /** Stencil-mask shortcut buttons (top-right test buttons and timeline location button). */
+    protected open fun showStencilDemoButtons(): Boolean = false
 
     /** Hook after the layer menu is wired; used by typed vector layer browsers (e.g. fill paint sliders). */
     protected open fun onLayerMenuReady(layerMenu: LayerMenu, controller: MapboxMapController) = Unit
@@ -205,8 +208,8 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                 returnToMenuActivity()
             }
         })
-        binding.timelineView.mapLayersBackButton.visibility = View.VISIBLE
-        binding.timelineView.mapLayersBackButton.setOnClickListener { returnToMenuActivity() }
+        binding.mapLayersBackButton.visibility = View.VISIBLE
+        binding.mapLayersBackButton.setOnClickListener { returnToMenuActivity() }
         if (!showStencilDemoButtons()) {
             binding.timelineView.locationButton.visibility = View.GONE
             binding.testButton1.visibility = View.GONE
@@ -318,6 +321,7 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                     setupUIButtonListeners(binding)
 
                     mapboxMap?.let { map -> // Use safe call 'let' block
+                        mapSettings.hideMapboxPlaceNameLabels = hideMapboxPlaceNameLabels()
                         mapSettings.setMapboxPreferences(controller, resources) // Pass the non-null map instance
                         // Subscribe after timeline controls + settings animations are ready (map load can invoke the callback synchronously).
                         mapLoadedCancelable = map.subscribeMapLoaded(mapLoadedCallback)
@@ -511,10 +515,12 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
             binding.layerMenuLinearLayout.visibility = View.GONE
         }
         legendControl.getView().visibility = visibility
-        binding.testButton1.visibility = visibility
-        binding.testButton2.visibility = visibility
-        binding.testButton3.visibility = visibility
-        binding.testButton4.visibility = visibility
+        if (showStencilDemoButtons()) {
+            binding.testButton1.visibility = visibility
+            binding.testButton2.visibility = visibility
+            binding.testButton3.visibility = visibility
+            binding.testButton4.visibility = visibility
+        }
     }
 
     private fun toggleOrientation() {
@@ -653,7 +659,7 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
     fun hideButtonsForScreenShots() {
         binding.timelineView.timelineControls.show(false, binding.timelineView)
         binding.timelineView.locationButton.visibility = View.INVISIBLE
-        binding.timelineView.mapLayersBackButton.visibility = View.INVISIBLE
+        binding.mapLayersBackButton.visibility = View.INVISIBLE
         binding.testButton1.visibility = View.INVISIBLE
         binding.testButton2.visibility = View.INVISIBLE
         binding.testButton3.visibility = View.INVISIBLE

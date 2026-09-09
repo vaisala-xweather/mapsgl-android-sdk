@@ -24,18 +24,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Same spec as timeline.xml's mapLayersBackButton, so every map screen's back control
+         looks and sits the same. elevation + outlineProvider keep it above the map surface. -->
     <ImageView
         android:id="@+id/localBackButton"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="6dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/map_back_button_margin_top"
         android:background="@drawable/circle_background_selector"
         android:contentDescription="Back to main activity"
-        android:padding="6dp"
+        android:elevation="6dp"
+        android:outlineProvider="background"
+        android:padding="10dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_back_arrow"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

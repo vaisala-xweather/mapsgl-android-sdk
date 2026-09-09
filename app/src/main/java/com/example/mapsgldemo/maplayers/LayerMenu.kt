@@ -161,7 +161,7 @@ class LayerMenu {
             }
         } else if (textLayersOnly) {
             val textButtons = mutableListOf<LayerButtonView>()
-            LayerCode.entries.forEach { code ->
+            LayerCode.availableEntries.forEach { code ->
                 val configuration = LayerCode.getConfigurationForLayerCode(code, service)
                 if (code.value.endsWith("-text")) return@forEach
                 if (!configuration.hasSymbolText()) return@forEach
@@ -184,7 +184,7 @@ class LayerMenu {
         } else if (vectorOnly) {
             if (vectorLayerType != null && vectorLayerTypes == null) {
                 val typedButtons = mutableListOf<LayerButtonView>()
-                LayerCode.entries.forEach { code ->
+                LayerCode.availableEntries.forEach { code ->
                     val configuration = LayerCode.getConfigurationForLayerCode(code, service)
                     if (!configuration.usesVectorSource()) return@forEach
                     if (configuration.menuGroupLayerType() != vectorLayerType) return@forEach
@@ -193,7 +193,7 @@ class LayerMenu {
                 buttonList.addAll(typedButtons.sortedBy { it.text.lowercase() })
             } else {
                 val byType = mutableMapOf<LayerType, MutableList<LayerButtonView>>()
-                LayerCode.entries.forEach { code ->
+                LayerCode.availableEntries.forEach { code ->
                     val configuration = LayerCode.getConfigurationForLayerCode(code, service)
                     if (!configuration.usesVectorSource()) return@forEach
                     if (!matchesTypeFilter(configuration)) return@forEach
@@ -229,7 +229,7 @@ class LayerMenu {
                 }
             }
         } else {
-            LayerCode.entries.forEach {
+            LayerCode.availableEntries.forEach {
                 if (it.value.contains("temper")
                     || it.value.contains("hum")
                     || it.value.contains("prec")
@@ -238,7 +238,7 @@ class LayerMenu {
                     addButtonFor(it)
                 }
             }
-            LayerCode.entries.forEach { addButtonFor(it) }
+            LayerCode.availableEntries.forEach { addButtonFor(it) }
         }
 
 

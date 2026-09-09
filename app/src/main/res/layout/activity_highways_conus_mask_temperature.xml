@@ -25,7 +25,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/map_back_button_margin_top"
         android:background="@drawable/circle_background_selector"
-        android:contentDescription="Back to main activity"
+        android:contentDescription="Back to stencil mask menu"
         android:padding="10dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_back_arrow"

@@ -72,8 +72,10 @@ import java.util.regex.Pattern
  * the callout. [LegendControl] is centered horizontally and its bottom inset tracks the top of the
  * Local Weather checkbox strip so the panel sits just above it. Layer checkboxes share the Local Weather bar with **Previous day**
  * / **Next day** ([R.layout.timeline], gone by default); that bar sits directly above the play controls strip;
- * [LocalActivity] sets them visible. The [MapView] in [R.layout.activity_local_map] is sized between the screen top and the top of the timeline include so it does not sit under the timeline chrome (including the layer button when visible). The on-screen back control is hidden; the system back gesture
- * or button still returns to the main activity ([OnBackPressedCallback]). Day buttons step the
+ * [LocalActivity] sets them visible. The [MapView] in [R.layout.activity_local_map] is sized between the screen top and the top of the timeline include so it does not sit under the timeline chrome (including the layer button when visible). The on-screen back control is shown at the top left, matching the
+ * other map screens; it and the system back gesture both go up via [returnToMainActivity], which
+ * returns to [ShowcaseMenuActivity] when launched from there and [MainActivity] otherwise
+ * ([OnBackPressedCallback]). Day buttons step the
  * timeline by one local calendar day (**today** = current time through local midnight, always under 24 hours;
  * other days = 8:00→midnight).
  *
@@ -660,8 +662,13 @@ class LocalActivity : AppCompatActivity() {
     }
 
     private fun returnToMainActivity() {
+        val up = if (intent.getBooleanExtra(ShowcaseMenuActivity.EXTRA_RETURN_TO_SHOWCASE, false)) {
+            ShowcaseMenuActivity::class.java
+        } else {
+            MainActivity::class.java
+        }
         startActivity(
-            Intent(this, MainActivity::class.java)
+            Intent(this, up)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
         )
         finish()

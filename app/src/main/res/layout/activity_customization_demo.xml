@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Shared layout for every layer-customization demo. The demos differ only in the Kotlin that
+  styles the layer, so they all reuse this one screen: map, back button, a caption describing
+  what you are looking at, and the standard timeline chrome.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context=".customize.CustomizationDemoActivity"
+    tools:ignore="ContentDescription">
+
+    <com.mapbox.maps.MapView
+        android:id="@+id/customizationMapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@+id/timeline_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mapbox_mapSurface="texture_view" />
+
+    <ImageView
+        android:id="@+id/customizationBackButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/map_back_button_margin_top"
+        android:background="@drawable/circle_background_selector"
+        android:contentDescription="Back to the layer customization menu"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Explains what the demo changed, so the screen is readable without the source open. -->
+    <TextView
+        android:id="@+id/customizationCaption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/main_menu_button_background_selector"
+        android:padding="12dp"
+        android:textColor="@color/bright_text"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/customizationBackButton"
+        tools:text="Fill colour comes from an interpolate expression on the magnitude property." />
+
+    <!--
+      Controls are built programmatically by each demo (see CustomizationDemoActivity.addSlider /
+      addToggle), so adding a knob to a demo is one line in its Kotlin rather than more XML.
+    -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/customizationControlsScroll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/main_menu_button_background_selector"
+        android:maxHeight="260dp"
+        app:layout_constraintBottom_toTopOf="@+id/timeline_settings_panel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/customizationControls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="12dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp" />
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/timeline_view"
+        layout="@layout/timeline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/timeline_settings_panel"
+        layout="@layout/timeline_settings_panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/timeline_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

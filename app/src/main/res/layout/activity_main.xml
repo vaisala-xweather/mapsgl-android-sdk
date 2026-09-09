@@ -45,17 +45,6 @@
             android:paddingBottom="8dp">
 
         <Button
-            android:id="@+id/menuShowcaseButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Showcase"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
-
-        <Button
             android:id="@+id/menuMapLayersButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_button_height"
@@ -89,6 +78,17 @@
             android:textSize="@dimen/main_menu_button_text_size" />
 
         <Button
+            android:id="@+id/menuShowcaseButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_menu_button_height"
+            android:layout_marginBottom="@dimen/main_menu_button_spacing"
+            android:background="@drawable/main_menu_button_background_selector"
+            android:text="Showcase"
+            android:textAllCaps="false"
+            android:textColor="@color/bright_text"
+            android:textSize="@dimen/main_menu_button_text_size" />
+
+        <Button
             android:id="@+id/menuLocalWeatherButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_button_height"
@@ -110,68 +110,12 @@
             android:textColor="@color/bright_text"
             android:textSize="@dimen/main_menu_button_text_size" />
 
-        <TextView
-            android:id="@+id/menuQa17Header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:text="1.7.0 QA (new since 1.6.1)"
-            android:textColor="@color/bright_text"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
         <Button
-            android:id="@+id/menuMapTimeFilterButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="mapTime filter (tropical / convective)"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
-
-        <Button
-            android:id="@+id/menuLightningSymbolCircleButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Lightning symbol / circle"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
-
-        <Button
-            android:id="@+id/menuPlacesTextButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Places text"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
-
-        <Button
-            android:id="@+id/menuAnimatedVectorLayersButton"
+            android:id="@+id/menuMoreExamplesButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_menu_button_height"
             android:background="@drawable/main_menu_button_background_selector"
-            android:text="Animated Vector Layers"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
-
-
-        <Button
-            android:id="@+id/menuLayerCustomizationsButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginTop="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Layer Customizations"
+            android:text="More Examples"
             android:textAllCaps="false"
             android:textColor="@color/bright_text"
             android:textSize="@dimen/main_menu_button_text_size" />

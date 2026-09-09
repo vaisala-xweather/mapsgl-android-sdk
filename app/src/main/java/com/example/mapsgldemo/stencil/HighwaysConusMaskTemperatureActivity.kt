@@ -86,11 +86,11 @@ class HighwaysConusMaskTemperatureActivity : AppCompatActivity() {
             getString(R.string.xweather_client_secret),
         )
 
-        binding.highwaysConusBackButton.setOnClickListener { returnToMainActivity() }
+        binding.highwaysConusBackButton.setOnClickListener { returnToStencilMenu() }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                returnToMainActivity()
+                returnToStencilMenu()
             }
         })
 
@@ -329,7 +329,7 @@ class HighwaysConusMaskTemperatureActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun returnToMainActivity() {
+    private fun returnToStencilMenu() {
         val intent = Intent(this, StencilMaskMenuActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivity(intent)
