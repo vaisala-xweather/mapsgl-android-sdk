@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Xweather component patterns.
+
+    Buttons, cards, list rows, panels and badges. Padding, radius and colour all come
+    from tokens - no literals here. Ember Orange is reserved for primary CTAs and
+    critical alerts; teal marks active state or key data, at most once per view.
+-->
+<resources>
+
+    <!-- ============================================================
+         BUTTONS
+         ============================================================ -->
+    <style name="Xw.Button" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/xw_text_body</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingHorizontal">@dimen/xw_space_6</item>
+        <item name="android:paddingVertical">@dimen/xw_space_3</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Primary CTA - Ember Orange. One per screen at most. -->
+    <style name="Xw.Button.Primary">
+        <item name="android:background">@drawable/xw_button_primary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Secondary - outlined, sits quietly next to a primary. -->
+    <style name="Xw.Button.Secondary">
+        <item name="android:background">@drawable/xw_button_secondary</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <style name="Xw.Button.Small">
+        <item name="android:textSize">@dimen/xw_text_small</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="android:paddingHorizontal">@dimen/xw_space_4</item>
+        <item name="android:paddingVertical">@dimen/xw_space_2</item>
+    </style>
+
+    <!-- ============================================================
+         MENU LIST ROWS
+         The demo navigation is a stack of rows. They read as surfaces, not as
+         calls to action: surface fill, hairline border, no colour.
+         ============================================================ -->
+    <style name="Xw.MenuRow" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/main_menu_button_height</item>
+        <item name="android:layout_marginBottom">@dimen/main_menu_button_spacing</item>
+        <item name="android:background">@drawable/main_menu_button_background_selector</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/xw_text_body</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:paddingHorizontal">@dimen/menu_row_padding_horizontal</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Taller row for menus whose labels wrap to two lines. -->
+    <style name="Xw.MenuRow.Tall">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="android:paddingVertical">@dimen/xw_space_4</item>
+    </style>
+
+    <!-- Row with a title above a description (Showcase menu). -->
+    <style name="Xw.MenuRow.Stacked">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:paddingHorizontal">@dimen/menu_row_padding_horizontal</item>
+        <item name="android:paddingVertical">@dimen/menu_row_padding_vertical</item>
+    </style>
+
+    <!-- Title inside a stacked row: a subheader at body size, Medium weight. -->
+    <style name="Xw.RowTitle" parent="Xw.Font.Medium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textSize">@dimen/xw_text_body</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <style name="Xw.RowDescription" parent="Xw.Text.Small">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/xw_space_1</item>
+    </style>
+
+    <!-- ============================================================
+         CARDS
+         ============================================================ -->
+    <style name="Xw.Card" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/xw_card_background</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/xw_space_4</item>
+    </style>
+
+    <!-- Floating panel over the map. -->
+    <style name="Xw.Panel" parent="">
+        <item name="android:background">@drawable/xw_panel_background</item>
+        <item name="android:padding">@dimen/xw_space_4</item>
+    </style>
+
+    <!-- ============================================================
+         SECTION HEADER: overline then headline then lead
+         ============================================================ -->
+    <style name="Xw.SectionOverline" parent="Xw.Text.Overline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/xw_space_3</item>
+    </style>
+
+    <style name="Xw.ScreenTitle" parent="Xw.Text.H2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start|center_vertical</item>
+    </style>
+
+    <style name="Xw.SectionLead" parent="Xw.Text.Lead">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/xw_space_4</item>
+    </style>
+
+    <!-- Medium-weight divider label inside a list (e.g. "1.7.0 QA"). -->
+    <style name="Xw.ListSectionLabel" parent="Xw.Text.Overline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/xw_space_2</item>
+        <item name="android:layout_marginBottom">@dimen/xw_space_3</item>
+        <item name="android:paddingTop">@dimen/xw_space_3</item>
+    </style>
+
+    <!-- ============================================================
+         BADGES
+         ============================================================ -->
+    <style name="Xw.Badge" parent="Xw.Text.Overline">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingHorizontal">@dimen/xw_space_3</item>
+        <item name="android:paddingVertical">@dimen/xw_space_1</item>
+    </style>
+
+    <style name="Xw.Badge.Operational">
+        <item name="android:background">@drawable/xw_badge_operational</item>
+        <item name="android:textColor">@color/xw_teal_500</item>
+    </style>
+
+    <style name="Xw.Badge.Warning">
+        <item name="android:background">@drawable/xw_badge_warning</item>
+        <item name="android:textColor">@color/xw_ember</item>
+    </style>
+
+    <!-- ============================================================
+         INPUTS
+         ============================================================ -->
+    <style name="Xw.Input" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/xw_input_background</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/xw_text_body</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+        <item name="android:textColorHint">@color/xw_text_tertiary</item>
+        <item name="android:paddingHorizontal">@dimen/xw_space_4</item>
+        <item name="android:paddingVertical">@dimen/xw_space_3</item>
+    </style>
+
+    <style name="Xw.Label" parent="Xw.Text.Small">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:layout_marginBottom">@dimen/xw_space_2</item>
+    </style>
+</resources>

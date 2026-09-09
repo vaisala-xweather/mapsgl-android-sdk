@@ -19,13 +19,13 @@
 
     <ImageView
         android:id="@+id/addVectorBackButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="@dimen/back_button_size"
+        android:layout_height="@dimen/back_button_size"
+        android:layout_marginStart="@dimen/xw_space_2"
         android:layout_marginTop="@dimen/map_back_button_margin_top"
         android:background="@drawable/circle_background_selector"
         android:contentDescription="Back to documentation examples menu"
-        android:padding="10dp"
+        android:padding="@dimen/back_button_padding"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_back_arrow"
         app:layout_constraintStart_toStartOf="parent"

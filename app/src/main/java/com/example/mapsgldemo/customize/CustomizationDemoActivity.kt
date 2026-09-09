@@ -2,6 +2,7 @@ package com.example.mapsgldemo.customize
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -256,8 +257,12 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         onChange: (Double) -> Unit,
     ) {
         val caption = TextView(this).apply {
-            setTextColor(getColor(R.color.bright_text))
-            textSize = 12f
+            // A label with a live value: monospaced and tabular so digits do not jitter.
+            setTextColor(getColor(R.color.xw_text_primary))
+            typeface = Typeface.MONOSPACE
+            fontFeatureSettings = "tnum"
+            letterSpacing = 0.02f
+            textSize = 13f
             text = "$label: ${format(initial)}"
         }
         val steps = 100
@@ -296,8 +301,10 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         val toggle = Switch(this).apply {
             text = label
             isChecked = initial
-            setTextColor(getColor(R.color.bright_text))
-            textSize = 13f
+            setTextColor(getColor(R.color.xw_text_primary))
+            typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            letterSpacing = 0.04f
+            textSize = 14f
             setOnCheckedChangeListener { _, checked -> onChange(checked) }
         }
         binding.customizationControls.addView(

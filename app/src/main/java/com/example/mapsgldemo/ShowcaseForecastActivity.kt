@@ -142,9 +142,10 @@ class ShowcaseForecastActivity : MapLayersActivity() {
             startToStart = ConstraintLayout.LayoutParams.PARENT_ID
             endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
             topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-            topMargin = 40.dpToPx(this@ShowcaseForecastActivity)
-            marginStart = 12.dpToPx(this@ShowcaseForecastActivity)
-            marginEnd = 12.dpToPx(this@ShowcaseForecastActivity)
+            // Clears the circular back control instead of covering it.
+            topMargin = resources.getDimensionPixelSize(R.dimen.map_overlay_panel_margin_top)
+            marginStart = resources.getDimensionPixelSize(R.dimen.xw_space_3)
+            marginEnd = resources.getDimensionPixelSize(R.dimen.xw_space_3)
         }
         binding.outerConstraint.addView(chipsBar, lp)
         updateChipSelection()
@@ -193,10 +194,10 @@ class ShowcaseForecastActivity : MapLayersActivity() {
     private fun updateChipSelection() {
         val selectedBg = R.drawable.forecast_chip_selected
         val unselectedBg = R.drawable.forecast_chip_unselected
-        val selectedName = ContextCompat.getColor(this, R.color.selected_button_text)
-        val unselectedName = ContextCompat.getColor(this, R.color.bright_text)
-        val selectedLow = ContextCompat.getColor(this, R.color.selected_button_text)
-        val unselectedLow = ContextCompat.getColor(this, R.color.dim_text)
+        val selectedName = ContextCompat.getColor(this, R.color.xw_text_inverse)
+        val unselectedName = ContextCompat.getColor(this, R.color.xw_text_primary)
+        val selectedLow = ContextCompat.getColor(this, R.color.xw_text_inverse)
+        val unselectedLow = ContextCompat.getColor(this, R.color.xw_text_secondary)
         dayChipViews.forEachIndexed { index, chip ->
             val selected = index == selectedDayOffset
             chip.setBackgroundResource(if (selected) selectedBg else unselectedBg)

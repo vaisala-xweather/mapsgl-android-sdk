@@ -1,17 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Xweather design tokens: spacing, radii and type scale.
+
+    Spacing follows the design system's 4dp base grid. Section-level whitespace is
+    scaled down from the web scale (128px) to phone-appropriate values while keeping
+    the same rhythm: generous, and always a multiple of 4.
+-->
 <resources>
+
+    <!-- ============================================================
+         SPACING - 4dp base grid
+         ============================================================ -->
+    <dimen name="xw_space_1">4dp</dimen>
+    <dimen name="xw_space_2">8dp</dimen>
+    <dimen name="xw_space_3">12dp</dimen>
+    <dimen name="xw_space_4">16dp</dimen>
+    <dimen name="xw_space_5">20dp</dimen>
+    <dimen name="xw_space_6">24dp</dimen>
+    <dimen name="xw_space_8">32dp</dimen>
+    <dimen name="xw_space_10">40dp</dimen>
+    <dimen name="xw_space_12">48dp</dimen>
+    <dimen name="xw_space_14">56dp</dimen>
+    <dimen name="xw_space_16">64dp</dimen>
+    <dimen name="xw_space_20">80dp</dimen>
+
+    <!-- LAYOUT -->
+    <dimen name="xw_margin_screen">24dp</dimen>          <!-- layout-margin-mobile -->
+    <dimen name="xw_gutter">16dp</dimen>
+
+    <!-- BORDER RADIUS - cards, buttons and inputs never exceed radius_md (8dp) -->
+    <dimen name="xw_radius_xs">2dp</dimen>
+    <dimen name="xw_radius_sm">4dp</dimen>
+    <dimen name="xw_radius_md">8dp</dimen>
+    <dimen name="xw_radius_lg">12dp</dimen>             <!-- floating overlay panels only -->
+    <dimen name="xw_radius_pill">999dp</dimen>
+
+    <!-- BORDERS -->
+    <dimen name="xw_border_width">1dp</dimen>
+
+    <!-- ============================================================
+         TYPE SCALE (phone-tuned from the golden-ratio desktop scale)
+         ============================================================ -->
+    <dimen name="xw_text_h1">34sp</dimen>
+    <dimen name="xw_text_h2">28sp</dimen>
+    <dimen name="xw_text_h3">22sp</dimen>
+    <dimen name="xw_text_ingress">15sp</dimen>
+    <dimen name="xw_text_card_title">18sp</dimen>
+    <dimen name="xw_text_body_lg">17sp</dimen>
+    <dimen name="xw_text_body">16sp</dimen>
+    <dimen name="xw_text_subheader">14sp</dimen>
+    <dimen name="xw_text_small">13sp</dimen>
+    <dimen name="xw_text_overline">12sp</dimen>
+    <dimen name="xw_text_mono">14sp</dimen>
+
+    <!-- ============================================================
+         APP CHROME (existing names, retuned to the 4dp grid)
+         ============================================================ -->
     <!-- Top inset for circular back control on full-screen map activities (below status bar). -->
     <dimen name="map_back_button_margin_top">56dp</dimen>
     <dimen name="map_bottom_controls_margin">16dp</dimen>
     <!-- Used when WindowInsets report no nav-bar height (gesture bar / fullscreen). -->
     <dimen name="map_bottom_controls_nav_fallback">48dp</dimen>
-    <dimen name="back_button_size">45dp</dimen>
-    <dimen name="back_button_padding">10dp</dimen>
-    <dimen name="menu_header_margin_top">72dp</dimen>
+    <dimen name="back_button_size">44dp</dimen>
+    <dimen name="back_button_padding">12dp</dimen>
+    <!-- Menu screens draw full-screen, so this is only cutout clearance for the back control. -->
+    <dimen name="menu_header_margin_top">20dp</dimen>
+    <!-- Launcher screen has no back control, so its header starts nearer the top edge. -->
+    <dimen name="menu_hero_margin_top">32dp</dimen>
     <dimen name="menu_back_button_spacing_above_first_item">12dp</dimen>
     <dimen name="back_button_margin_horizontal">8dp</dimen>
 
-    <dimen name="main_menu_button_height">52dp</dimen>
-    <dimen name="main_menu_button_text_size">16sp</dimen>
+    <!--
+        Floating panels on a map screen start below the circular back control:
+        map_back_button_margin_top + back_button_size + one space step.
+    -->
+    <dimen name="map_overlay_panel_margin_top">112dp</dimen>
+
+    <!-- Menus: header block, then the list. Whitespace signals hierarchy. -->
+    <dimen name="menu_title_to_list_spacing">24dp</dimen>
+    <dimen name="menu_list_bottom_padding">32dp</dimen>
+
+    <dimen name="main_menu_button_height">56dp</dimen>
+    <dimen name="main_menu_button_text_size">@dimen/xw_text_body</dimen>
     <dimen name="main_menu_button_spacing">12dp</dimen>
+    <dimen name="menu_row_padding_horizontal">20dp</dimen>
+    <dimen name="menu_row_padding_vertical">16dp</dimen>
 </resources>

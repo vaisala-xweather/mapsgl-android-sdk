@@ -8,7 +8,7 @@
     <!-- Clock Face (Circle) -->
     <!-- Centered at (12,12) with a radius of, say, 10 -->
     <path
-        android:strokeColor="#FFFFFF"
+        android:strokeColor="@color/xw_text_primary"
         android:strokeWidth="1.5"
         android:fillColor="#00000000"
     android:pathData="M12,12m-10,0a10,10 0,1,0 20,0a10,10 0,1,0 -20,0" />
@@ -26,7 +26,7 @@
     <!-- Minute Hand (pointing to 12, i.e., straight up from center) -->
     <!-- Starts at center (12,12), ends at (12, 12-7=5) -->
     <path
-        android:strokeColor="#FFFFFF"
+        android:strokeColor="@color/xw_text_primary"
         android:strokeWidth="2"
         android:strokeLineCap="round"
         android:pathData="M12,12 L12,5" />
@@ -34,7 +34,7 @@
     <!-- Hour Hand (pointing to 9, i.e., straight left from center) -->
     <!-- Starts at center (12,12), ends at (12-7=5, 12) -->
     <path
-        android:strokeColor="#FFFFFF"
+        android:strokeColor="@color/xw_text_primary"
         android:strokeWidth="2"
         android:strokeLineCap="round"
         android:pathData="M12,12 L5,12" />

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Animated vector layer types.
+    Xweather section-header pattern: overline -> headline -> lead, then the list.
+
+    The header block lives inside the scroll view, so it scrolls away with the rows and
+    the list gets the full height. Only the back control stays pinned.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/xw_bg_primary"
     tools:context=".AnimatedVectorLayersMenuActivity"
     tools:ignore="HardcodedText">
 
@@ -13,93 +20,82 @@
         layout="@layout/widget_back_button"
         android:layout_width="@dimen/back_button_size"
         android:layout_height="@dimen/back_button_size"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/animatedVectorMenuTitleTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/animatedVectorMenuTitleTextView" />
-
-    <TextView
-        android:id="@+id/animatedVectorMenuTitleTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="@dimen/xw_margin_screen"
         android:layout_marginTop="@dimen/menu_header_margin_top"
-        android:layout_marginEnd="16dp"
-        android:gravity="start|center_vertical"
-        android:text="Animated Vector Layers"
-        android:textColor="@color/bright_text"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/animatedVectorMenuBackToMainButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/animatedVectorMenuScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/xw_space_4"
         android:clipToPadding="false"
         android:fillViewport="true"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/animatedVectorMenuTitleTextView">
+        app:layout_constraintTop_toBottomOf="@id/animatedVectorMenuBackToMainButton">
 
         <LinearLayout
-            android:id="@+id/animatedVectorMenuButtonContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/xw_margin_screen"
             android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:paddingBottom="@dimen/menu_list_bottom_padding">
 
-            <Button
-                android:id="@+id/menuVectorFillButton"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Vector fill"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/animatedVectorMenuOverlineTextView"
+                style="@style/Xw.SectionOverline"
+                android:text="Vector rendering" />
 
-            <Button
-                android:id="@+id/menuVectorLineButton"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Vector line"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/animatedVectorMenuTitleTextView"
+                style="@style/Xw.ScreenTitle"
+                android:text="Animated vector layers" />
 
-            <Button
-                android:id="@+id/menuVectorCircleButton"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Vector circle"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/animatedVectorMenuLeadTextView"
+                style="@style/Xw.SectionLead"
+                android:text="The same animated dataset drawn four ways." />
 
-            <Button
-                android:id="@+id/menuVectorHeatmapButton"
+            <View
+                android:id="@+id/animatedVectorMenuHeaderDivider"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Vector heatmap"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/xw_space_6"
+                android:background="@color/xw_border_subtle" />
+
+            <LinearLayout
+                android:id="@+id/animatedVectorMenuButtonContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/menu_title_to_list_spacing"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/menuVectorFillButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:text="Vector fill" />
+
+                <Button
+                    android:id="@+id/menuVectorLineButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:text="Vector line" />
+
+                <Button
+                    android:id="@+id/menuVectorCircleButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:text="Vector circle" />
+
+                <Button
+                    android:id="@+id/menuVectorHeatmapButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:layout_marginBottom="0dp"
+                    android:text="Vector heatmap" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

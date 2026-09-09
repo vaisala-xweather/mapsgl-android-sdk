@@ -10,8 +10,6 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
 import com.example.mapsgldemo.R
 import com.xweather.mapsgl.weather.WeatherConfiguration
@@ -104,11 +102,13 @@ class LayerButtonView(context: Context, title: String, val configuration: Weathe
             val density = context.resources.displayMetrics.density
             val textView = TextView(context)
             textView.text = text
-            textView.textSize = 17f
-            textView.setTypeface(null, Typeface.BOLD)
+            // Xweather overline: small, Medium weight, uppercase, wide tracking, teal accent.
+            textView.textSize = 12f
+            textView.typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+            textView.isAllCaps = true
+            textView.letterSpacing = 0.08f
             textView.setBackgroundResource(R.drawable.unselected_background)
             textView.setTextColor(ContextCompat.getColor(context, R.color.layer_section_heading))
-            textView.setShadowLayer(6f, 0f, 0f, android.graphics.Color.BLACK)
             textView.setPadding(
                 (40 * density).toInt(),
                 (6 * density).toInt(),
@@ -138,10 +138,9 @@ class LayerButtonView(context: Context, title: String, val configuration: Weathe
                 LayoutParams.WRAP_CONTENT
             )
             //setTypeface(null, Typeface.BOLD)
-            setTypeface(null, Typeface.NORMAL)
+            typeface = Typeface.create("sans-serif", Typeface.NORMAL)
             textSize = 14f
-            setShadowLayer(10f, 0f, 0f, 0xFF000000.toInt())
-            setTextColor(ContextCompat.getColor(context, R.color.bright_text))
+            setTextColor(ContextCompat.getColor(context, R.color.xw_text_primary))
             setPadding(40, 0, 8, 0)
         }
         addView(textView)
@@ -163,25 +162,23 @@ class LayerButtonView(context: Context, title: String, val configuration: Weathe
     /** Highlight button when selected **/
     fun activate() {
         outerView.setBackgroundResource(R.drawable.selected_background)
-        textView.setShadowLayer(10f, 0f, 0f, 0xFFFFFFFF.toInt())
-        textView.setTextColor(ContextCompat.getColor(context, R.color.selected_button_text))
+        textView.setTextColor(ContextCompat.getColor(context, R.color.xw_text_inverse))
         active = true
     }
 
     /** Remove highlight on button when unselected **/
     fun deactivate() {
         outerView.setBackgroundResource(R.drawable.unselected_background)
-        textView.setShadowLayer(10f, 0f, 0f, 0xFF000000.toInt())
-        textView.setTextColor(ContextCompat.getColor(context, R.color.bright_text))
+        textView.setTextColor(ContextCompat.getColor(context, R.color.xw_text_primary))
         active = false
     }
 
     private fun setTextColor(title: String, status: Int = 0): LayerButtonView {
         textView.text = title
         if (status == 1) {
-            textView.setTextColor(Color(1f, 1f, .75f).toArgb())
+            textView.setTextColor(ContextCompat.getColor(context, R.color.xw_orange_500))
         } else if (status == 2) {
-            textView.setTextColor(Color(1f, .75f, .75f).toArgb())
+            textView.setTextColor(ContextCompat.getColor(context, R.color.xw_ember))
         }
         return this
     }

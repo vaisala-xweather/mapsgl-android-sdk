@@ -23,13 +23,13 @@
 
     <ImageView
         android:id="@+id/demo2LandMaskTemperatureBackButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="@dimen/back_button_size"
+        android:layout_height="@dimen/back_button_size"
+        android:layout_marginStart="@dimen/xw_space_2"
         android:layout_marginTop="@dimen/map_back_button_margin_top"
         android:background="@drawable/circle_background_selector"
         android:contentDescription="Back to stencil mask menu"
-        android:padding="10dp"
+        android:padding="@dimen/back_button_padding"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_back_arrow"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,9 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="Mask type"
-            android:textColor="@color/bright_text"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            style="@style/Xw.Label" />
 
         <Spinner
             android:id="@+id/demo2LandMaskTemperatureMaskTypeSpinner"

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Floating panel over the map: brand navy scrim so map detail still reads through. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/xw_scrim_panel" />
+    <corners android:radius="@dimen/xw_radius_lg" />
+    <stroke android:width="@dimen/xw_border_width" android:color="@color/xw_border" />
+</shape>

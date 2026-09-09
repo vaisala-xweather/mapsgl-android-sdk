@@ -14,7 +14,7 @@
 
     <!-- Arrow Head - Line 1 (Top part of chevron) -->
     <path
-        android:strokeColor="#FFFFFF"
+        android:strokeColor="@color/xw_text_primary"
         android:strokeWidth="2"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"

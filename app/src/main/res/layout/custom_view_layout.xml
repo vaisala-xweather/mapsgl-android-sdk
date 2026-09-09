@@ -4,7 +4,7 @@
     android:layout_marginStart="8dp"
     android:layout_marginBottom="8dp"
     android:paddingRight="8dp"
-    android:buttonTint="@color/black"
+    android:buttonTint="@color/xw_black_900"
     android:background="@drawable/white_square_background"
     android:checked="false"
     android:layout_height="32dp"
@@ -17,7 +17,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginBottom="8dp"
         android:paddingRight="8dp"
-        android:buttonTint="@color/black"
+        android:buttonTint="@color/xw_black_900"
         android:checked="false"></CheckBox>
 
     <TextView
@@ -26,6 +26,6 @@
         android:layout_height="wrap_content"
         android:shadowRadius="10"
         android:text="Layer Title"
-        android:textColor="@color/black"
+        android:textColor="@color/xw_black_900"
         />
 </LinearLayout>

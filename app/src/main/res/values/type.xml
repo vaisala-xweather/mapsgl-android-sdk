@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Xweather typography.
+
+    Rules from the design system, translated to Android:
+      1. Headings are always Light (300)          -> sans-serif-light
+      2. Subheaders and labels are Medium (500)   -> sans-serif-medium, never bold
+      3. Body is Regular (400)                    -> sans-serif
+      4. Overlines are uppercase with wide tracking, used sparingly
+      5. Letter spacing is applied strictly by role (Android letterSpacing is in em)
+
+    The brand face is Vaisala Sans. No licensed font files ship with this demo, so
+    these styles use the same fallbacks the CSS stack declares (system sans). To adopt
+    the real face, drop the .ttf files into res/font and change the fontFamily values
+    in the four Xw.Font.* styles below - nothing else needs to move.
+-->
+<resources>
+
+    <!-- === font family indirection === -->
+    <style name="Xw.Font.Light" parent="">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="Xw.Font.Regular" parent="">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="Xw.Font.Medium" parent="">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="Xw.Font.Mono" parent="">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- === headings: Light weight, -0.03em tracking === -->
+    <style name="Xw.Text.H1" parent="Xw.Font.Light">
+        <item name="android:textSize">@dimen/xw_text_h1</item>
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingMultiplier">1.05</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <style name="Xw.Text.H2" parent="Xw.Font.Light">
+        <item name="android:textSize">@dimen/xw_text_h2</item>
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingMultiplier">1.05</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <style name="Xw.Text.H3" parent="Xw.Font.Light">
+        <item name="android:textSize">@dimen/xw_text_h3</item>
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:lineSpacingMultiplier">1.15</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <!-- === overline: uppercase section label above a headline === -->
+    <style name="Xw.Text.Overline" parent="Xw.Font.Medium">
+        <item name="android:textSize">@dimen/xw_text_overline</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/xw_text_overline</item>
+    </style>
+
+    <!-- Overline on a dark section takes the teal accent. -->
+    <style name="Xw.Text.Overline.Accent">
+        <item name="android:textColor">@color/xw_accent_primary</item>
+    </style>
+
+    <!-- === ingress / lead: first paragraph, intro copy === -->
+    <style name="Xw.Text.Lead" parent="Xw.Font.Regular">
+        <item name="android:textSize">@dimen/xw_text_ingress</item>
+        <item name="android:letterSpacing">-0.015</item>
+        <item name="android:lineSpacingMultiplier">1.45</item>
+        <item name="android:textColor">@color/xw_text_secondary</item>
+    </style>
+
+    <!-- === subheader: medium label inside content === -->
+    <style name="Xw.Text.Subheader" parent="Xw.Font.Medium">
+        <item name="android:textSize">@dimen/xw_text_subheader</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <!-- === body === -->
+    <style name="Xw.Text.Body" parent="Xw.Font.Regular">
+        <item name="android:textSize">@dimen/xw_text_body</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <style name="Xw.Text.Body.Secondary">
+        <item name="android:textColor">@color/xw_text_secondary</item>
+    </style>
+
+    <!-- Value readout at body size: tabular so digits do not jitter as values change. -->
+    <style name="Xw.Text.BodyValue" parent="Xw.Font.Regular">
+        <item name="android:textSize">@dimen/xw_text_body</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <style name="Xw.Text.Small" parent="Xw.Font.Regular">
+        <item name="android:textSize">@dimen/xw_text_small</item>
+        <item name="android:lineSpacingMultiplier">1.45</item>
+        <item name="android:textColor">@color/xw_text_secondary</item>
+    </style>
+
+    <!-- === data display === -->
+    <!-- Large numeric readout: Light, tight tracking, tabular figures. -->
+    <style name="Xw.Text.Stat" parent="Xw.Font.Light">
+        <item name="android:textSize">32sp</item>
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <style name="Xw.Text.StatLabel" parent="Xw.Font.Regular">
+        <item name="android:textSize">@dimen/xw_text_small</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/xw_text_secondary</item>
+    </style>
+
+    <!-- Value inside a chip (a forecast high/low): compact, tabular. -->
+    <style name="Xw.Text.ChipValue" parent="Xw.Font.Medium">
+        <item name="android:textSize">@dimen/xw_text_body</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <!-- Timeline clock: a data readout, so Light weight and tabular figures. -->
+    <style name="Xw.Text.TimeReadout" parent="Xw.Font.Light">
+        <item name="android:textSize">24sp</item>
+        <item name="android:letterSpacing">-0.03</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+
+    <style name="Xw.Text.TimeReadoutDate" parent="Xw.Font.Regular">
+        <item name="android:textSize">@dimen/xw_text_subheader</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:textColor">@color/xw_text_secondary</item>
+    </style>
+
+    <!-- Values, coordinates, timestamps and codes. Always tabular. -->
+    <style name="Xw.Text.Mono" parent="Xw.Font.Mono">
+        <item name="android:textSize">@dimen/xw_text_mono</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:fontFeatureSettings">tnum</item>
+        <item name="android:textColor">@color/xw_text_primary</item>
+    </style>
+</resources>

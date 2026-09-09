@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/xw_badge_operational_bg" />
+    <corners android:radius="@dimen/xw_radius_pill" />
+    <stroke android:width="@dimen/xw_border_width" android:color="@color/xw_teal_500" />
+</shape>

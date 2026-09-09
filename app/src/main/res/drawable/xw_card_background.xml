@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Card: surface fill, hairline border, radius_md ceiling. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/xw_surface" />
+    <corners android:radius="@dimen/xw_radius_md" />
+    <stroke android:width="@dimen/xw_border_width" android:color="@color/xw_border_subtle" />
+</shape>

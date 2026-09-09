@@ -17,9 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="7-day forecast"
-        android:textColor="@color/bright_text"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        style="@style/Xw.Text.Subheader" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"

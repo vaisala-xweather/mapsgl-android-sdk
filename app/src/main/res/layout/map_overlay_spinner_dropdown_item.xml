@@ -11,5 +11,6 @@
     android:paddingTop="12dp"
     android:paddingEnd="16dp"
     android:paddingBottom="12dp"
-    android:textColor="@color/black"
-    android:textSize="16sp" />
+    android:fontFamily="sans-serif"
+    android:textColor="@color/xw_black_900"
+    android:textSize="@dimen/xw_text_body" />

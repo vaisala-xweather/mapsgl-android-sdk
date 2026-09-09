@@ -1,125 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Overflow menu, grouped by release.
+    Xweather section-header pattern: overline -> headline, then the list.
+
+    The header block lives inside the scroll view, so it scrolls away with the rows and
+    the list gets the full height. Only the back control stays pinned.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context=".MoreExamplesMenuActivity">
+    android:background="@color/xw_bg_primary"
+    tools:context=".MoreExamplesMenuActivity"
+    tools:ignore="HardcodedText">
 
     <include
         android:id="@+id/moreExamplesMenuBackToMainButton"
         layout="@layout/widget_back_button"
         android:layout_width="@dimen/back_button_size"
         android:layout_height="@dimen/back_button_size"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/moreExamplesMenuTitleTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/moreExamplesMenuTitleTextView" />
-
-    <TextView
-        android:id="@+id/moreExamplesMenuTitleTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="@dimen/xw_margin_screen"
         android:layout_marginTop="@dimen/menu_header_margin_top"
-        android:layout_marginEnd="16dp"
-        android:gravity="start|center_vertical"
-        android:text="More Examples"
-        android:textColor="@color/bright_text"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/moreExamplesMenuBackToMainButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/moreExamplesMenuScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/xw_space_4"
         android:clipToPadding="false"
         android:fillViewport="true"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/moreExamplesMenuTitleTextView">
+        app:layout_constraintTop_toBottomOf="@id/moreExamplesMenuBackToMainButton">
 
         <LinearLayout
-            android:id="@+id/moreExamplesMenuButtonContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/xw_margin_screen"
             android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:paddingBottom="@dimen/menu_list_bottom_padding">
 
             <TextView
-                android:id="@+id/moreExamplesQa17Header"
+                android:id="@+id/moreExamplesMenuOverlineTextView"
+                style="@style/Xw.SectionOverline"
+                android:text="MapsGL Android" />
+
+            <TextView
+                android:id="@+id/moreExamplesMenuTitleTextView"
+                style="@style/Xw.ScreenTitle"
+                android:text="More examples" />
+
+            <View
+                android:id="@+id/moreExamplesMenuHeaderDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/xw_space_6"
+                android:background="@color/xw_border_subtle" />
+
+            <LinearLayout
+                android:id="@+id/moreExamplesMenuButtonContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/main_menu_button_spacing"
-                android:text="1.7.0 QA (new since 1.6.1)"
-                android:textColor="@color/bright_text"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="@dimen/menu_title_to_list_spacing"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/menuMapTimeFilterButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/main_menu_button_height"
-                android:layout_marginBottom="@dimen/main_menu_button_spacing"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="mapTime filter (tropical / convective)"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="@dimen/main_menu_button_text_size" />
+                <TextView
+                    android:id="@+id/moreExamplesQa17Header"
+                    style="@style/Xw.ListSectionLabel"
+                    android:layout_marginTop="0dp"
+                    android:paddingTop="0dp"
+                    android:text="1.7.0 QA · new since 1.6.1" />
 
-            <Button
-                android:id="@+id/menuLightningSymbolCircleButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/main_menu_button_height"
-                android:layout_marginBottom="@dimen/main_menu_button_spacing"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Lightning symbol / circle"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="@dimen/main_menu_button_text_size" />
+                <Button
+                    android:id="@+id/menuMapTimeFilterButton"
+                    style="@style/Xw.MenuRow"
+                    android:text="mapTime filter (tropical / convective)" />
 
-            <Button
-                android:id="@+id/menuPlacesTextButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/main_menu_button_height"
-                android:layout_marginBottom="@dimen/main_menu_button_spacing"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Places text"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="@dimen/main_menu_button_text_size" />
+                <Button
+                    android:id="@+id/menuLightningSymbolCircleButton"
+                    style="@style/Xw.MenuRow"
+                    android:text="Lightning symbol / circle" />
 
-            <Button
-                android:id="@+id/menuAnimatedVectorLayersButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/main_menu_button_height"
-                android:layout_marginBottom="@dimen/main_menu_button_spacing"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Animated Vector Layers"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="@dimen/main_menu_button_text_size" />
+                <Button
+                    android:id="@+id/menuPlacesTextButton"
+                    style="@style/Xw.MenuRow"
+                    android:text="Places text" />
 
-            <Button
-                android:id="@+id/menuLayerCustomizationsButton"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/main_menu_button_height"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Layer Customizations"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="@dimen/main_menu_button_text_size" />
+                <Button
+                    android:id="@+id/menuAnimatedVectorLayersButton"
+                    style="@style/Xw.MenuRow"
+                    android:text="Animated Vector Layers" />
+
+                <Button
+                    android:id="@+id/menuLayerCustomizationsButton"
+                    style="@style/Xw.MenuRow"
+                    android:layout_marginBottom="0dp"
+                    android:text="Layer Customizations" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -1,130 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    One layer property per screen.
+    Xweather section-header pattern: overline -> headline -> lead, then the list.
+
+    The header block lives inside the scroll view, so it scrolls away with the rows and
+    the list gets the full height. Only the back control stays pinned.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context=".LayerCustomizationMenuActivity">
+    android:background="@color/xw_bg_primary"
+    tools:context=".LayerCustomizationMenuActivity"
+    tools:ignore="HardcodedText">
 
     <include
         android:id="@+id/customizationMenuBackToMainButton"
         layout="@layout/widget_back_button"
         android:layout_width="@dimen/back_button_size"
         android:layout_height="@dimen/back_button_size"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/customizationMenuTitleTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/customizationMenuTitleTextView" />
-
-    <TextView
-        android:id="@+id/customizationMenuTitleTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="@dimen/xw_margin_screen"
         android:layout_marginTop="@dimen/menu_header_margin_top"
-        android:layout_marginEnd="16dp"
-        android:gravity="start|center_vertical"
-        android:text="Layer customizations"
-        android:textColor="@color/bright_text"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/customizationMenuBackToMainButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/customizationMenuSubtitleTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="32dp"
-        android:gravity="center"
-        android:text="Each screen changes one thing about a layer. The source file is the demo."
-        android:textColor="@color/bright_text"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/customizationMenuTitleTextView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/customizationMenuScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/xw_space_4"
         android:clipToPadding="false"
         android:fillViewport="true"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/customizationMenuSubtitleTextView">
+        app:layout_constraintTop_toBottomOf="@id/customizationMenuBackToMainButton">
 
         <LinearLayout
-            android:id="@+id/customizationMenuButtonContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/xw_margin_screen"
             android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:paddingBottom="@dimen/menu_list_bottom_padding">
 
-            <Button
-                android:id="@+id/menuDataDrivenColorButton"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Data-driven colour (interpolate)"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/customizationMenuOverlineTextView"
+                style="@style/Xw.SectionOverline"
+                android:text="Layer API" />
 
-            <Button
-                android:id="@+id/menuCustomShaderButton"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Custom GLSL icon shader"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/customizationMenuTitleTextView"
+                style="@style/Xw.ScreenTitle"
+                android:text="Layer customizations" />
 
-            <Button
-                android:id="@+id/menuFillSortOrderButton"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Polygon draw order (sortKey)"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/customizationMenuLeadTextView"
+                style="@style/Xw.SectionLead"
+                android:text="Each screen changes one thing about a layer. The source file is the demo." />
 
-            <Button
-                android:id="@+id/menuHeatmapTuningButton"
+            <View
+                android:id="@+id/customizationMenuHeaderDivider"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Heatmap radius, weight and blur"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/xw_space_6"
+                android:background="@color/xw_border_subtle" />
 
-            <Button
-                android:id="@+id/menuIconOrientationButton"
+            <LinearLayout
+                android:id="@+id/customizationMenuButtonContainer"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:background="@drawable/main_menu_button_background_selector"
-                android:text="Icons that rotate and pitch with the map"
-                android:textAllCaps="false"
-                android:textColor="@color/bright_text"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/menu_title_to_list_spacing"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/menuDataDrivenColorButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:text="Data-driven colour (interpolate)" />
+
+                <Button
+                    android:id="@+id/menuCustomShaderButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:text="Custom GLSL icon shader" />
+
+                <Button
+                    android:id="@+id/menuFillSortOrderButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:text="Polygon draw order (sortKey)" />
+
+                <Button
+                    android:id="@+id/menuHeatmapTuningButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:text="Heatmap radius, weight and blur" />
+
+                <Button
+                    android:id="@+id/menuIconOrientationButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:layout_marginBottom="0dp"
+                    android:text="Icons that rotate and pitch with the map" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

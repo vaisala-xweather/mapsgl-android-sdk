@@ -1,124 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Launcher screen, built on the Xweather section-header pattern:
+    overline -> headline -> lead, then the navigation list.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context=".MainActivity">
+    android:background="@color/xw_bg_primary"
+    tools:context=".MainActivity"
+    tools:ignore="HardcodedText">
 
-    <TextView
-        android:id="@+id/menuTitleTextView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/menuHeader"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="MapsGL Android demo"
-        android:textColor="@color/bright_text"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:layout_marginHorizontal="@dimen/xw_margin_screen"
+        android:layout_marginTop="@dimen/menu_hero_margin_top"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/menuOverlineTextView"
+            style="@style/Xw.SectionOverline"
+            android:text="Xweather MapsGL · Android" />
+
+        <TextView
+            android:id="@+id/menuTitleTextView"
+            style="@style/Xw.Text.H1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MapsGL demo" />
+
+        <TextView
+            android:id="@+id/menuLeadTextView"
+            style="@style/Xw.SectionLead"
+            android:text="Live weather layers, rendered on the device. Every screen below is a working map you can read the source for." />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/menuHeaderDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="@dimen/xw_margin_screen"
+        android:layout_marginTop="@dimen/xw_space_6"
+        android:background="@color/xw_border_subtle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menuHeader" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/menuScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/menu_title_to_list_spacing"
         android:clipToPadding="false"
         android:fillViewport="true"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/menuTitleTextView">
+        app:layout_constraintTop_toBottomOf="@id/menuHeaderDivider">
 
         <LinearLayout
             android:id="@+id/menuButtonContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/xw_margin_screen"
             android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:paddingBottom="@dimen/menu_list_bottom_padding">
 
-        <Button
-            android:id="@+id/menuMapLayersButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="All Map Layers"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
+            <Button
+                android:id="@+id/menuMapLayersButton"
+                style="@style/Xw.MenuRow"
+                android:text="All Map Layers" />
 
-        <Button
-            android:id="@+id/menuJsParityLayersButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Sorted Map Layers"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
+            <Button
+                android:id="@+id/menuJsParityLayersButton"
+                style="@style/Xw.MenuRow"
+                android:text="Sorted Map Layers" />
 
-        <Button
-            android:id="@+id/menuDocsExamplesButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Documentation Examples"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
+            <Button
+                android:id="@+id/menuDocsExamplesButton"
+                style="@style/Xw.MenuRow"
+                android:text="Documentation Examples" />
 
-        <Button
-            android:id="@+id/menuShowcaseButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Showcase"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
+            <Button
+                android:id="@+id/menuShowcaseButton"
+                style="@style/Xw.MenuRow"
+                android:text="Showcase" />
 
-        <Button
-            android:id="@+id/menuLocalWeatherButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Local Weather"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
+            <Button
+                android:id="@+id/menuLocalWeatherButton"
+                style="@style/Xw.MenuRow"
+                android:text="Local Weather" />
 
-        <Button
-            android:id="@+id/menuStencilMaskDemosButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:layout_marginBottom="@dimen/main_menu_button_spacing"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="Stencil masks"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
+            <Button
+                android:id="@+id/menuStencilMaskDemosButton"
+                style="@style/Xw.MenuRow"
+                android:text="Stencil masks" />
 
-        <Button
-            android:id="@+id/menuMoreExamplesButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/main_menu_button_height"
-            android:background="@drawable/main_menu_button_background_selector"
-            android:text="More Examples"
-            android:textAllCaps="false"
-            android:textColor="@color/bright_text"
-            android:textSize="@dimen/main_menu_button_text_size" />
+            <Button
+                android:id="@+id/menuMoreExamplesButton"
+                style="@style/Xw.MenuRow"
+                android:layout_marginBottom="0dp"
+                android:text="More Examples" />
 
         </LinearLayout>
 

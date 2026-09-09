@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Documentation Examples menu.
+    Xweather section-header pattern: overline -> headline -> lead, then the list.
+
+    The header block lives inside the scroll view, so it scrolls away with the cards and
+    the screenshots get the full height. Only the back control stays pinned.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/xw_bg_primary"
     tools:context=".DocsExamplesMenuActivity"
     tools:ignore="HardcodedText">
 
@@ -13,141 +20,151 @@
         layout="@layout/widget_back_button"
         android:layout_width="@dimen/back_button_size"
         android:layout_height="@dimen/back_button_size"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/docsExamplesMenuTitleTextView"
+        android:layout_marginStart="@dimen/xw_margin_screen"
+        android:layout_marginTop="@dimen/menu_header_margin_top"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/docsExamplesMenuTitleTextView" />
-
-    <TextView
-        android:id="@+id/docsExamplesMenuTitleTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="start|center_vertical"
-        android:text="Documentation Examples"
-        android:textColor="@color/bright_text"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/docsExamplesMenuBackToMainButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/docsExamplesMenuScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/xw_space_4"
         android:clipToPadding="false"
         android:fillViewport="true"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/docsExamplesMenuTitleTextView">
+        app:layout_constraintTop_toBottomOf="@id/docsExamplesMenuBackToMainButton">
 
         <LinearLayout
-            android:id="@+id/docsExamplesMenuButtonContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="24dp"
-            android:gravity="center"
+            android:layout_marginHorizontal="@dimen/xw_margin_screen"
             android:orientation="vertical"
-            android:paddingBottom="8dp">
+            android:paddingBottom="@dimen/menu_list_bottom_padding">
+
+            <TextView
+                android:id="@+id/docsExamplesMenuOverlineTextView"
+                style="@style/Xw.SectionOverline"
+                android:text="From the docs" />
+
+            <TextView
+                android:id="@+id/docsExamplesMenuTitleTextView"
+                style="@style/Xw.ScreenTitle"
+                android:text="Documentation examples" />
+
+            <TextView
+                android:id="@+id/docsExamplesMenuLeadTextView"
+                style="@style/Xw.SectionLead"
+                android:text="The snippets published in the MapsGL guides, running here unmodified." />
+
+            <View
+                android:id="@+id/docsExamplesMenuHeaderDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/xw_space_6"
+                android:background="@color/xw_border_subtle" />
 
             <LinearLayout
-                android:id="@+id/menuAddGeojsonLayerButton"
-                style="@style/DocsExampleCard">
+                android:id="@+id/docsExamplesMenuButtonContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/menu_title_to_list_spacing"
+                android:orientation="vertical">
 
-                <ImageView
-                    style="@style/DocsExampleCardImage"
-                    android:contentDescription="A polygon of Portugal filled in red with a thicker red outline"
-                    android:src="@drawable/example_add_geojson_layer" />
+                <LinearLayout
+                    android:id="@+id/menuAddGeojsonLayerButton"
+                    style="@style/DocsExampleCard">
 
-                <TextView
-                    style="@style/DocsExampleCardTitle"
-                    android:text="Adding custom GeoJSON data" />
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="A polygon of Portugal filled in red with a thicker red outline"
+                        android:src="@drawable/example_add_geojson_layer" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Adding custom GeoJSON data" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuAddRasterLayerButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Satellite geocolor imagery over Europe at partial opacity"
+                        android:src="@drawable/example_add_raster_layer" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Adding a custom raster layer" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuAddVectorLayerButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="North Atlantic coastlines outlined in dark grey lines"
+                        android:src="@drawable/example_add_vector_layer" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Adding a custom vector tile layer" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuChangeMapUnitsButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Wind speeds over the United States with a legend reading in miles per hour"
+                        android:src="@drawable/example_change_map_units" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Change map units" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuChangeTimelineRangeButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Wind particles over Europe with timeline range controls"
+                        android:src="@drawable/example_change_timeline_range" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Change timeline range" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuCustomAlertStylesButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Severe weather alert polygons over the United States coloured by severity"
+                        android:src="@drawable/example_custom_alert_styles" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Customizing alert polygon styles" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/menuAddRasterLayerButton"
-                style="@style/DocsExampleCard">
-
-                <ImageView
-                    style="@style/DocsExampleCardImage"
-                    android:contentDescription="Satellite geocolor imagery over Europe at partial opacity"
-                    android:src="@drawable/example_add_raster_layer" />
-
-                <TextView
-                    style="@style/DocsExampleCardTitle"
-                    android:text="Adding a custom raster layer" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/menuAddVectorLayerButton"
-                style="@style/DocsExampleCard">
-
-                <ImageView
-                    style="@style/DocsExampleCardImage"
-                    android:contentDescription="North Atlantic coastlines outlined in dark grey lines"
-                    android:src="@drawable/example_add_vector_layer" />
-
-                <TextView
-                    style="@style/DocsExampleCardTitle"
-                    android:text="Adding a custom vector tile layer" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/menuChangeMapUnitsButton"
-                style="@style/DocsExampleCard">
-
-                <ImageView
-                    style="@style/DocsExampleCardImage"
-                    android:contentDescription="Wind speeds over the United States with a legend reading in miles per hour"
-                    android:src="@drawable/example_change_map_units" />
-
-                <TextView
-                    style="@style/DocsExampleCardTitle"
-                    android:text="Change map units" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/menuChangeTimelineRangeButton"
-                style="@style/DocsExampleCard">
-
-                <ImageView
-                    style="@style/DocsExampleCardImage"
-                    android:contentDescription="Wind particles over Europe with timeline range controls"
-                    android:src="@drawable/example_change_timeline_range" />
-
-                <TextView
-                    style="@style/DocsExampleCardTitle"
-                    android:text="Change timeline range" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/menuCustomAlertStylesButton"
-                style="@style/DocsExampleCard">
-
-                <ImageView
-                    style="@style/DocsExampleCardImage"
-                    android:contentDescription="Severe weather alert polygons over the United States coloured by severity"
-                    android:src="@drawable/example_custom_alert_styles" />
-
-                <TextView
-                    style="@style/DocsExampleCardTitle"
-                    android:text="Customizing alert polygon styles" />
-
-            </LinearLayout>
-
 
         </LinearLayout>
 

@@ -11,6 +11,4 @@
     android:paddingTop="8dp"
     android:paddingEnd="28dp"
     android:paddingBottom="8dp"
-    android:textColor="@color/bright_text"
-    android:textSize="15sp"
-    android:textStyle="bold" />
+    style="@style/Xw.Text.Subheader" />

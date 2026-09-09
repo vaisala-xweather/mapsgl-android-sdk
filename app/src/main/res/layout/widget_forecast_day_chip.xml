@@ -17,9 +17,7 @@
         android:id="@+id/forecastDayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/bright_text"
-        android:textSize="13sp"
-        android:textStyle="bold" />
+        style="@style/Xw.Text.Overline" />
 
     <TextView
         android:id="@+id/forecastDayHigh"
@@ -27,9 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:text="--"
-        android:textColor="@color/bright_text"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        style="@style/Xw.Text.ChipValue" />
 
     <TextView
         android:id="@+id/forecastDayLow"
@@ -37,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="--"
-        android:textColor="@color/dim_text"
-        android:textSize="13sp" />
+        style="@style/Xw.Text.Small" />
 
 </LinearLayout>

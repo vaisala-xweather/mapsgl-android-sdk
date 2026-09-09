@@ -2,7 +2,7 @@ package com.example.mapsgldemo.maplayers
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
@@ -54,7 +54,10 @@ class LayerFilter(
         editText.gravity = Gravity.CENTER_VERTICAL or Gravity.START
         editText.setBackgroundResource(R.drawable.unselected_background)
         editText.hint = "Search"
-        editText.setHintTextColor(Color.rgb(.5f, .5f, .5f))
+        editText.typeface = Typeface.create("sans-serif", Typeface.NORMAL)
+        editText.textSize = 16f
+        editText.setTextColor(ContextCompat.getColor(context, R.color.xw_text_primary))
+        editText.setHintTextColor(ContextCompat.getColor(context, R.color.xw_text_tertiary))
 
 
         // --- Search Icon (Start) ---

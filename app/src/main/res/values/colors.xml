@@ -1,21 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Xweather / Vaisala design tokens.
+
+    The raw palette (xw_*) is the single source of truth. Everything below it is a
+    semantic alias, and the app's older colour names are kept as aliases too so
+    existing layouts and drawables keep working while picking up the brand palette.
+
+    The demo app is dark-first (full-screen maps on deep navy), so the semantic
+    aliases follow the design system's DARK theme mapping.
+-->
 <resources>
+
+    <!-- ============================================================
+         PALETTE: Xweather Black (primary dark palette)
+         ============================================================ -->
+    <color name="xw_black_900">#FF09151C</color>   <!-- Xweather Black - primary dark bg -->
+    <color name="xw_black_800">#FF0E1F2C</color>
+    <color name="xw_black_700">#FF263541</color>
+    <color name="xw_black_600">#FF3E4C56</color>
+    <color name="xw_black_500">#FF56626B</color>
+
+    <!-- PALETTE: Misty Gray (neutral mid-tones) -->
+    <color name="xw_gray_700">#FF66828C</color>    <!-- Misty Gray - primary -->
+    <color name="xw_gray_600">#FF859BA3</color>
+    <color name="xw_gray_500">#FFA3B4BA</color>
+    <color name="xw_gray_400">#FFC2CDD1</color>
+    <color name="xw_gray_300">#FFD8E2E5</color>
+    <color name="xw_gray_200">#FFEDF1F3</color>
+    <color name="xw_gray_100">#FFF0F3F4</color>    <!-- Near-white, light bg -->
+
+    <!-- PALETTE: Misty Green (teal accent) -->
+    <color name="xw_teal_500">#FFA6D7D4</color>    <!-- Misty Green Extra Light - primary teal -->
+    <color name="xw_teal_400">#FFC1E3E1</color>
+    <color name="xw_teal_300">#FFD3EBEA</color>
+    <color name="xw_teal_200">#FFE4F3F2</color>
+    <color name="xw_teal_100">#FFF6FBFB</color>
+
+    <!-- PALETTE: Dawn Orange (warm accent, use sparingly) -->
+    <color name="xw_orange_500">#FFF7C890</color>  <!-- Dawn Orange -->
+    <color name="xw_orange_400">#FFF9D9B1</color>
+    <color name="xw_orange_300">#FFFBE4C8</color>
+
+    <!-- PALETTE: Accents -->
+    <color name="xw_thunder_blue">#FF0A2A3D</color>
+    <color name="xw_ember">#FFFB6432</color>       <!-- Ember Orange - CTAs and alerts only -->
+    <color name="xw_ember_dark">#FFE54615</color>
+
+    <!-- ============================================================
+         SEMANTIC: backgrounds and surfaces (dark theme mapping)
+         ============================================================ -->
+    <color name="xw_bg_primary">@color/xw_black_900</color>
+    <color name="xw_bg_secondary">@color/xw_black_800</color>
+    <color name="xw_bg_tertiary">@color/xw_black_700</color>
+
+    <color name="xw_surface">@color/xw_black_800</color>
+    <color name="xw_surface_raised">@color/xw_black_700</color>
+    <color name="xw_surface_pressed">@color/xw_black_700</color>
+    <color name="xw_surface_overlay">#0FFFFFFF</color>          <!-- 6% white -->
+
+    <!-- Floating panels over the map: the brand navy at 80% so map detail reads through. -->
+    <color name="xw_scrim_panel">#CC09151C</color>
+    <color name="xw_scrim_panel_strong">#F209151C</color>
+
+    <!-- Small map markers: near-white at 78% so the map reads underneath. -->
+    <color name="xw_marker_scrim">#C6F0F3F4</color>
+
+    <!-- SEMANTIC: text (dark theme opacity hierarchy - 92% / 65% / 50%) -->
+    <color name="xw_text_primary">#EBFFFFFF</color>             <!-- 92% white -->
+    <color name="xw_text_secondary">@color/xw_gray_400</color>
+    <color name="xw_text_tertiary">@color/xw_gray_500</color>
+    <color name="xw_text_overline">@color/xw_gray_500</color>
+    <color name="xw_text_inverse">@color/xw_black_900</color>
+
+    <!-- SEMANTIC: borders -->
+    <color name="xw_border">#1AFFFFFF</color>                   <!-- 10% white -->
+    <color name="xw_border_subtle">#0FFFFFFF</color>            <!-- 6% white -->
+
+    <!-- SEMANTIC: accents -->
+    <color name="xw_accent_primary">@color/xw_teal_500</color>
+    <color name="xw_accent_cta">@color/xw_ember</color>
+    <color name="xw_accent_cta_hover">@color/xw_ember_dark</color>
+
+    <!-- SEMANTIC: status -->
+    <color name="xw_badge_operational_bg">#33A6D7D4</color>
+    <color name="xw_badge_warning_bg">#1FFB6432</color>
+
+    <!-- ============================================================
+         LEGACY ALIASES
+         Existing layouts/drawables/Kotlin refer to these names; they now
+         resolve to brand tokens. Prefer the xw_* names in new code.
+         ============================================================ -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="selected_button_text">#FF000000</color>
-    <color name="grey_background">#FF151515</color>
-    <color name="settings_button_background">#FF333333</color>
-    <color name="grey_green_background">#FF1a2023</color>
-    <color name="grey_background_transparent">#771a2023</color>
-    <color name="settings_button_background_pressed">#FF62686B</color>
-    <color name="selected_background">#FFFFFFFF</color>
-    <color name="divider_color">#FF555555</color>
 
-    <color name="bright_text">#FFFAFAFA</color>
-    <color name="dim_text">#FF888888</color>
+    <color name="bright_text">@color/xw_text_primary</color>
+    <color name="dim_text">@color/xw_text_secondary</color>
+    <color name="selected_button_text">@color/xw_text_inverse</color>
 
-    <color name="layer_section_heading">#FFFFEB3B</color>
+    <color name="grey_background">@color/xw_bg_secondary</color>
+    <color name="grey_green_background">@color/xw_black_800</color>
+    <color name="grey_background_transparent">@color/xw_scrim_panel</color>
+    <color name="settings_button_background">@color/xw_surface</color>
+    <color name="settings_button_background_pressed">@color/xw_surface_pressed</color>
+    <color name="selected_background">@color/xw_teal_500</color>
+    <color name="divider_color">@color/xw_border</color>
+
+    <!-- Section headings in the layer menu: teal is the data/accent colour. -->
+    <color name="layer_section_heading">@color/xw_teal_500</color>
 
 </resources>
-
-<!--<color name="button_text">#FFCCCCCC</color> like in JS web version  -->

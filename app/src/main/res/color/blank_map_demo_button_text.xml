@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Selected demo button: Xweather Black ink on the teal accent fill. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:color="@color/selected_button_text" android:state_selected="true" />
+    <item android:color="@color/xw_text_inverse" android:state_selected="true" />
 
-    <item android:color="@color/bright_text" />
+    <item android:color="@color/xw_text_primary" />
 
 </selector>

@@ -20,13 +20,13 @@
 
     <ImageView
         android:id="@+id/changeTimelineRangeBackButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="@dimen/back_button_size"
+        android:layout_height="@dimen/back_button_size"
+        android:layout_marginStart="@dimen/xw_space_2"
         android:layout_marginTop="@dimen/map_back_button_margin_top"
         android:background="@drawable/circle_background_selector"
         android:contentDescription="Back to documentation examples menu"
-        android:padding="10dp"
+        android:padding="@dimen/back_button_padding"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_back_arrow"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/dark_rounded_background"
+        android:background="@drawable/xw_panel_background"
         android:orientation="vertical"
         android:padding="12dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,8 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Range start"
-                    android:textColor="@color/bright_text"
-                    android:textSize="13sp" />
+                    style="@style/Xw.Label" />
 
                 <Spinner
                     android:id="@+id/changeTimelineRangeStartSpinner"
@@ -82,8 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Range end"
-                    android:textColor="@color/bright_text"
-                    android:textSize="13sp" />
+                    style="@style/Xw.Label" />
 
                 <Spinner
                     android:id="@+id/changeTimelineRangeEndSpinner"
@@ -101,18 +99,16 @@
             android:id="@+id/changeTimelineRangeStartLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/bright_text"
-            android:textSize="13sp"
+            android:layout_marginTop="@dimen/xw_space_3"
+            style="@style/Xw.Text.Mono"
             tools:text="Start: Tue 3:45:58 PM" />
 
         <TextView
             android:id="@+id/changeTimelineRangeEndLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/bright_text"
-            android:textSize="13sp"
+            android:layout_marginTop="@dimen/xw_space_1"
+            style="@style/Xw.Text.Mono"
             tools:text="End: Wed 3:45:58 PM" />
 
         <!-- Loading sits inside the panel: a changed range reloads intervals, and a spinner in a
@@ -137,8 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="Loading intervals…"
-                android:textColor="@color/bright_text"
-                android:textSize="13sp" />
+                style="@style/Xw.Label" />
 
         </LinearLayout>
 

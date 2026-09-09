@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Horizontal rule. Content zones are separated by borders, not shadows. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/xw_border_subtle" />
+    <size android:height="1dp" />
+</shape>

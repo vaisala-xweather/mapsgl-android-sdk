@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <solid android:color="@color/grey_background"/>
-
+    <solid android:color="@color/xw_surface"/>
+    <corners android:radius="@dimen/xw_radius_sm"/>
     <stroke
-        android:width="2dp"
-    android:color="@color/divider_color"/>  <!-- Set the color of the outline to white -->
-
+        android:width="@dimen/xw_border_width"
+        android:color="@color/xw_border"/>
     <padding
         android:left="5dp"
         android:top="0dp"
