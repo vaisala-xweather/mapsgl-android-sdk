@@ -1,0 +1,2 @@
+# Release build outputs contain baked-in API credentials - never track them.
+app/release/*.apk
