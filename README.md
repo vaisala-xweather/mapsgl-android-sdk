@@ -19,6 +19,15 @@ what changes between the two SDKs:
 - [Custom earthquake symbols using a shader](docs/examples/custom-earthquake-shader.md) — a
   procedural GLSL fragment shader on symbol icons, with no sprite at all
   (**Documentation Examples → Custom earthquake symbols using a shader**)
+- [Custom fire symbols using a shader](docs/examples/custom-fires-shader.md) — fbm noise,
+  `v_random` and `v_factor` driving an animated flame, with no sprite
+  (**Documentation Examples → Custom fire symbols using a shader**)
+- [Customizing the heat index legend](docs/examples/custom-heat-index-legend.md) — replacing a
+  bar legend's labels with normalized, qualitative stops
+  (**Documentation Examples → Customizing the heat index legend**)
+- [Custom lightning symbols using a shader](docs/examples/custom-lightning-shader.md) — strike
+  age driving a noise-gated flash, on a dark basemap
+  (**Documentation Examples → Custom lightning symbols using a shader**)
 
 ## Getting Started
 

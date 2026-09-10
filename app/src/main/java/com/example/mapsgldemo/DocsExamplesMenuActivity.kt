@@ -12,6 +12,9 @@ import com.example.mapsgldemo.docExamples.ChangeMapUnitsActivity
 import com.example.mapsgldemo.docExamples.ChangeTimelineRangeActivity
 import com.example.mapsgldemo.docExamples.CustomAlertStylesActivity
 import com.example.mapsgldemo.docExamples.CustomEarthquakeShaderActivity
+import com.example.mapsgldemo.docExamples.CustomFiresShaderActivity
+import com.example.mapsgldemo.docExamples.CustomHeatIndexLegendActivity
+import com.example.mapsgldemo.docExamples.CustomLightningShaderActivity
 
 /**
  * Sub-menu for the MapsGL documentation examples ported to Android. Each button opens one activity
@@ -62,6 +65,18 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
 
         binding.menuCustomEarthquakeShaderButton.setOnClickListener {
             startActivity(Intent(this, CustomEarthquakeShaderActivity::class.java))
+        }
+
+        binding.menuCustomFiresShaderButton.setOnClickListener {
+            startActivity(Intent(this, CustomFiresShaderActivity::class.java))
+        }
+
+        binding.menuCustomHeatIndexLegendButton.setOnClickListener {
+            startActivity(Intent(this, CustomHeatIndexLegendActivity::class.java))
+        }
+
+        binding.menuCustomLightningShaderButton.setOnClickListener {
+            startActivity(Intent(this, CustomLightningShaderActivity::class.java))
         }
     }
 

@@ -171,6 +171,24 @@
             android:label="Change timeline range"
             android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
+            android:name=".docExamples.CustomLightningShaderActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Custom lightning shader"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.CustomHeatIndexLegendActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Custom heat index legend"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.CustomFiresShaderActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Custom fires shader"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
             android:name=".docExamples.CustomEarthquakeShaderActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"

@@ -179,6 +179,51 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/menuCustomFiresShaderButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Wildfire observations across the United States drawn as animated orange flames by a custom shader"
+                        android:src="@drawable/example_custom_fires_shader" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Custom fire symbols using a shader" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuCustomHeatIndexLegendButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="A heat index map of the southern United States with a colour bar legend labelled Uncomfortable, Hot and Dangerous"
+                        android:src="@drawable/example_custom_heat_index_legend" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Customizing the heat index legend" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuCustomLightningShaderButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Lightning strikes over the Atlantic drawn as white flashes by a custom shader on a dark basemap"
+                        android:src="@drawable/example_custom_lightning_shader" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Custom lightning symbols using a shader" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

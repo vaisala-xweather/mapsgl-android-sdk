@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Customizing the heat index legend. The legend view itself is added at runtime by
+    LegendControl.getView(), the same way the JS example's addLegendControl('#legend') does.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/customHeatIndexLegendRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".docExamples.CustomHeatIndexLegendActivity"
+    tools:ignore="ContentDescription">
+
+    <com.mapbox.maps.MapView
+        android:id="@+id/customHeatIndexLegendMapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mapbox_mapSurface="texture_view" />
+
+    <ImageView
+        android:id="@+id/customHeatIndexLegendBackButton"
+        android:layout_width="@dimen/back_button_size"
+        android:layout_height="@dimen/back_button_size"
+        android:layout_marginStart="@dimen/xw_space_2"
+        android:layout_marginTop="@dimen/map_back_button_margin_top"
+        android:background="@drawable/circle_background_selector"
+        android:contentDescription="Back to documentation examples menu"
+        android:padding="@dimen/back_button_padding"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Lets you flip between the SDK's default labels and the custom ones. -->
+    <Button
+        android:id="@+id/customHeatIndexLegendToggleButton"
+        style="@style/Xw.Button"
+        android:layout_marginStart="@dimen/xw_space_2"
+        android:layout_marginTop="@dimen/xw_space_3"
+        android:background="@drawable/button_background_selector"
+        android:textColor="@color/xw_text_primary"
+        android:text="Custom labels"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/customHeatIndexLegendBackButton" />
+
+    <TextView
+        android:id="@+id/customHeatIndexLegendNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/xw_space_2"
+        android:layout_marginTop="@dimen/xw_space_3"
+        android:background="@drawable/xw_panel_background"
+        android:padding="@dimen/xw_space_4"
+        style="@style/Xw.Text.Small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/customHeatIndexLegendToggleButton"
+        tools:text="Legend labels swap to Uncomfortable / Hot / Dangerous after five seconds, matching the JS example." />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
