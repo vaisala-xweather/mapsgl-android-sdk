@@ -114,11 +114,11 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
             startActivity(Intent(this, CustomWindParticlesActivity::class.java))
         }
 
-        binding.menuFrostFreezeLayerButton.setOnClickListener {
-            startActivity(Intent(this, FrostFreezeLayerActivity::class.java))
-        }
         binding.menuFilterAlertsButton.setOnClickListener {
             startActivity(Intent(this, FilterAlertsActivity::class.java))
+        }
+        binding.menuFrostFreezeLayerButton.setOnClickListener {
+            startActivity(Intent(this, FrostFreezeLayerActivity::class.java))
         }
     }
 
