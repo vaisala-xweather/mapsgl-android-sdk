@@ -2,7 +2,6 @@ package com.example.mapsgldemo.customize
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Rect
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
@@ -18,15 +17,14 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.example.mapsgldemo.LayerCustomizationMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityCustomizationDemoBinding
+import com.example.mapsgldemo.helpers.InsetEdges
 import com.example.mapsgldemo.helpers.TimelineTextFormatter
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.mapbox.common.Cancelable
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
@@ -130,13 +128,13 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Before setContentView so the first layout pass already has the full window. The map is
-        // constrained to the root's edges, so this alone is what lets it draw behind the camera
-        // cutout; applyCutoutInsets() then keeps the chrome out of it.
-        WindowCompat.setDecorFitsSystemWindows(window, false)
         binding = ActivityCustomizationDemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applyCutoutInsets()
+        drawBehindCutout(
+            binding.customizationRoot,
+            InsetEdges(binding.customizationBackButton, top = true, start = true),
+            InsetEdges(binding.customizationCaption, top = true, end = true),
+        )
 
         mapView = binding.customizationMapView
         binding.customizationCaption.text = caption
@@ -253,66 +251,9 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         // timeline and stretches the whole height of the map.
         binding.customizationControlsScroll.updateLayoutParams<ConstraintLayout.LayoutParams> {
             bottomToTop = ConstraintLayout.LayoutParams.UNSET
-            topToBottom = binding.customizationCaption.id
+            topToBottom = binding.customizationHeaderBottom.id
             topMargin = dpToPx(8)
             bottomMargin = 0
-        }
-    }
-
-    /** Margins each inset-aware view was laid out with, so insets add to them instead of replacing. */
-    private val baseMargins = HashMap<Int, Rect>()
-
-    /**
-     * Gives the map the strip the camera cutout sits in, and pushes the chrome clear of it.
-     *
-     * The map fills the root, so `setDecorFitsSystemWindows(false)` alone hands it the cutout strip
-     * - on the test device 26dp of full-width map that was previously a blank band for a hole 20dp
-     * wide. Everything that is not the map has to be moved back out of that strip, which is what
-     * this does.
-     *
-     * Read off the insets rather than a measured constant, for two reasons. The strip is a
-     * different height on every device, and it does not stay on the top edge: rotate, and the
-     * cutout moves to a side, `top` becomes 0 and `left` or `right` does not. These activities
-     * declare `configChanges="orientation|screenSize"` so they turn without being recreated, and
-     * this listener re-runs on each new set of insets.
-     *
-     * [WindowInsetsCompat.Type.systemBars] is unioned in because the cutout is not the only thing
-     * that can eat an edge - the navigation bar does too, and on a device whose theme leaves the
-     * status bar showing, so does that.
-     */
-    private fun applyCutoutInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.customizationRoot) { _, windowInsets ->
-            val inset = windowInsets.getInsets(
-                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout(),
-            )
-            // The back button owns the top edge; the caption hangs off it, so it needs sides only.
-            insetView(binding.customizationBackButton, top = inset.top, start = inset.left)
-            insetView(binding.customizationCaption, start = inset.left, end = inset.right)
-            insetView(binding.customizationControlsScroll, start = inset.left, end = inset.right)
-            // Timeline chrome spans the bottom. Its own bottom padding is handled by
-            // TimelineControls.adjustPaddingForNavigation; only the sides are left to do.
-            insetView(binding.timelineView.root, start = inset.left, end = inset.right)
-            insetView(binding.timelineSettingsPanel.root, start = inset.left, end = inset.right)
-            // Returned unconsumed: the timeline's own navigation-bar listener is downstream of this
-            // one and never fires if the insets stop here.
-            windowInsets
-        }
-    }
-
-    /**
-     * Only the edges named are touched. [moveControlsBelowCaption] owns the controls panel's top
-     * margin, and this listener re-runs on every rotation - writing a top margin it was not asked
-     * for would undo that the first time the device turned.
-     */
-    private fun insetView(view: View, top: Int? = null, start: Int? = null, end: Int? = null) {
-        val base = baseMargins.getOrPut(view.id) {
-            val lp = view.layoutParams as ViewGroup.MarginLayoutParams
-            Rect(lp.marginStart, lp.topMargin, lp.marginEnd, lp.bottomMargin)
-        }
-        view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-            top?.let { topMargin = base.top + it }
-            start?.let { marginStart = base.left + it }
-            end?.let { marginEnd = base.right + it }
         }
     }
 

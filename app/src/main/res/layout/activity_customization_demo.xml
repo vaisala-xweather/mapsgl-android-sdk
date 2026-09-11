@@ -30,12 +30,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:mapbox_mapSurface="texture_view" />
 
+    <!--
+      The back control keeps the circular button used everywhere else in the app; the caption is
+      its own panel directly to its right, so the two read as related without being one object.
+      Both sit at the top of the window - applyCutoutInsets() adds whatever the display cutout
+      needs, so they clear it on any device.
+    -->
     <ImageView
         android:id="@+id/customizationBackButton"
         android:layout_width="@dimen/back_button_size"
         android:layout_height="@dimen/back_button_size"
         android:layout_marginStart="@dimen/xw_space_2"
-        android:layout_marginTop="@dimen/map_back_button_margin_top"
+        android:layout_marginTop="@dimen/xw_space_2"
         android:background="@drawable/circle_background_selector"
         android:contentDescription="Back to the layer customization menu"
         android:padding="@dimen/back_button_padding"
@@ -49,9 +55,17 @@
         android:id="@+id/customizationCaption"
         style="@style/DemoCaption"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/customizationBackButton"
+        app:layout_constraintStart_toEndOf="@id/customizationBackButton"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Fill colour comes from an interpolate expression on the magnitude property." />
+
+    <!-- Controls hang below whichever of the two is taller - a one-line caption is shorter. -->
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/customizationHeaderBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="customizationBackButton,customizationCaption" />
 
     <!--
       Controls are built programmatically by each demo (see CustomizationDemoActivity.addSlider /
