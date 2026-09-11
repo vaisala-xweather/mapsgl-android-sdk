@@ -55,10 +55,12 @@
                 style="@style/Xw.ScreenTitle"
                 android:text="Documentation examples" />
 
+            <!-- Text set in code: the string carries a link, which needs HtmlCompat. -->
             <TextView
                 android:id="@+id/docsExamplesMenuLeadTextView"
                 style="@style/Xw.SectionLead"
-                android:text="The snippets published in the MapsGL guides, running here unmodified." />
+                android:textColorLink="@color/xw_accent_primary"
+                tools:text="The snippets published in the MapsGL guides, running here unmodified." />
 
             <View
                 android:id="@+id/docsExamplesMenuHeaderDivider"

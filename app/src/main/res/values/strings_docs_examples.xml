@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Kept out of strings.xml on purpose: that file holds the Mapbox and Xweather credentials, so it
+    is the one resource file a checkout is expected to edit and never commit.
+-->
+<resources>
+
+    <!--
+        The lead line on the Documentation Examples menu. Carries an <a> tag, so it is read with
+        HtmlCompat.fromHtml and needs a LinkMovementMethod to be tappable - see
+        DocsExamplesMenuActivity.
+    -->
+    <string name="docs_examples_lead"><![CDATA[The snippets published in the <a href="https://www.xweather.com/docs/mapsgl-android-sdk/examples">MapsGL guides</a>, running here unmodified.]]></string>
+
+</resources>

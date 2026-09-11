@@ -2,8 +2,10 @@ package com.example.mapsgldemo
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
 import com.example.mapsgldemo.databinding.ActivityDocsExamplesMenuBinding
 import com.example.mapsgldemo.docExamples.AddGeoJsonLayerActivity
 import com.example.mapsgldemo.docExamples.AddRasterLayerActivity
@@ -35,6 +37,17 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDocsExamplesMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // The lead line links out to the published guides. The <a> tag has to be parsed, and a
+        // movement method attached, or the span renders as styled text that does not respond to a
+        // tap.
+        binding.docsExamplesMenuLeadTextView.apply {
+            text = HtmlCompat.fromHtml(
+                getString(R.string.docs_examples_lead),
+                HtmlCompat.FROM_HTML_MODE_LEGACY,
+            )
+            movementMethod = LinkMovementMethod.getInstance()
+        }
 
         binding.docsExamplesMenuBackToMainButton.root.setOnClickListener { returnToMainMenu() }
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
