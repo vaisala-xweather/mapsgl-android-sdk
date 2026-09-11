@@ -10,6 +10,7 @@ import com.xweather.mapsgl.map.mapbox.MapboxMapController
 import com.xweather.mapsgl.style.ColorStop
 import com.xweather.mapsgl.style.SampleLayerPaint
 import com.xweather.mapsgl.types.Coordinate
+import com.xweather.mapsgl.types.math_type.BoundedRange
 import com.xweather.mapsgl.weather.common.Presentation
 import com.xweather.mapsgl.weather.WeatherService
 
@@ -41,17 +42,15 @@ import com.xweather.mapsgl.weather.WeatherService
  * Everything warmer than 36 F is simply not drawn:
  *
  * ```kotlin
- * paint.sample.drawRange = SCALE_FLOOR_C..FROST_MAX_C
+ * paint.sample.drawRange = BoundedRange.atMost(FROST_MAX_C)
  * ```
  *
  * Without it the layer still covers the whole map in the coldest colour wherever it has data, and
  * the point of the map - *where frost is possible tonight* - is lost in it.
  *
- * One difference from the JS example worth knowing. JS sets `drawRange: { max: 2.22 }` and leaves
- * the minimum open; [com.xweather.mapsgl.style.SamplePaint.drawRange] is a `ClosedRange<Double>`,
- * so Android needs both ends. [SCALE_FLOOR_C] supplies the bottom, and it is deliberately the same
- * value as the lowest colour stop: any temperature the scale can colour is a temperature the range
- * admits, so the floor never clips anything the JS version would have drawn.
+ * [BoundedRange.atMost] is the direct equivalent of the JS example's `drawRange: { max: 2.22 }`:
+ * the bottom is left open and the renderer fills it in from the layer's own data range. A plain
+ * `ClosedRange` works as well, but only by naming a floor this map has no opinion about.
  *
  * ### The legend is a point legend, not a bar
  *
@@ -96,7 +95,7 @@ class FrostFreezeLayerActivity : CustomizationDemoActivity() {
         val paint = config.layer.paint as SampleLayerPaint
 
         // JS: paint.sample.drawRange. Clips the layer to the temperatures this map is about.
-        paint.sample.drawRange = SCALE_FLOOR_C..FROST_MAX_C
+        paint.sample.drawRange = BoundedRange.atMost(FROST_MAX_C)
 
         // JS: paint.sample.colorscale. copy() so the built-in scale's other fields survive - only
         // the stops, the interval and the interpolation are being replaced.
@@ -152,7 +151,7 @@ class FrostFreezeLayerActivity : CustomizationDemoActivity() {
         /** 36 F, the warmest temperature this map draws. */
         const val FROST_MAX_C = 2.22
 
-        /** The bottom of both the colour scale and the draw range, as in the JS example. */
+        /** The bottom of the colour scale, as in the JS example. */
         const val SCALE_FLOOR_C = -90.0
 
         /** 28 F: at or below this is a hard freeze. */

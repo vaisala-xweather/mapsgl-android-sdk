@@ -44,15 +44,17 @@ only the stops, the interval and the interpolation are being replaced.
 ## `drawRange` is what makes it a frost map rather than a temperature map
 
 ```kotlin
-paint.sample.drawRange = SCALE_FLOOR_C..FROST_MAX_C
+paint.sample.drawRange = BoundedRange.atMost(FROST_MAX_C)
 ```
 
 Everything warmer than 36 °F is simply not drawn. Without it the layer still covers the map in its
 coldest colour wherever it has data, and the point of the map — *where frost is possible tonight* —
 is lost in it.
 
-One difference from the JS example: JS sets `drawRange: { max: 2.22 }` and leaves the minimum open.
-`SamplePaint.drawRange` is a `ClosedRange<Double>`, so Android needs both ends.
+`BoundedRange.atMost` is the direct equivalent of the JS example's `drawRange: { max: 2.22 }`: the
+bottom is left open, and the renderer fills it in from the layer's own data range. A plain
+`ClosedRange` works as well — `drawRange = -90.0..2.22` — but only by naming a floor this map has no
+opinion about.
 
 ## The legend is a point legend, not a bar
 
