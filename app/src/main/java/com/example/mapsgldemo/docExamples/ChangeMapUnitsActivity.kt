@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityChangeMapUnitsBinding
@@ -69,6 +71,13 @@ class ChangeMapUnitsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChangeMapUnitsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.changeMapUnitsBackButton, top = true, start = true),
+            InsetEdges(binding.changeMapUnitsCaption, start = true, end = true),
+            InsetEdges(binding.changeMapUnitsSpeedLabel, start = true),
+            InsetEdges(binding.changeMapUnitsSpeedSpinner, start = true),
+        )
 
         mapView = binding.changeMapUnitsMapView
         binding.changeMapUnitsCaption.text =

@@ -7,6 +7,8 @@ import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.Color
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityAddGeojsonLayerBinding
@@ -69,6 +71,11 @@ class AddGeoJsonLayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddGeojsonLayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.addGeojsonBackButton, top = true, start = true),
+            InsetEdges(binding.addGeojsonCaption, start = true, end = true),
+        )
 
         mapView = binding.addGeojsonMapView
         binding.addGeojsonCaption.text =

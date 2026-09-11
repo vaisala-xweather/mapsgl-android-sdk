@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.ShowcaseMenuActivity
 import com.example.mapsgldemo.StencilMaskMenuActivity
@@ -45,6 +47,11 @@ class Demo2LandMaskTemperatureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDemo2LandMaskTemperatureBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.demo2LandMaskTemperatureBackButton, top = true, start = true),
+            InsetEdges(binding.demo2LandMaskTemperatureMaskTypeRow, top = true, start = true, end = true),
+        )
 
         mapView = binding.demo2LandMaskTemperatureMapView
         setupTimelineChrome()

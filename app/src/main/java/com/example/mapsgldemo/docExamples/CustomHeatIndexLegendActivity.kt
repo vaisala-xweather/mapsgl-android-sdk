@@ -10,6 +10,8 @@ import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityCustomHeatIndexLegendBinding
@@ -112,6 +114,12 @@ class CustomHeatIndexLegendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomHeatIndexLegendBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.customHeatIndexLegendBackButton, top = true, start = true),
+            InsetEdges(binding.customHeatIndexLegendToggleButton, start = true),
+            InsetEdges(binding.customHeatIndexLegendNote, start = true, end = true),
+        )
 
         mapView = binding.customHeatIndexLegendMapView
         binding.customHeatIndexLegendNote.text = NOTE_WAITING

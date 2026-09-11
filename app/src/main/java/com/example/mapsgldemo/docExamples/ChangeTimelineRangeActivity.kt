@@ -9,6 +9,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityChangeTimelineRangeBinding
@@ -82,6 +84,11 @@ class ChangeTimelineRangeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChangeTimelineRangeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.changeTimelineRangeBackButton, top = true, start = true),
+            InsetEdges(binding.changeTimelineRangeControls, start = true),
+        )
 
         mapView = binding.changeTimelineRangeMapView
 

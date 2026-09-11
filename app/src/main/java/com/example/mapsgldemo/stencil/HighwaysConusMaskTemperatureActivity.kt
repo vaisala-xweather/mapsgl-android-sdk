@@ -13,6 +13,8 @@ import android.widget.CompoundButton
 import android.widget.SeekBar
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.StencilMaskMenuActivity
 import com.example.mapsgldemo.databinding.ActivityHighwaysConusMaskTemperatureBinding
@@ -78,6 +80,11 @@ class HighwaysConusMaskTemperatureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHighwaysConusMaskTemperatureBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.highwaysConusBackButton, top = true, start = true),
+            InsetEdges(binding.highwaysConusControlPanel, start = true),
+        )
 
         mapView = binding.highwaysConusMapView
 

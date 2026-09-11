@@ -8,6 +8,8 @@ import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.StencilMaskMenuActivity
 import com.example.mapsgldemo.databinding.ActivityLandHighwayMaskTemperatureBinding
@@ -47,6 +49,10 @@ class LandHighwayMaskTemperatureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLandHighwayMaskTemperatureBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.landHighwayMaskTemperatureBackButton, top = true, start = true),
+        )
 
         mapView = binding.landHighwayMaskTemperatureMapView
 

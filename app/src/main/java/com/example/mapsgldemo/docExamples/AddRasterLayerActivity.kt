@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityAddRasterLayerBinding
@@ -57,6 +59,11 @@ class AddRasterLayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddRasterLayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.addRasterBackButton, top = true, start = true),
+            InsetEdges(binding.addRasterCaption, start = true, end = true),
+        )
 
         mapView = binding.addRasterMapView
         binding.addRasterCaption.text =

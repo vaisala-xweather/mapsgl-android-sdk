@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityCustomAlertStylesBinding
@@ -60,6 +62,10 @@ class CustomAlertStylesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomAlertStylesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.customAlertStylesBackButton, top = true, start = true),
+        )
 
         mapView = binding.customAlertStylesMapView
 

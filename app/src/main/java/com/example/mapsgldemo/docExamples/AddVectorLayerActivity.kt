@@ -7,6 +7,8 @@ import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.Color
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityAddVectorLayerBinding
@@ -67,6 +69,11 @@ class AddVectorLayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddVectorLayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.addVectorBackButton, top = true, start = true),
+            InsetEdges(binding.addVectorCaption, start = true, end = true),
+        )
 
         mapView = binding.addVectorMapView
         binding.addVectorCaption.text =

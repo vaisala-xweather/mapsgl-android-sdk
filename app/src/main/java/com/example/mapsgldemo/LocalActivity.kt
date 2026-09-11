@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.LocalActivity.Companion.FALLBACK_PIN_LAT
 import com.example.mapsgldemo.LocalActivity.Companion.FALLBACK_PIN_LON
 import com.example.mapsgldemo.databinding.ActivityLocalMapBinding
@@ -141,6 +143,10 @@ class LocalActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLocalMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.localBackButton, top = true, start = true),
+        )
 
         binding.timelineView.timelineControls.attachSettingsPanel(binding.timelineSettingsPanel)
         // MapLayers uses embedded [timeline.settingsCS]; Local uses the activity overlay only.

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.StencilMaskMenuActivity
 import com.example.mapsgldemo.databinding.ActivityPortugalSatelliteMaskBinding
@@ -47,6 +49,10 @@ class Demo1PortugalSatelliteMaskActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPortugalSatelliteMaskBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.portugalSatelliteBackButton, top = true, start = true),
+        )
 
         mapView = binding.portugalSatelliteMapView
 

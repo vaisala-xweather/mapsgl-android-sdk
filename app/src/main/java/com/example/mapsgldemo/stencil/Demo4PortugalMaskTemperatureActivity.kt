@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mapsgldemo.helpers.InsetEdges
+import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.StencilMaskMenuActivity
 import com.example.mapsgldemo.databinding.ActivityDemo4PortugalMaskTemperatureBinding
@@ -54,6 +56,11 @@ class Demo4PortugalMaskTemperatureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDemo4PortugalMaskTemperatureBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        drawBehindCutout(
+            binding.root,
+            InsetEdges(binding.demo4PortugalMaskTemperatureBackButton, top = true, start = true),
+            InsetEdges(binding.demo4PortugalMaskTemperatureInvertMaskButton, top = true, end = true),
+        )
 
         mapView = binding.demo4PortugalMaskTemperatureMapView
 
