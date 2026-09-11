@@ -148,3 +148,5 @@ stops — which is why `normalized` matters: the positions no longer mean degree
 
 - [Change map units](change-map-units.md) — the other legend example in this app, which relabels
   the same kind of bar by changing units instead of labels
+- [Customizing radar color scale](custom-radar-colorscale.md) — the other half of the colour story:
+  changing the scale a bar legend describes, rather than its labels

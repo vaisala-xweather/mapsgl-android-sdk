@@ -15,6 +15,11 @@ import com.example.mapsgldemo.docExamples.CustomEarthquakeShaderActivity
 import com.example.mapsgldemo.docExamples.CustomFiresShaderActivity
 import com.example.mapsgldemo.docExamples.CustomHeatIndexLegendActivity
 import com.example.mapsgldemo.docExamples.CustomLightningShaderActivity
+import com.example.mapsgldemo.docExamples.CustomLightningStylesActivity
+import com.example.mapsgldemo.docExamples.CustomRadarColorscaleActivity
+import com.example.mapsgldemo.docExamples.CustomTempsFillActivity
+import com.example.mapsgldemo.docExamples.CustomWindParticlesActivity
+import com.example.mapsgldemo.docExamples.FilterAlertsActivity
 
 /**
  * Sub-menu for the MapsGL documentation examples ported to Android. Each button opens one activity
@@ -77,6 +82,26 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
 
         binding.menuCustomLightningShaderButton.setOnClickListener {
             startActivity(Intent(this, CustomLightningShaderActivity::class.java))
+        }
+
+        binding.menuCustomLightningStylesButton.setOnClickListener {
+            startActivity(Intent(this, CustomLightningStylesActivity::class.java))
+        }
+
+        binding.menuCustomRadarColorscaleButton.setOnClickListener {
+            startActivity(Intent(this, CustomRadarColorscaleActivity::class.java))
+        }
+
+        binding.menuCustomTempsFillButton.setOnClickListener {
+            startActivity(Intent(this, CustomTempsFillActivity::class.java))
+        }
+
+        binding.menuCustomWindParticlesButton.setOnClickListener {
+            startActivity(Intent(this, CustomWindParticlesActivity::class.java))
+        }
+
+        binding.menuFilterAlertsButton.setOnClickListener {
+            startActivity(Intent(this, FilterAlertsActivity::class.java))
         }
     }
 

@@ -224,6 +224,81 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/menuCustomLightningStylesButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Lightning strike circles over the Gulf coast, solid white when fresh and fading with age"
+                        android:src="@drawable/example_custom_lightning_styles" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Customizing lightning point styles" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuCustomRadarColorscaleButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Radar over the central United States drawn in purple and magenta by a custom normalized colour scale"
+                        android:src="@drawable/example_custom_radar_colorscale" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Customizing radar color scale" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuCustomTempsFillButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Temperatures over the Pacific Northwest drawn in a custom colour ramp, quantized into discrete bands"
+                        android:src="@drawable/example_custom_temps_fill" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Customizing temperature colors" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuCustomWindParticlesButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Dense wind particles streaming across Europe, coloured from deep blue through magenta to yellow by wind speed"
+                        android:src="@drawable/example_custom_wind_particles" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Customizing wind particles" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuFilterAlertsButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Severe weather alert polygons over the United States, filtered to a single alert category"
+                        android:src="@drawable/example_filter_alerts" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Filter weather alerts by category" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

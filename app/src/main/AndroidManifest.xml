@@ -171,6 +171,12 @@
             android:label="Change timeline range"
             android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
+            android:name=".docExamples.CustomLightningStylesActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Custom lightning styles"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
             android:name=".docExamples.CustomLightningShaderActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
@@ -193,6 +199,30 @@
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="Custom earthquake shader"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.FilterAlertsActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Filter weather alerts by category"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.CustomWindParticlesActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Customizing wind particles"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.CustomTempsFillActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Customizing temperature colors"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.CustomRadarColorscaleActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Customizing radar color scale"
             android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
             android:name=".docExamples.CustomAlertStylesActivity"

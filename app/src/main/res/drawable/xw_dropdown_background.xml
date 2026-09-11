@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Drop-down popup surface. Unlike xw_panel_background, this one is opaque: a list of choices
+    has to be readable on its own, and letting map detail through behind the labels is what makes
+    a picker hard to read.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/xw_surface_raised" />
+    <corners android:radius="@dimen/xw_radius_md" />
+    <stroke android:width="@dimen/xw_border_width" android:color="@color/xw_border" />
+</shape>

@@ -2,17 +2,27 @@ package com.example.mapsgldemo.customize
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Rect
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.SeekBar
+import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import com.example.mapsgldemo.LayerCustomizationMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityCustomizationDemoBinding
@@ -26,6 +36,7 @@ import com.mapbox.maps.extension.style.projection.generated.setProjection
 import com.xweather.mapsgl.anim.AnimationEvent
 import com.xweather.mapsgl.anim.AnimationState
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
+import com.xweather.mapsgl.controls.legend.LegendControl
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
 import com.xweather.mapsgl.types.Coordinate
 import com.xweather.mapsgl.weather.LayerCode
@@ -58,6 +69,23 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
     protected open val timelineHoursBack: Long = 6
 
     /**
+     * Set `true` to attach the SDK's data inspector, so tapping the map reads the value or the
+     * feature under the finger.
+     *
+     * Off by default: it is only useful on a demo whose layer carries data worth inspecting.
+     */
+    protected open val showDataInspector: Boolean = false
+
+    /**
+     * Set `true` to show the SDK's legend for whatever layers this demo adds.
+     *
+     * Off by default: most of these screens style a layer that has no legend, or one whose legend
+     * says nothing about what the demo changed. The control is registered before [customizeLayers]
+     * runs, because a legend is created as its layer is added.
+     */
+    protected open val showLegend: Boolean = false
+
+    /**
      * Add and style the layers for this demo.
      *
      * Called once, after the map and its style are ready. This is the only function a demo needs
@@ -76,7 +104,7 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         LayerCustomizationMenuActivity::class.java
 
     /**
-     * Add the demo's interactive controls with [addSlider] and [addToggle].
+     * Add the demo's interactive controls with [addSlider], [addChoice] and [addToggle].
      *
      * Called straight after [customizeLayers]. Optional - a demo with nothing to tweak can leave
      * it out and the control panel stays hidden.
@@ -89,14 +117,26 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         private set
     private var mapboxMap: MapboxMap? = null
     private var mapLoadedCancelable: Cancelable? = null
+    /**
+     * The legend control, for a demo that wants to reach into the legend itself.
+     *
+     * Only registered with the controller when [showLegend] is set; until then nothing here is on
+     * screen and [LegendControl.getLegend] has nothing to return.
+     */
+    protected val legendControl by lazy { LegendControl() }
     private var layersReady = false
     private var resumeTimelineAfterBackground = false
 
     @SuppressLint("ClickableViewAccessibility")
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Before setContentView so the first layout pass already has the full window. The map is
+        // constrained to the root's edges, so this alone is what lets it draw behind the camera
+        // cutout; applyCutoutInsets() then keeps the chrome out of it.
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         binding = ActivityCustomizationDemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        applyCutoutInsets()
 
         mapView = binding.customizationMapView
         binding.customizationCaption.text = caption
@@ -149,6 +189,11 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         layersReady = true
         mapboxMap?.style?.setProjection(projection(ProjectionName.MERCATOR))
 
+        // Before customizeLayers: the control has to be registered to pick up the legend that
+        // comes with a layer as that layer is added.
+        if (showLegend) attachLegend() else if (controlsBelowCaption) moveControlsBelowCaption()
+        if (showDataInspector) controller.addDataInspectorControl(mapView)
+
         // The demo's own code runs here.
         customizeLayers(controller)
         buildControls()
@@ -166,6 +211,112 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
             startEndLabels = binding.timelineSettingsPanel,
         )
     }
+
+    /**
+     * Adds the legend view into the root - the Android counterpart of the JS
+     * `addLegendControl('#legend')` - and swaps it with the controls panel.
+     *
+     * The legend takes the bottom, above the timeline, and the controls move up under the caption.
+     * That is the right way round for a screen whose control changes what the legend describes:
+     * the legend reads as part of the map, and the thing you touch sits near the thing that tells
+     * you what you did. The swap is scoped to legend-showing demos, so the other demos keep their
+     * controls at the bottom.
+     */
+    private fun attachLegend() {
+        controller.add(legendControl)
+        legendControl.setDarkTheme(true)
+        val legendView = legendControl.getView()
+        legendView.id = View.generateViewId()
+        binding.customizationRoot.addView(legendView)
+        legendView.layoutParams = (legendView.layoutParams as ConstraintLayout.LayoutParams).apply {
+            endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+            bottomToTop = R.id.timeline_settings_panel
+            bottomMargin = dpToPx(8)
+            marginEnd = dpToPx(12)
+            width = dpToPx(240)
+        }
+
+        moveControlsBelowCaption()
+    }
+
+    /**
+     * Puts the controls panel directly under the caption instead of at the bottom of the map.
+     *
+     * [showLegend] implies this - the legend takes the bottom and the controls move out of its way.
+     * A screen with no legend can ask for it on its own when the caption is what explains the
+     * control, so the two read together rather than sitting at opposite ends of the screen.
+     */
+    protected open val controlsBelowCaption: Boolean = false
+
+    private fun moveControlsBelowCaption() {
+        // bottomToTop has to be cleared explicitly, or the panel keeps its XML anchor to the
+        // timeline and stretches the whole height of the map.
+        binding.customizationControlsScroll.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            bottomToTop = ConstraintLayout.LayoutParams.UNSET
+            topToBottom = binding.customizationCaption.id
+            topMargin = dpToPx(8)
+            bottomMargin = 0
+        }
+    }
+
+    /** Margins each inset-aware view was laid out with, so insets add to them instead of replacing. */
+    private val baseMargins = HashMap<Int, Rect>()
+
+    /**
+     * Gives the map the strip the camera cutout sits in, and pushes the chrome clear of it.
+     *
+     * The map fills the root, so `setDecorFitsSystemWindows(false)` alone hands it the cutout strip
+     * - on the test device 26dp of full-width map that was previously a blank band for a hole 20dp
+     * wide. Everything that is not the map has to be moved back out of that strip, which is what
+     * this does.
+     *
+     * Read off the insets rather than a measured constant, for two reasons. The strip is a
+     * different height on every device, and it does not stay on the top edge: rotate, and the
+     * cutout moves to a side, `top` becomes 0 and `left` or `right` does not. These activities
+     * declare `configChanges="orientation|screenSize"` so they turn without being recreated, and
+     * this listener re-runs on each new set of insets.
+     *
+     * [WindowInsetsCompat.Type.systemBars] is unioned in because the cutout is not the only thing
+     * that can eat an edge - the navigation bar does too, and on a device whose theme leaves the
+     * status bar showing, so does that.
+     */
+    private fun applyCutoutInsets() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.customizationRoot) { _, windowInsets ->
+            val inset = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout(),
+            )
+            // The back button owns the top edge; the caption hangs off it, so it needs sides only.
+            insetView(binding.customizationBackButton, top = inset.top, start = inset.left)
+            insetView(binding.customizationCaption, start = inset.left, end = inset.right)
+            insetView(binding.customizationControlsScroll, start = inset.left, end = inset.right)
+            // Timeline chrome spans the bottom. Its own bottom padding is handled by
+            // TimelineControls.adjustPaddingForNavigation; only the sides are left to do.
+            insetView(binding.timelineView.root, start = inset.left, end = inset.right)
+            insetView(binding.timelineSettingsPanel.root, start = inset.left, end = inset.right)
+            // Returned unconsumed: the timeline's own navigation-bar listener is downstream of this
+            // one and never fires if the insets stop here.
+            windowInsets
+        }
+    }
+
+    /**
+     * Only the edges named are touched. [moveControlsBelowCaption] owns the controls panel's top
+     * margin, and this listener re-runs on every rotation - writing a top margin it was not asked
+     * for would undo that the first time the device turned.
+     */
+    private fun insetView(view: View, top: Int? = null, start: Int? = null, end: Int? = null) {
+        val base = baseMargins.getOrPut(view.id) {
+            val lp = view.layoutParams as ViewGroup.MarginLayoutParams
+            Rect(lp.marginStart, lp.topMargin, lp.marginEnd, lp.bottomMargin)
+        }
+        view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            top?.let { topMargin = base.top + it }
+            start?.let { marginStart = base.left + it }
+            end?.let { marginEnd = base.right + it }
+        }
+    }
+
+    private fun dpToPx(dp: Int) = (dp * resources.displayMetrics.density).toInt()
 
     private fun setupTimelineChrome() {
         binding.timelineView.timelineControls.attachSettingsPanel(binding.timelineSettingsPanel)
@@ -298,6 +449,83 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         binding.customizationControls.addView(caption)
         binding.customizationControls.addView(
             bar,
+            LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+            ),
+        )
+    }
+
+    /**
+     * Adds a labelled drop-down over [options] - the counterpart of a `<select>` in the JS
+     * examples.
+     *
+     * A [Spinner] rather than a slider on purpose. [addSlider] maps its track onto 100 steps, so
+     * picking an exact one of a handful of named choices means landing inside the right 1/100th of
+     * the track; a drag that stops short reads back as the neighbouring option. A drop-down names
+     * every choice and cannot be off by one.
+     *
+     * [onChange] fires only when the selection actually changed, which matters when the handler is
+     * expensive - re-adding a layer, say.
+     */
+    protected fun addChoice(
+        label: String,
+        options: List<String>,
+        initialIndex: Int = 0,
+        onChange: (Int) -> Unit,
+    ) {
+        require(options.isNotEmpty()) { "addChoice needs at least one option" }
+        var current = initialIndex.coerceIn(options.indices)
+
+        val caption = TextView(this).apply {
+            setTextColor(getColor(R.color.xw_text_secondary))
+            typeface = Typeface.MONOSPACE
+            letterSpacing = 0.02f
+            textSize = 13f
+            text = label
+        }
+
+        // Spinner rows are inflated from the platform layouts, which assume a light background,
+        // so each one gets retinted as it is bound.
+        val adapter = object : ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_spinner_item,
+            options,
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View =
+                super.getView(position, convertView, parent).also(::style)
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View =
+                super.getDropDownView(position, convertView, parent).also(::style)
+
+            private fun style(row: View) {
+                (row as? TextView)?.apply {
+                    setTextColor(getColor(R.color.xw_text_primary))
+                    typeface = Typeface.MONOSPACE
+                    textSize = 14f
+                }
+            }
+        }
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        val spinner = Spinner(this).apply {
+            this.adapter = adapter
+            setPopupBackgroundResource(R.drawable.xw_dropdown_background)
+            setSelection(current, false)
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p: AdapterView<*>?, v: View?, position: Int, id: Long) {
+                    if (position == current) return
+                    current = position
+                    onChange(position)
+                }
+
+                override fun onNothingSelected(p: AdapterView<*>?) = Unit
+            }
+        }
+
+        binding.customizationControls.addView(caption)
+        binding.customizationControls.addView(
+            spinner,
             LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT,

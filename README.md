@@ -28,6 +28,22 @@ what changes between the two SDKs:
 - [Custom lightning symbols using a shader](docs/examples/custom-lightning-shader.md) — strike
   age driving a noise-gated flash, on a dark basemap
   (**Documentation Examples → Custom lightning symbols using a shader**)
+- [Customizing lightning point styles](docs/examples/custom-lightning-styles.md) — a step
+  ladder on circle fill, with the JS opacity expression folded into the colour alpha
+  (**Documentation Examples → Customizing lightning point styles**)
+- [Customizing radar color scale](docs/examples/custom-radar-colorscale.md) — swapping a sample
+  layer's colour scale at runtime, why the assignment alone only moves the legend, and folding the
+  three per-type legend bars into one
+  (**Documentation Examples → Customizing radar color scale**)
+- [Customizing temperature colors](docs/examples/custom-temps-fill.md) — a custom ramp banded at a
+  fixed interval, and why `interval` needs `interpolate = false` to do anything
+  (**Documentation Examples → Customizing temperature colors**)
+- [Customizing wind particles](docs/examples/custom-wind-particles.md) — a normalized scale and
+  heavier particle settings, and why replacing a paint sub-object is not the same as JS's merge
+  (**Documentation Examples → Customizing wind particles**)
+- [Filter weather alerts by category](docs/examples/filter-alerts.md) — a VTEC membership filter on
+  the alerts layer, switched at runtime, and the data inspector confirming what survived it
+  (**Documentation Examples → Filter weather alerts by category**)
 
 ## Getting Started
 
