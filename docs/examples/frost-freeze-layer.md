@@ -54,19 +54,6 @@ is lost in it.
 One difference from the JS example: JS sets `drawRange: { max: 2.22 }` and leaves the minimum open.
 `SamplePaint.drawRange` is a `ClosedRange<Double>`, so Android needs both ends.
 
-## The anchor stop has to sit inside the layer's data range
-
-The stop list is the JS example's, with one value changed: the bottom anchor is −62 °C rather than
-JS's −90 °C.
-
-Stops outside the layer's data range are dropped when the colour lookup table is built, and the
-temperatures layer's range runs from about −62 °C to 54 °C. A stop at −90 °C is therefore discarded
-*along with the colour it carries* — so hard freeze becomes unreachable, and the band it should have
-painted draws as the next colour up. Measured before the anchor was moved: not one hard-freeze pixel
-anywhere on a September map, with the Greenland ice sheet drawing as Freeze.
-
-Any anchor at or below the coldest value the layer can report does the job.
-
 ## The legend is a point legend, not a bar
 
 Three named categories are not a continuous ramp, so the legend is three labelled swatches rather
@@ -87,12 +74,27 @@ config.legend = PointLegend(
 Assigning `WeatherLayerConfiguration.legend` before the layer is added is what replaces the built-in
 one.
 
-## Not ported: the custom inspector readout
+## The inspector names the band, not just the temperature
 
-The JS example also passes a `data.evaluator`, a function turning the sampled value into
-`"Freeze: -1.20°C, 29.84°F"` for the data inspector. The Android SDK has no equivalent — the hook
-exists only as a commented-out `evaluator` field in `StyleInterface` — so tapping the map here reads
-out the plain temperature. The map itself is unaffected; this is a readout difference.
+`Presentation` is the counterpart of the JS example's `data.evaluator`: a title, and a function
+turning the sampled value into the row the data inspector shows.
+
+```kotlin
+config.presentation = Presentation(
+    title = "Frost/Freeze",
+    fn = { features ->
+        val celsius = ((features as? Map<*, *>)?.get("value") as? Number)?.toDouble()
+        // … pick the band, then format it
+    },
+)
+```
+
+Assigning it to `WeatherLayerConfiguration.presentation` replaces the built-in temperature readout,
+so a tap on the ice sheet reads `Hard Freeze: -18.30°C, -0.94°F` rather than a bare temperature.
+
+Returning an empty string suppresses the row, which is how a tap on water the map does not draw says
+nothing at all instead of naming a category it does not belong to. The JS function returns `''` for
+the same case.
 
 ## Related
 

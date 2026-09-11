@@ -1,6 +1,7 @@
 package com.example.mapsgldemo.docExamples
 
 import androidx.appcompat.app.AppCompatActivity
+import java.util.Locale
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.customize.CustomizationDemoActivity
 import com.xweather.mapsgl.controls.legend.Point.PointLegend
@@ -9,6 +10,7 @@ import com.xweather.mapsgl.map.mapbox.MapboxMapController
 import com.xweather.mapsgl.style.ColorStop
 import com.xweather.mapsgl.style.SampleLayerPaint
 import com.xweather.mapsgl.types.Coordinate
+import com.xweather.mapsgl.weather.common.Presentation
 import com.xweather.mapsgl.weather.WeatherService
 
 /**
@@ -34,18 +36,6 @@ import com.xweather.mapsgl.weather.WeatherService
  * bands - left on, the scale fades one colour into the next and there is no line at 32 F to look
  * at.
  *
- * ### The anchor stop has to sit inside the layer's data range
- *
- * The stop list is the JS example's, with one value changed: the bottom anchor is [SCALE_FLOOR_C]
- * rather than JS's -90 C. Stops outside the layer's data range are dropped when the colour lookup
- * table is built, and the temperatures layer's range is roughly -62 C to 54 C - so a stop at -90 C
- * is discarded along with the colour it carries, and hard freeze becomes unreachable. Measured
- * before the anchor was moved: not one hard-freeze pixel anywhere on a September map, with the
- * Greenland ice sheet drawing as Freeze.
- *
- * Any anchor at or below the coldest value the layer can report does the job; -62 C is the floor
- * of that range.
- *
  * ### `drawRange` is what makes it a frost map rather than a temperature map
  *
  * Everything warmer than 36 F is simply not drawn:
@@ -70,12 +60,18 @@ import com.xweather.mapsgl.weather.WeatherService
  * [com.xweather.mapsgl.weather.WeatherLayerConfiguration.legend] before the layer is added is what
  * replaces the built-in one.
  *
- * ### Not ported: the custom inspector readout
+ * ### The inspector names the band, not just the temperature
  *
- * The JS example also passes a `data.evaluator`, a function turning the sampled value into
- * `"Freeze: -1.20C, 29.84F"` for the data inspector. The Android SDK has no equivalent - the hook
- * exists only as a commented-out `evaluator` field in `StyleInterface` - so tapping the map here
- * reads out the plain temperature. The map itself is unaffected; this is a readout difference.
+ * [com.xweather.mapsgl.weather.common.Presentation] is the counterpart of the JS example's
+ * `data.evaluator`: a title and a function turning the sampled value into the row the data
+ * inspector shows. Assigning one to
+ * [com.xweather.mapsgl.weather.WeatherLayerConfiguration.presentation] replaces the built-in
+ * temperature readout, so a tap on the ice sheet reads `Hard Freeze: -18.30C, -0.94F` rather than
+ * a bare temperature.
+ *
+ * Returning an empty string is what suppresses the row, which is how a tap on water the map does
+ * not draw says nothing at all instead of naming a category it does not belong to. The JS function
+ * returns `''` for the same case.
  */
 class FrostFreezeLayerActivity : CustomizationDemoActivity() {
 
@@ -121,6 +117,28 @@ class FrostFreezeLayerActivity : CustomizationDemoActivity() {
             ),
         )
 
+        // JS: data.evaluator. Names the band the value falls in, rather than reading out a bare
+        // temperature, and says nothing at all for a value the map does not draw.
+        config.presentation = Presentation(
+            title = "Frost/Freeze",
+            fn = { features ->
+                val celsius = ((features as? Map<*, *>)?.get("value") as? Number)?.toDouble()
+                val fahrenheit = celsius?.let { it * 9.0 / 5.0 + 32.0 }
+                val band = when {
+                    fahrenheit == null -> null
+                    fahrenheit <= 28.0 -> "Hard Freeze"
+                    fahrenheit <= 32.0 -> "Freeze"
+                    fahrenheit <= 36.0 -> "Frost"
+                    else -> null
+                }
+                if (band == null) {
+                    ""
+                } else {
+                    String.format(Locale.US, "%s: %.2f°C, %.2f°F", band, celsius, fahrenheit)
+                }
+            },
+        )
+
         // JS: addWeatherLayer('temperatures', { id: 'freeze-temps', … }). The id keeps this layer
         // distinct from an unmodified temperatures layer added alongside it.
         controller.addWeatherLayer(config, id = "freeze-temps")
@@ -134,16 +152,13 @@ class FrostFreezeLayerActivity : CustomizationDemoActivity() {
         /** 36 F, the warmest temperature this map draws. */
         const val FROST_MAX_C = 2.22
 
-        /**
-         * The bottom of both the colour scale and the draw range: the coldest value the
-         * temperatures layer reports. See the class doc on why this is not JS's -90.
-         */
+        /** The bottom of both the colour scale and the draw range, as in the JS example. */
         const val SCALE_FLOOR_C = -90.0
 
         /** 28 F: at or below this is a hard freeze. */
         const val HARD_FREEZE_MAX_C = -2.22
 
-        /** The JS example's stops, with the bottom anchor moved - see the class doc. */
+        /** The JS example's stops, verbatim. */
         val FROST_FREEZE_STOPS = listOf(
             ColorStop(SCALE_FLOOR_C, HARD_FREEZE),
             ColorStop(HARD_FREEZE_MAX_C, FREEZE),
