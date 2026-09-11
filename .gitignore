@@ -1,2 +1,12 @@
 # Release build outputs contain baked-in API credentials - never track them.
 app/release/*.apk
+# ...including the nested output directory Gradle writes to, which the line above misses.
+**/*.apk
+**/*.aab
+
+# Local SDK builds dropped in for testing against an unpublished artifact.
+app/libs/*.aar
+
+# Build output.
+app/build/
+app/release/release/
