@@ -1,0 +1,101 @@
+Create a freeze layer
+=====================
+
+Android port of the MapsGL JS example
+[Create a freeze layer](https://www.xweather.com/docs/mapsgl/examples/frost-freeze-layer).
+
+> Published as
+> [MapsGL Android → Examples → Create a freeze layer](https://www.xweather.com/docs/mapsgl-android-sdk/examples/frost-freeze-layer).
+> That page is the source of truth; this copy is here so the demo repo stands alone.
+
+Nothing in this example is a dedicated product. It is the ordinary `temperatures` layer with a
+three-colour stepped scale and everything above freezing-ish clipped away — which is how an
+agricultural frost map is usually made.
+
+Runnable source: [`FrostFreezeLayerActivity.kt`](../../app/src/main/java/com/example/mapsgldemo/docExamples/FrostFreezeLayerActivity.kt)
+(**Documentation Examples → Create a freeze layer**).
+
+![A frost map of eastern Canada and Greenland in three flat colour bands](../images/frost-freeze-layer.png)
+
+---
+
+## Three bands, and nothing above them
+
+| Band | Range | Colour |
+| --- | --- | --- |
+| Hard freeze | at or below 28 °F (−2.22 °C) | `#992BFF` |
+| Freeze | above 28 °F, at or below 32 °F (0 °C) | `#0046FF` |
+| Frost | above 32 °F, at or below 36 °F (2.22 °C) | `#73DAFC` |
+
+`interpolate = false` is what turns the ramp into bands. Left on, the scale fades one colour into
+the next and there is no line at 32 °F to look at:
+
+```kotlin
+paint.sample.colorScale = paint.sample.colorScale.copy(
+    stops = FROST_FREEZE_STOPS,
+    interval = 1.0,
+    interpolate = false,
+)
+```
+
+`copy()` rather than a fresh `ColorScaleOptions`, so the built-in scale's other fields survive —
+only the stops, the interval and the interpolation are being replaced.
+
+## `drawRange` is what makes it a frost map rather than a temperature map
+
+```kotlin
+paint.sample.drawRange = SCALE_FLOOR_C..FROST_MAX_C
+```
+
+Everything warmer than 36 °F is simply not drawn. Without it the layer still covers the map in its
+coldest colour wherever it has data, and the point of the map — *where frost is possible tonight* —
+is lost in it.
+
+One difference from the JS example: JS sets `drawRange: { max: 2.22 }` and leaves the minimum open.
+`SamplePaint.drawRange` is a `ClosedRange<Double>`, so Android needs both ends.
+
+## The anchor stop has to sit inside the layer's data range
+
+The stop list is the JS example's, with one value changed: the bottom anchor is −62 °C rather than
+JS's −90 °C.
+
+Stops outside the layer's data range are dropped when the colour lookup table is built, and the
+temperatures layer's range runs from about −62 °C to 54 °C. A stop at −90 °C is therefore discarded
+*along with the colour it carries* — so hard freeze becomes unreachable, and the band it should have
+painted draws as the next colour up. Measured before the anchor was moved: not one hard-freeze pixel
+anywhere on a September map, with the Greenland ice sheet drawing as Freeze.
+
+Any anchor at or below the coldest value the layer can report does the job.
+
+## The legend is a point legend, not a bar
+
+Three named categories are not a continuous ramp, so the legend is three labelled swatches rather
+than the bar the temperatures layer normally carries:
+
+```kotlin
+config.legend = PointLegend(
+    id = "temps-freeze",
+    title = "Frost/Freeze",
+    items = listOf(
+        PointLegendItem(Color.parseColor("#992BFF"), "Hard Freeze"),
+        PointLegendItem(Color.parseColor("#0046FF"), "Freeze"),
+        PointLegendItem(Color.parseColor("#73DAFC"), "Frost"),
+    ),
+)
+```
+
+Assigning `WeatherLayerConfiguration.legend` before the layer is added is what replaces the built-in
+one.
+
+## Not ported: the custom inspector readout
+
+The JS example also passes a `data.evaluator`, a function turning the sampled value into
+`"Freeze: -1.20°C, 29.84°F"` for the data inspector. The Android SDK has no equivalent — the hook
+exists only as a commented-out `evaluator` field in `StyleInterface` — so tapping the map here reads
+out the plain temperature. The map itself is unaffected; this is a readout difference.
+
+## Related
+
+- [Customizing temperature colors](https://www.xweather.com/docs/mapsgl-android-sdk/examples/custom-temps-fill)
+  — the same layer and the same banding mechanism, used to restyle the whole temperature range
+  rather than to isolate part of it

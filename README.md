@@ -41,6 +41,9 @@ what changes between the two SDKs:
 - [Customizing wind particles](docs/examples/custom-wind-particles.md) — a normalized scale and
   heavier particle settings, and why replacing a paint sub-object is not the same as JS's merge
   (**Documentation Examples → Customizing wind particles**)
+- [Create a freeze layer](docs/examples/frost-freeze-layer.md) — the temperatures layer as a frost
+  map: a stepped three-colour scale, a draw range hiding everything warmer, and a point legend
+  (**Documentation Examples → Create a freeze layer**)
 - [Filter weather alerts by category](docs/examples/filter-alerts.md) — a VTEC membership filter on
   the alerts layer, switched at runtime, and the data inspector confirming what survived it
   (**Documentation Examples → Filter weather alerts by category**)
