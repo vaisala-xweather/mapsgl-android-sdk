@@ -3,10 +3,14 @@
   Shared layout for every layer-customization demo. The demos differ only in the Kotlin that
   styles the layer, so they all reuse this one screen: map, back button, a caption describing
   what you are looking at, and the standard timeline chrome.
+
+  A demo that sets showLegend adds the SDK's legend view into the root at runtime, below the
+  caption - the bottom of the screen is taken by the controls panel and the timeline.
 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/customizationRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
@@ -43,14 +47,7 @@
     <!-- Explains what the demo changed, so the screen is readable without the source open. -->
     <TextView
         android:id="@+id/customizationCaption"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/main_menu_button_background_selector"
-        android:padding="12dp"
-        style="@style/Xw.Label"
+        style="@style/DemoCaption"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/customizationBackButton"
@@ -58,7 +55,8 @@
 
     <!--
       Controls are built programmatically by each demo (see CustomizationDemoActivity.addSlider /
-      addToggle), so adding a knob to a demo is one line in its Kotlin rather than more XML.
+      addChoice / addToggle), so adding a knob to a demo is one line in its Kotlin rather than
+      more XML.
     -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/customizationControlsScroll"

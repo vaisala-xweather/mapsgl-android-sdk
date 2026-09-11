@@ -71,6 +71,9 @@ class ChangeMapUnitsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mapView = binding.changeMapUnitsMapView
+        binding.changeMapUnitsCaption.text =
+            "Wind speeds with a legend. The picker changes the speed unit at runtime - the data is " +
+            "unchanged, only the formatting."
 
         val xweatherAccount = XweatherAccount(
             getString(R.string.xweather_client_id),

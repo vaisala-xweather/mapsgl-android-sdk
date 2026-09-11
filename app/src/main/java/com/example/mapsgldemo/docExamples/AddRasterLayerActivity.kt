@@ -59,6 +59,9 @@ class AddRasterLayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mapView = binding.addRasterMapView
+        binding.addRasterCaption.text =
+            "Geocolor satellite from a hand-built raster tile source rather than the built-in " +
+            "configuration, at 0.7 opacity."
 
         val clientId = getString(R.string.xweather_client_id)
         val clientSecret = getString(R.string.xweather_client_secret)

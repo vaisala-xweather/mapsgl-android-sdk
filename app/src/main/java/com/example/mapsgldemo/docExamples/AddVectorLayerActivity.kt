@@ -69,6 +69,9 @@ class AddVectorLayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mapView = binding.addVectorMapView
+        binding.addVectorCaption.text =
+            "Water boundaries from a custom vector tile source, styled by a line layer on the " +
+            "source's water layer."
 
         val xweatherAccount = XweatherAccount(
             getString(R.string.xweather_client_id),

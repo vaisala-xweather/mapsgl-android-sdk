@@ -31,4 +31,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Explains what the demo shows, so the screen is readable without the source open. -->
+    <TextView
+        android:id="@+id/addGeojsonCaption"
+        style="@style/DemoCaption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addGeojsonBackButton"
+        tools:text="A polygon over Portugal from inline GeoJSON, drawn as two layers over one source: a translucent fill and a thicker outline." />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -183,4 +183,22 @@
         <item name="android:letterSpacing">0.04</item>
         <item name="android:layout_marginBottom">@dimen/xw_space_2</item>
     </style>
+
+    <!--
+        The caption over a demo map: a sentence or two saying what the screen is showing, so a demo
+        reads without its source open.
+
+        Shared by the customization scaffold and by the examples that carry their own layout, which
+        is the point - those examples had no caption at all, and the ones that did were styled
+        inline here. Only the id and the constraints belong in the layout now.
+    -->
+    <style name="DemoCaption" parent="Xw.Label">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:background">@drawable/main_menu_button_background_selector</item>
+        <item name="android:padding">12dp</item>
+    </style>
 </resources>

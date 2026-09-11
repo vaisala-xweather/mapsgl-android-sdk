@@ -31,4 +31,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Explains what the demo shows, so the screen is readable without the source open. -->
+    <TextView
+        android:id="@+id/addVectorCaption"
+        style="@style/DemoCaption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addVectorBackButton"
+        tools:text="Water boundaries from a custom vector tile source, styled by a line layer on the source's water layer." />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

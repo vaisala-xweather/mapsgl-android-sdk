@@ -71,6 +71,9 @@ class AddGeoJsonLayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         mapView = binding.addGeojsonMapView
+        binding.addGeojsonCaption.text =
+            "A polygon over Portugal from inline GeoJSON, drawn as two layers over one source: a " +
+            "translucent fill and a thicker outline."
 
         val xweatherAccount = XweatherAccount(
             getString(R.string.xweather_client_id),

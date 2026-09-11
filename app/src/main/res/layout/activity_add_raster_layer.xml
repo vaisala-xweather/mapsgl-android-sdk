@@ -31,4 +31,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Explains what the demo shows, so the screen is readable without the source open. -->
+    <TextView
+        android:id="@+id/addRasterCaption"
+        style="@style/DemoCaption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addRasterBackButton"
+        tools:text="Geocolor satellite from a hand-built raster tile source rather than the built-in configuration, at 0.7 opacity." />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
