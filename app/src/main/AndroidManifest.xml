@@ -201,6 +201,12 @@
             android:label="Custom earthquake shader"
             android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
+            android:name=".docExamples.FrostFreezeLayerActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Create a freeze layer"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
             android:name=".docExamples.FilterAlertsActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"

@@ -287,6 +287,21 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/menuFrostFreezeLayerButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="A frost and freeze map of eastern Canada in three flat colour bands"
+                        android:src="@drawable/example_frost_freeze_layer" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Create a freeze layer" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/menuFilterAlertsButton"
                     style="@style/DocsExampleCard">
 
