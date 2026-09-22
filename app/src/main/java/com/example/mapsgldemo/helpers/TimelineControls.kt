@@ -9,7 +9,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
@@ -23,6 +22,8 @@ import com.xweather.mapsgl.anim.AnimationEvent
 import com.xweather.mapsgl.anim.AnimationState
 import com.xweather.mapsgl.anim.Timeline
 import java.util.Date
+import java.util.Locale
+import kotlin.math.roundToInt
 
 class TimelineControls(context: Context, attrs: AttributeSet? = null) :
     androidx.appcompat.widget.AppCompatSeekBar(context, attrs) {
@@ -34,7 +35,6 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
     private lateinit var settingsSlideInAnimation: Animation
     private var timelineVisibility: Boolean = false
     private val seekbarRange = 10000.0
-    private var initialSpeedButtonSet = false
     var seekbarDoubleValue = 0.0
 
     /** 0..1 along the track for wall-clock now, clamped to the timeline range; null if the range is empty. */
@@ -232,25 +232,20 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
                 timeline.setEndDateUsingOffset((-24 * 3600 * 1000), timeline.end)
             }
 
-            speedQuarterButton.setOnClickListener {
-                timeline.timeScale = .25
-                activateSpeedButton(s, speedQuarterButton)
-            }
+            speedSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                    applyTimeScale(timeline, progress)
+                }
 
-            speedHalfButton.setOnClickListener {
-                timeline.timeScale = .5
-                activateSpeedButton(s, speedHalfButton)
-            }
+                override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
-            speedOneButton.setOnClickListener {
-                timeline.timeScale = 1.0
-                activateSpeedButton(s, speedOneButton)
-            }
+                override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            })
 
-            speedTwoButton.setOnClickListener {
-                timeline.timeScale = 2.0
-                activateSpeedButton(s, speedTwoButton)
-            }
+            // Start from the scale the timeline already carries rather than assuming 1x - a demo may
+            // have set its own - quantised onto the slider's tenths.
+            speedSeekbar.progress = progressForSpeed(timeline.timeScale, speedSeekbar.max)
+            applyTimeScale(timeline, speedSeekbar.progress)
 
             settingsCloseButton.setOnClickListener {
                 binding.timelineControls.showSettings(false, binding)
@@ -258,12 +253,19 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
         }
     }
 
-    private fun activateSpeedButton(settings: TimelineSettingsPanelBinding, selectedButton: Button) {
-        settings.speedQuarterButton.setBackgroundResource(R.drawable.button_background_selector)
-        settings.speedHalfButton.setBackgroundResource(R.drawable.button_background_selector)
-        settings.speedOneButton.setBackgroundResource(R.drawable.button_background_selector)
-        settings.speedTwoButton.setBackgroundResource(R.drawable.button_background_selector)
-        selectedButton.setBackgroundResource(R.drawable.button_background_pressed)
+    /**
+     * Slider steps are tenths of a multiplier, offset by one so step 0 is .1x rather than a frozen
+     * 0x: at a scale of zero the timeline would not advance at all, which reads as a hang.
+     */
+    private fun speedForProgress(progress: Int): Double = (progress + 1) / 10.0
+
+    private fun progressForSpeed(speed: Double, max: Int): Int =
+        ((speed * 10).roundToInt() - 1).coerceIn(0, max)
+
+    private fun applyTimeScale(timeline: Timeline, progress: Int) {
+        val speed = speedForProgress(progress)
+        timeline.timeScale = speed
+        settingsPanelBinding.speedValueText.text = String.format(Locale.US, "%.1fx", speed)
     }
 
     fun setAnimations(context: Context, binding: TimelineBinding) {
@@ -295,7 +297,8 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
         timelineVisibility = binding.timelineConstraintLayout.isVisible
     }
 
-    fun setConfigAnimations(context: Context, @Suppress("UNUSED_PARAMETER") binding: TimelineBinding) {
+    fun setConfigAnimations(context: Context, binding: TimelineBinding) {
+        floatingMapButtons = listOf(binding.timelineLeftButtonColumn, binding.locationButton)
         val panel = settingsPanelBinding.root
         settingsSlideOutAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_out_bottom_settings)
         settingsSlideInAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_in_bottom_settings)
@@ -321,11 +324,6 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
     }
 
     fun show(show: Boolean = true, binding: TimelineBinding, animated: Boolean = true) {
-        if (!initialSpeedButtonSet) {
-            activateSpeedButton(settingsPanelBinding, settingsPanelBinding.speedOneButton)
-            initialSpeedButtonSet = true
-        }
-
         if (show == timelineVisibility) return
 
         binding.timelineConstraintLayout.clearAnimation()
@@ -344,7 +342,31 @@ class TimelineControls(context: Context, attrs: AttributeSet? = null) :
         timelineVisibility = show
     }
 
+    /**
+     * The map buttons that float over the bottom-left of the map. They live in the timeline strip,
+     * which now draws above the settings panel so the play controls stay on top of it - and that
+     * lifts these over the panel too, where the panel used to cover them. Hide them for as long as
+     * it is open.
+     *
+     * Restored to whatever they were rather than to visible: [location_button] and the back arrow
+     * are both switched on per demo, so a blanket restore would reveal buttons that screen never had.
+     */
+    private var floatingMapButtons: List<View> = emptyList()
+    private var hiddenForSettingsPanel: List<View> = emptyList()
+
+    /** INVISIBLE, not GONE: [location_button] is constrained to the column and would move with it. */
+    private fun setFloatingMapButtonsHidden(hidden: Boolean) {
+        if (hidden) {
+            hiddenForSettingsPanel = floatingMapButtons.filter { it.isVisible }
+            hiddenForSettingsPanel.forEach { it.visibility = View.INVISIBLE }
+        } else {
+            hiddenForSettingsPanel.forEach { it.visibility = View.VISIBLE }
+            hiddenForSettingsPanel = emptyList()
+        }
+    }
+
     fun showSettings(show: Boolean = true, binding: TimelineBinding) {
+        setFloatingMapButtonsHidden(show)
         val panel = settingsPanelBinding.root
         if (show) {
             panel.visibility = View.VISIBLE

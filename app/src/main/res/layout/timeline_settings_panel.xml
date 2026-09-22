@@ -7,7 +7,7 @@
     android:background="@drawable/xw_panel_background"
     android:visibility="gone"
     android:clickable="true"
-    android:elevation="10dp"
+    android:elevation="12dp"
     tools:ignore="HardcodedText"
     tools:visibility="visible">
 
@@ -274,10 +274,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="12dp"
-            android:text="Animation Speed"
+            android:text="Animation Speed:"
             style="@style/Xw.Text.Subheader"
             app:layout_constraintBottom_toTopOf="@id/SpeedCL"
             app:layout_constraintStart_toEndOf="@+id/speed_image" />
+
+        <TextView
+            android:id="@+id/speed_value_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="1.0x"
+            style="@style/Xw.Text.Body"
+            app:layout_constraintBaseline_toBaselineOf="@+id/animationTextview"
+            app:layout_constraintStart_toEndOf="@+id/animationTextview" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/SpeedCL"
@@ -291,71 +301,30 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <!--
-                Buttons will expand/shrink horizontally to share the available space.
-                1. Set layout_width="0dp" for each button.
-                2. Create a horizontal chain.
-                3. Apply a chain style (e.g., spread_inside).
-                4. Constrain the ends of the chain to the parent.
+                A tenth-step slider rather than four fixed multiples. The range worth exploring is
+                wider than four buttons can carry, and the interesting values are not powers of two.
+                Steps are offset by one so the first is .1x rather than a frozen 0x:
+                40 steps running .1x to 4x.
             -->
 
-            <Button
-                android:id="@+id/speed_quarter_button"
+            <SeekBar
+                android:id="@+id/speed_seekbar"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/button_background_selector"
-                android:text=".25x"
-                style="@style/Xw.Text.Body"
+                android:background="#00000000"
+                android:contentDescription="Animation speed"
+                android:max="39"
+                android:progress="9"
+                android:progressTint="@color/xw_accent_primary"
+                android:secondaryProgressTint="@color/xw_border"
+                android:thumb="@drawable/seekbar_thumb_large"
+                android:thumbTint="@color/xw_accent_primary"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/speed_half_button"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/speed_half_button"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/button_background_selector"
-                android:text=".5x"
-                style="@style/Xw.Text.Body"
-                app:layout_constraintBottom_toBottomOf="@+id/speed_quarter_button"
-                app:layout_constraintEnd_toStartOf="@+id/speed_one_button"
-                app:layout_constraintStart_toEndOf="@+id/speed_quarter_button"
-                app:layout_constraintTop_toTopOf="@+id/speed_quarter_button" />
-
-            <Button
-                android:id="@+id/speed_one_button"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/button_background_selector"
-                android:text="1x"
-                style="@style/Xw.Text.Body"
-                app:layout_constraintBottom_toBottomOf="@+id/speed_half_button"
-                app:layout_constraintEnd_toStartOf="@+id/speed_two_button"
-                app:layout_constraintStart_toEndOf="@+id/speed_half_button"
-                app:layout_constraintTop_toTopOf="@+id/speed_half_button" />
-
-            <Button
-                android:id="@+id/speed_two_button"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="0dp"
-                android:background="@drawable/button_background_selector"
-                android:text="2x"
-                style="@style/Xw.Text.Body"
-                app:layout_constraintBottom_toBottomOf="@+id/speed_one_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/speed_one_button"
-                app:layout_constraintTop_toTopOf="@+id/speed_one_button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
