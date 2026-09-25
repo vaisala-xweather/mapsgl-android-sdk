@@ -90,11 +90,6 @@
                 android:text="Documentation Examples" />
 
             <Button
-                android:id="@+id/menuShowcaseButton"
-                style="@style/Xw.MenuRow"
-                android:text="Showcase" />
-
-            <Button
                 android:id="@+id/menuLocalWeatherButton"
                 style="@style/Xw.MenuRow"
                 android:text="Local Weather" />
@@ -102,13 +97,8 @@
             <Button
                 android:id="@+id/menuStencilMaskDemosButton"
                 style="@style/Xw.MenuRow"
-                android:text="Stencil masks" />
-
-            <Button
-                android:id="@+id/menuMoreExamplesButton"
-                style="@style/Xw.MenuRow"
                 android:layout_marginBottom="0dp"
-                android:text="More Examples" />
+                android:text="Stencil masks" />
 
         </LinearLayout>
 

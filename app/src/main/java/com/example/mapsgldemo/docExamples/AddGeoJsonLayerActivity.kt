@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.Color
 import com.example.mapsgldemo.helpers.InsetEdges
 import com.example.mapsgldemo.helpers.drawBehindCutout
+import com.example.mapsgldemo.helpers.loadFlatStyle
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityAddGeojsonLayerBinding
@@ -16,9 +17,6 @@ import com.mapbox.common.Cancelable
 import com.mapbox.geojson.FeatureCollection
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
-import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
-import com.mapbox.maps.extension.style.projection.generated.projection
-import com.mapbox.maps.extension.style.projection.generated.setProjection
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
 import com.xweather.mapsgl.layers.spec.FillLayerDescriptor
 import com.xweather.mapsgl.layers.spec.LineLayerDescriptor
@@ -78,6 +76,13 @@ class AddGeoJsonLayerActivity : AppCompatActivity() {
         )
 
         mapView = binding.addGeojsonMapView
+
+        // Load the basemap with Mercator baked into the style, before MapView's own onStart
+        // would load the default (globe) style. Setting the projection after the style is up -
+        // from subscribeMapLoaded or straight after the controller is built - is too late: the map
+        // paints as a globe and then visibly snaps flat.
+        mapView.loadFlatStyle()
+
         binding.addGeojsonCaption.text =
             "A polygon over Portugal from inline GeoJSON, drawn as two layers over one source: a " +
             "translucent fill and a thicker outline."
@@ -101,12 +106,6 @@ class AddGeoJsonLayerActivity : AppCompatActivity() {
 
                 controller = MapboxMapController(mapView, xweatherAccount)
                 mapboxMap = controller.mapboxMap
-
-                // Set the projection before the first frame is drawn. Doing it inside
-                // subscribeMapLoaded (on `style`) is too late — the map paints as a globe and then
-                // visibly snaps flat. MapSettings.setMapboxPreferences does the same for the other
-                // demo screens, which is why they open flat.
-                mapboxMap?.setProjection(projection(ProjectionName.MERCATOR))
 
                 // Matches the JS example's `center: [-8, 40], zoom: 5`. Coordinate is (lat, lon).
                 controller.setCenter(Coordinate(40.0, -8.0))

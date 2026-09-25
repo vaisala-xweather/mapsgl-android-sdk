@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.Color
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.customize.CustomizationDemoActivity
+import com.example.mapsgldemo.helpers.loadFlatStyle
 import com.mapbox.maps.Style
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
 import com.xweather.mapsgl.style.CircleLayerPaint
@@ -78,7 +79,7 @@ class CustomLightningStylesActivity : CustomizationDemoActivity() {
     override fun customizeLayers(controller: MapboxMapController) {
         // Dark first: white circles are invisible on the default light style. The layer goes on
         // inside the callback because loading a style discards layers added beforehand.
-        controller.mapView.mapboxMap.loadStyle(Style.DARK) { addStrikes() }
+        controller.mapView.loadFlatStyle(Style.DARK) { addStrikes() }
     }
 
     private fun addStrikes() {

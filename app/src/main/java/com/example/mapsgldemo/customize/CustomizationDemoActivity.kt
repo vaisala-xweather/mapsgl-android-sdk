@@ -25,12 +25,10 @@ import com.example.mapsgldemo.databinding.ActivityCustomizationDemoBinding
 import com.example.mapsgldemo.helpers.InsetEdges
 import com.example.mapsgldemo.helpers.TimelineTextFormatter
 import com.example.mapsgldemo.helpers.drawBehindCutout
+import com.example.mapsgldemo.helpers.loadFlatStyle
 import com.mapbox.common.Cancelable
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
-import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
-import com.mapbox.maps.extension.style.projection.generated.projection
-import com.mapbox.maps.extension.style.projection.generated.setProjection
 import com.xweather.mapsgl.anim.AnimationEvent
 import com.xweather.mapsgl.anim.AnimationState
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
@@ -137,6 +135,12 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         )
 
         mapView = binding.customizationMapView
+
+        // Load the basemap with Mercator baked into the style, before MapView's own onStart would
+        // load the default (globe) style. Setting the projection once the map is loaded is too
+        // late: the map paints as a globe and then visibly snaps flat.
+        mapView.loadFlatStyle()
+
         binding.customizationCaption.text = caption
 
         setupTimelineChrome()
@@ -185,7 +189,6 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
     private fun onMapLoaded() {
         if (layersReady) return
         layersReady = true
-        mapboxMap?.style?.setProjection(projection(ProjectionName.MERCATOR))
 
         // Before customizeLayers: the control has to be registered to pick up the legend that
         // comes with a layer as that layer is added.

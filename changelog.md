@@ -1,673 +1,289 @@
 # Changelog
 
 ## 1.7.0
-*September 3, 2026*
+*Sep 25, 2026*
 
 ### ✨ Features
 
-* Add native vector rendering so fill, line, circle, heatmap, symbol, and text layers draw through MapsGL's own OpenGL ES pipeline instead of Mapbox style layers. Vector weather products such as alerts, lightning, hail, tropical cyclones, fires, and earthquakes now share the same custom-layer pass as encoded, particle, and contour content, with closer visual parity to the MapsGL JavaScript SDK. Existing `addWeatherLayer` and `addLayer` calls continue to work and no host application change is required.
+* Vector weather layers — alerts, lightning, hail, tropical cyclones, fires, earthquakes, and the rest — now animate with the map timeline and draw alongside encoded and particle layers. Existing `addWeatherLayer` and `addLayer` calls stay the same.
+* Filter vector features by the timeline with `Expression.mapTime`. Built-in tropical tracks and convective outlooks already do this.
 
-* Add animated vector timelines so time-series vector layers play with the map timeline, each holding a covering frame until its tiles are ready and then animating independently as the global clock advances, including alerts, lightning, hail threats, heatmaps, and tropical tracks.
+    ```kotlin
+    layer.filter = Expression.and(
+        listOf(
+            Expression.equals(Expression.get("featureType"), "trackPoint"),
+            Expression.lessThanOrEqual(Expression.get("timestamp"), Expression.mapTime),
+        )
+    )
+    ```
 
-* Add `["map-time"]` style expressions through `Expression.mapTime` so vector feature visibility can follow the active timeline position. Built-in tropical tracks and convective outlooks use this automatically, and custom vector layers can do the same.
-
-* Add place-name weather layers `place-city`, `place-country`, `place-state`, `place-neighborhood`, and `places`, with text layout, ranking, and collision.
-
-* Add custom GLSL fragment shaders on symbol icons through `IconPaint.shader` and `IconPaint.factor`, matching the MapsGL JavaScript SDK. Custom fragment shaders must declare `precision highp float` to match the symbol vertex stage, and `MapController.refreshGlVectorLayerPaint` must be called after changing icon paint at runtime.
-
-* Expand vector paint and descriptor parity with the MapsGL JavaScript SDK, including fill and circle sort keys, heatmap blur, icon scale, source and placement, optional fill stroke, and per-layer timing and mask fields on vector descriptors.
-
-* Expand style expressions for vector paint and filters, including `has`, `rgb` and `rgba`, `ceil`, `abs` and `mod`, `interpolate` with linear, exponential, and cubic-bezier easing, `let` and `var`, and string and array operations. Existing `Expression` factories are unchanged and more of them now evaluate.
+* Add place-name layers: `place-city`, `place-country`, `place-state`, `place-neighborhood`, and `places`.
+* Custom symbol icons can use a GLSL fragment shader on `IconPaint.shader`. Declare `precision highp float`. After changing icon paint on a layer that is already on the map, call `MapController.refreshGlVectorLayerPaint`.
+* More of the JavaScript paint and expression set evaluates on Android, including fill and circle sort order, heatmap blur, color interpolation, and `Expression.has`.
 
 ### 🐞 Bug Fixes
 
-* Fix a shader that fails to compile terminating the host application. The failure is now contained at the Mapbox custom-layer boundary, the affected layer is disabled after a few retries, and the driver's own message is reported instead of a generic error. This mainly affects the particle layers on OpenGL ES 3.0 devices, whose shaders require OpenGL ES 3.1 and cannot compile there.
-
-* Fix the shader `u_time` uniform being uploaded as time since device boot, which on a long-running device quantized away the spatial terms in trigonometric shader effects and coarsened icon spin. It is now measured from process start.
-
-* Fix tropical cyclone tracks, forecast cones, and icons wrapping incorrectly across the dateline, and fill forecast-error cones that previously stayed empty.
-
-* Fix place labels colliding, flickering, drifting on zoom, going blank after pan, or running out of memory on coarse tiles.
-
-* Fix vector playback freezing, flashing, or leaving gaps when panning, zooming, or looping a long timeline, and fix hail-threat polygons not classifying correctly across timeline intervals.
-
-* Fix circle strokes compositing in the wrong order and circle layers hiding neighboring fill layers.
-
-* Fix encoded layers missing one side of the antimeridian, and honor `sample.meld` during encoded playback.
-
-* Fix the load indicator for vector, raster, and combined loads, and stop playback freezing when a vector layer keeps the map rendering.
-
-### 🛠 Improvements
-
-* Remove the `no.ecc.vectortile`, `protobuf-java`, and JTS dependencies. MVT decoding now runs on the SDK's own reader, so the published artifact no longer pulls in `no.ecc.vectortile:java-vector-tile`, `com.google.protobuf:protobuf-java`, or `org.locationtech.jts:jts-core`. Applications that use `protobuf-javalite` for their own protocol buffers previously hit duplicate-class failures at dex time and had to exclude `protobuf-java`, which then broke MVT decoding at runtime because the generated message classes require the full protobuf runtime. No exclusion or `-dontwarn` rule is needed any more. Decoding is also measurably faster and allocates less. If you are upgrading, remove `no.ecc.vectortile:java-vector-tile:1.4.1` and the `https://maven.ecc.no/releases` repository from your project.
-
-* Improve vector rendering speed and smoothness by pruning unused MVT attributes during decode, instancing circle quads on the GPU, revealing map-time fills and lines on the GPU, and reusing symbol and circle meshes while scrubbing.
-
-* Bound memory during vector timeline playback and reduce garbage collection churn while interval tiles load.
-
-* Improve tropical position icon spin smoothness, and tropical icon and outline parity with the MapsGL JavaScript SDK.
-
-* Update radar color scales for rain, snow, and mixed precipitation.
+* A shader that fails to compile no longer closes the app. The layer is turned off and the driver's message is logged. Particle layers require OpenGL ES 3.1 ([issue #39](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/39)).
+* The HTML API reference is no longer packaged inside the SDK, so it is no longer copied into your app ([issue #38](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/38)).
+* Animated symbol shaders and icon spin stay smooth on devices that have been running for a long time.
+* Tropical tracks, forecast cones, and icons wrap correctly across the dateline, and forecast-error cones are filled.
+* Place labels no longer collide, flicker, drift, or disappear while panning and zooming.
+* Vector animation no longer freezes, flashes, or leaves gaps while panning, zooming, or looping.
+* Hail-threat polygons stay in the right category as the timeline moves.
+* Circle outlines draw in the right order and no longer hide neighboring fills.
+* Encoded layers cover both sides of the antimeridian, and `sample.meld` is honored during playback.
+* The loading indicator tracks vector and raster loads, and playback no longer freezes while a vector layer is on the map.
+* Radar colors for rain, snow, and mixed precipitation are updated.
+* Tropical icons and outlines are closer to the JavaScript SDK.
 
 ### ⚠️ Breaking Changes
 
-* Raw MVT features are now `com.xweather.mapsgl.mvt.MvtFeature` with `com.xweather.mapsgl.mvt` geometry types, replacing `no.ecc.vectortile.VectorTileDecoder.Feature` and the `org.locationtech.jts.geom` types. This affects `VectorData.rawFeatures` and `MapboxVectorFeature.from` and `fromPropertiesOnly`. Accessor names are unchanged, including `coordinates`, `numGeometries`, `getGeometryN`, `exteriorRing`, `numInteriorRing`, `getInteriorRingN`, and `envelopeInternal`, so code that walks these objects only needs its imports updated. Most apps are unaffected: this is a low-level entry point, and standard `addWeatherLayer` and `addLayer` usage does not touch it.
+* `no.ecc.vectortile:java-vector-tile` is no longer required. Remove that dependency and the `https://maven.ecc.no/releases` repository if you added them. Also remove any `protobuf-java` exclusion or `-dontwarn` rules you added for it.
+* If you read raw vector-tile features from `VectorData.rawFeatures` or `MapboxVectorFeature.from`, import `com.xweather.mapsgl.mvt` instead of `no.ecc.vectortile` and JTS. Property names such as `coordinates` and `exteriorRing` are unchanged. `addWeatherLayer` and `addLayer` are unaffected.
 
 ## 1.6.1
-*August 5, 2026*
+*Jul 30, 2026*
 
 ### ✨ Features
 
-* Add layer masking parity with the MapsGL JavaScript SDK, including `LayerMaskSpec`, `maskLayerIds`, `LayerMasks` land and water shorthands, stencil-only vector masks, and `ALL`/`ANY` multi-mask combination. Masking is now always applied when a layer configures it, and the `useGlStencilMask` switch has been removed.
+* Mask a layer to land, water, or to other layers on the map. `LayerMasks.land()` and `LayerMasks.water()` are the shorthands. The `useGlStencilMask` switch has been removed; a mask is applied whenever the layer sets one.
 
     ```kotlin
     val temperature = mapController.getConfigForCode(LayerCode.TEMPERATURES)
     temperature.layer.layerMask = LayerMasks.land()
     mapController.addWeatherLayer(temperature)
-
-    // Or mask against your own on-map layers
-    temperature.layer.maskLayerIds = listOf("admin-mask")
     ```
 
-* Add progressive playback for long timeline ranges so animation begins at roughly half the download instead of waiting for the full range, playing a coarse pass first while remaining intervals load in the background and upgrading to full resolution at a loop boundary so the change never interrupts motion, with the load indicator reflecting the full process from 0% to 100%.
-
-* Load data sooner after a pan or zoom by prefetching in the background while the map is idle.
-
-* Dismiss the data inspector callout automatically when its anchor point leaves the visible map area.
+* On a long timeline, playback starts once about half the frames are ready, then switches to the full set at the next loop. The loading indicator covers the whole download.
+* Weather layers have data ready sooner after you pan or zoom.
+* The data inspector closes when its point scrolls off the map.
 
 ### 🐞 Bug Fixes
 
-* Fix layers that never appeared on the map at all, including satellite imagery products such as `satellite-geocolor` and `satellite-infrared-color`, and gridded wind barbs and arrows.
-
-* Fix timeline playback issues where animated layers froze on a single frame while the clock advanced, playback stopped after one loop on long ranges, animation did not resume after extending the range mid-play, paused layers snapped to the nearest interval instead of holding the current frame, gridded icons jittered between intervals, and unnecessary downloads occurred on pause and scrub.
-
-* Fix loading feedback so the indicator appears when zooming during playback, no longer briefly reports 100% before loading has finished, and layers no longer intermittently render nothing after being added or after being removed and added again.
-
-* Fix zoom and tile presentation, including blank areas shown while new tiles load instead of a temporary lower-resolution view, visible seams at tile edges, and visual corruption in particle layers when the visible tile set changes.
-
-* Fix data inspector behavior, including callout clipping at the top of the map, sticking near the legend, losing rounded corners while data rows are visible, duplicated rows from shared sources, and zero-precipitation values appearing in results.
-
-* Fix rendering and presentation parity with the MapsGL JavaScript SDK, including precipitation rendering and timeline behavior, `VECTOR` wind rendering, dark legend theme, contour spacing, and `drawRange` behavior.
-
-* Fix masking correctness for maritime water masks and for marine `LAND` masking when water geometry is unavailable.
-
-* Fix place-name labels colliding with one another at low zoom.
-
-* Fix a crash on `addWeatherLayer` ([issue #35](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/35)).
-
-### 🛠 Improvements
-
-* Improve memory use during long playback sessions, reducing peak GPU memory on a representative five-day range from roughly 870 MB to 679 MB, preventing growth as the map is panned across a session, and improving reliability for long-running sessions with satellite and other raster layers.
-
-* Improve playback smoothness with less stutter, particularly while tiles are still loading.
-
-* Expand API documentation across public classes, methods, and properties.
+* Fix a crash when adding a weather layer ([issue #35](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/35)).
+* Adding and removing layers no longer leaves the previous tiles on screen.
+* Timeline playback resumes after you extend the range, holds the current frame when paused, and does not download extra tiles while paused or scrubbing.
+* Wind barbs and arrows no longer jitter between timeline frames.
+* Maritime water masks and marine land masks draw correctly.
+* The data inspector hides zero precipitation, drops duplicate rows, and stays on screen at the top and bottom edges of the map.
+* Vector wind draws again.
+* Dark legends, contour spacing, and `drawRange` match the expected scale.
+* Precipitation and particle layers stay stable while you pan.
 
 ## 1.6.0
-*May 27th, 2026*
+*Apr 23, 2026*
 
 ### ✨ Features
 
-* Add maritime gridded direction layers, including `wave-dir` and `swell-dir`, with denser sampling, shorter tails, smoother timeline playback, and land-mask ordering that keeps encoded weather layers correctly stacked when layers are toggled.
-* Improve gridded wind barb and arrow rendering by switching to a PNG atlas, aligning icon scale and proportions with the MapsGL JavaScript SDK, and reducing pop-in during panning with viewport-aware spacing updates.
-* Expose gridded-layer weather configuration wrappers so apps can customize symbol styling while preserving built-in layer behavior.
-* Expose `MapLoadProgress` as a public top-level type for `MapController.onLoadProgress` so host apps can safely read progress fields in minified builds.
+* Add maritime direction layers such as `wave-dir` and `swell-dir`, with arrows that stay on the water and play smoothly on the timeline.
+
+    ```kotlin
+    mapController.addWeatherLayer(mapController.getConfigForCode(LayerCode.WAVE_DIR))
+    ```
+
+* `MapController.onLoadProgress` reports `total`, `completed`, `failed`, and `cancelled` in release builds.
 
     ```kotlin
     mapController.onLoadProgress.observe(this) { progress ->
         val label = "${progress.completed} / ${progress.total}"
     }
     ```
-### 🐞 Bug Fixes
-
-* Fix encoded precipitation and contour rendering to match expected color range and draw-range behavior, including corrected discard thresholds, contour spacing, and JavaScript parity for precipitation accumulation and wind chill handling.
-* Fix data inspector behavior so blank map clicks clear results, duplicate rows from shared sources are removed, and empty pixel values are filtered out instead of showing stale data.
-* Fix layer lifecycle regressions where alerts or gridded layers could stop updating or remain in a loading state after remove-and-add flows, including encoded no-data handling and land-mask reattachment edge cases.
-* Fix map camera and world-wrap issues affecting low-tilt alignment, anti-meridian scrolling, duplicate downloads, and multi-world gridded animation continuity.
-* Fix radar and legend presentation issues, including bar-label visibility, alignment, quality-level consistency, and layer-specific legend value formatting.
-
-### 🛠 Improvements
-
-* Improve gridded timeline interpolation by advancing `dataMeld` with elapsed wall-clock time for smoother animation cadence across frame rates.
-* Improve loading feedback consistency by refining download-queue progress and accounting for texture-bind time before clearing load indicators.
-* Improve runtime performance by moving PNG decoding and selected cell-padding work to native code, reducing heap pressure during gridded rendering.
-
-
-
-## 1.5.1
-*April 13th, 2026*
 
 ### 🐞 Bug Fixes
 
-* Fix issue where results of MapController.query(...) includes features from previous clicks and other layers. (fixes [#31](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/31))
+* Tapping empty map clears the data inspector, and repeated taps no longer pile up old results ([issue #31](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/31)).
+* Precipitation values in the data inspector and legend match the JavaScript SDK.
+* The loading indicator matches the JavaScript and iOS SDKs, including while textures are still binding.
+* Alerts keep updating after the layer is removed and added again.
+* Removing a gridded layer while it is still downloading no longer leaves the loading indicator stuck.
+* Encoded tiles and the radar legend handle missing values and bar labels correctly.
+* Wind barbs and arrows scale with screen density.
+* The camera stays aligned at low pitch, and gridded animation stays correct across the dateline and across multiple world copies.
 
-## v1.5.0
-*March 27th, 2026*
+## 1.5.0
+*Mar 27, 2026*
 
 ### ✨ Features
 
-* Add contour layer support including pre-configured layer definitions for mean sea level pressure, temperature, and wind speed.
-* Add the option to preload animated tile data prior to starting playback. Preloading can be performed automatically by seting MapController.animationOptions.shouldPreloadData or triggered once manually by calling the MapController.preloadAnimationData function.
+* Add contour layers, including mean sea level pressure, temperature, and wind speed.
+* Call `MapController.preloadAnimationData()` to load the visible animation before playback starts. `animationOptions.shouldPreloadData` does this automatically.
 
-### 🛠 Improvements
-- Improved blending between neighboring encoded tiles.
+### 🐞 Bug Fixes
+
+* Encoded tiles meet cleanly at their edges, including at zoom level 1.
+* The data inspector works on contour layers before playback has started.
+* Newly active fires use the correct colors.
+* Wind-speed contours and their legends use the right range.
 
 ## 1.4.0
-*March 3rd, 2026*
+*Mar 3, 2026*
 
 ### ✨ Features
 
-* Add legends support for MapController, allowing a configurable legend view to be displayed along with the MapsGL map content. See the Legend documentation for more information.
-* Add preconfigured legend configurations for all supported weather layers so that active layers automatically display an associated legend when active.
+* Add a legend control. Supported weather layers show their legend when they are on the map. See [Legends](/mapsgl-android-sdk/getting-started/legends).
 
 ### 🐞 Bug Fixes
 
-* Fix issue where loading indicator would show indefinitely. (fixes [#27](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/27))
+* The loading indicator no longer stays on after loading has finished ([issue #27](https://github.com/vaisala-xweather/mapsgl-android-sdk/issues/27)).
 
-## v1.3.1
-January 15th, 2026
+## 1.3.1
+*Jan 15, 2026*
 
 ### 🐞 Bug Fixes
 
-* Fix glitchy display of particle layers after adjusting the timeline. (fixes [#24](https://github.com/vaisala-xweather/mapsgl-apple-sdk/issues/24))
-* Fix incorrect colors for Precipitation layer.
+* Particle layers no longer glitch after you move the timeline ([issue #24](https://github.com/vaisala-xweather/mapsgl-apple-sdk/issues/24)).
+* Precipitation colors are corrected.
 
-## v1.3.0
-December 10th, 2025
+## 1.3.0
+*Dec 10, 2025*
 
 ### ✨ Features
 
-* Add data inspector control support for MapController, allowing users to tap on the map and view detailed information about the weather data at that location. See the data inspector control documentation for more information.
-* Add preconfigured data presentations for all supported weather layers to use when formatting their data values shown in a data inspector control.
-* Add map feature querying support via MapController#query(coord:layerIds:).
+* Add the data inspector. Tap the map to read the weather value at that point. Supported layers include a formatted presentation. See [Data inspector](/mapsgl-android-sdk/controls/data-inspector).
+* Query features with `MapController.query`.
 
 ### 🐞 Bug Fixes
 
-* Fix particle layers sometimes disappearing at certain zoom levels
-* Fix missing data in Fire layer
+* Particle layers no longer disappear at some zoom levels.
+* The fires layer includes its data.
 
-## v1.2.5
-November 7th, 2025
-
-### 🐞 Bug Fixes
-
-* Fix layers sometimes not appearing when added to MapController
-* Fix for issue where MapController could get stuck in a loading state.
-
-## v1.2.4
-September 24th, 2025
-
-### 🛠 Improvements
-
-* Improve memory management
-* Add land mask to Maritime layers. This land mask layer will automatically inherit the background color from the current Mapbox map style being used, which currently has limitations when using one of the "satellite" Mapbox styles.
+## 1.2.5
+*Nov 7, 2025*
 
 ### 🐞 Bug Fixes
 
-* Increased Stability during timeline animation
-* Vector Layers no longer dissapear after Mapbox style changes at runtime.
-* Fixed issue where radar could lose snow colors after being removed and added again.
+* Layers appear reliably when added.
+* The map no longer gets stuck in a loading state.
 
-### ⚠️ Known Issues
-
-* To accommodate rectangular particles for wave and swell layers, particle size is now represented by
-  ```size: Size(width: Int, height: Int)```
-  instead of
-  ```size: Double```
-  For round particles, for example wind particles, you only need to specify one parameter, for example ```size = Size(4)```
-  Please make the necessary changes in your code if necessary.
-
-## v1.2.3
-July 31st, 2025
-
-### 🛠 Improvements
-
-* Better texture memory management.
-* Rectangular particles for wave and swell particle layers.
-
-### 🐞 Bug Fixes
-
-* Fix for a crash that can occur when repeatedly adding and removing layers. 
-
-### ⚠️ Known Issues
-
-* To accommodate rectangular particles for wave and swell layers, particle size is now represented by 
-```size: Size(width: Int, height: Int)``` 
-instead of
-```size: Double```
-Please make the necessary changes in your code if necessary.
-
-<Alert variant="warn">**Note:** The MapsGL SDK for Android does not currently support all features provided by the core [MapsGL Javascript SDK](https://www.xweather.com/docs/mapsgl) and are currently in development. Refer to the [development roadmap](./roadmap) for information regarding which versions of the MapsGL SDK for Android support various MapsGL features as they become available.</Alert>
-
-## v1.2.2
-*July 11, 2025*
-
-### 🐞 Bug Fixes
-
-* Fix for crash that can occurr with no internet connection at startup.
-* Fix for errors when using a timezone with a positive offset.
-
-## v1.2.1
-*July 10, 2025*
-
-### 🐞 Bug Fixes
-
-* Fix for WorkerThreadException that can occur when adding layers at startup.
-
-## v1.2.0
-*June 27, 2025*
+## 1.2.4
+*Sep 24, 2025*
 
 ### ✨ Features
 
-* All vector layers are now supported, including most fill, line, circle, heatmap, symbol, and text weather layers.
-* Add support for vector paint types and style expressions for data-driven styling of vector layers.
-* Add support for Admin layers.
-
-### 🛠 Improvements
-
-* Support providing a GeoJSON string as the data for a GeoJSON data source in addition to the existing remote URL or Turf feature collection methods.
-
-### ⚠️ Known Issues
-
-* Built-in layers under the ["Roads"](https://www.xweather.com/docs/mapsgl/weather-layers#roads) categories are not yet supported.
-  Road weather layers are planned for a future release.
+* Maritime layers include a land mask. The mask uses the Mapbox style's background color.
 
 ### 🐞 Bug Fixes
 
-* Radar now displays rain and mix precipitation, in addition to rain.
+* Timeline animation is more stable.
+* Vector layers stay on the map after you change the Mapbox style.
+* Radar keeps its snow colors after the layer is removed and added again.
 
-## v1.2.0-beta.1
-June 18, 2025
+## 1.2.3
+*Jul 31, 2025*
 
-✨ Features
-- Add initial support for vector layers from vector tile and Geo JSON data sources. This includes support for most fill, line, circle, heatmap, symbol, and text weather layers.
+### ✨ Features
 
-- Add support for vector paint types and style expressions for data-driven styling of vector layers.
+* Wave and swell particles can be drawn as rectangles.
 
-🛠 Improvements
-- Added over 80 new layers.
-- Improved rendering quality and appearance of encoded layers to better align with the MapsGL Javascript SDK.
+### 🐞 Bug Fixes
 
-⚠️ Known Issues
-Built-in layers under the "Admin", "Roads", and "Lightning-Density" categories are not yet supported. Admin layers and "Lightning-Density" are planned for the final release of 1.2.0, while road weather layers are planned for a future release. 
+* Fix a crash from repeatedly adding and removing layers.
 
-## v1.1.0
-May 23, 2025
+### ⚠️ Breaking Changes
 
-✨ Features
-- Added animation and timeline support to MapController. All currently supported weather layers support animation and timeline functionality.
+* Particle `size` is a `Size`, not a `Double`. A square particle takes one number: `size = Size(4)`.
 
-🛠 Improvements
-- Better multithreading for faster tile downloads.
-- Improved rendering quality and appearance of particle layers to better align with the MapsGL Javascript SDK.
-- Particle visualizations (like wind or currents) now maintain a natural and consistent density whether you're zoomed way in or zoomed far out.
-- Large particles now have a rounder, more refined appearance.
+## 1.2.2
+*Jul 11, 2025*
 
-🐞 Bug Fixes
-- Fix an issue where session tokens were not being re-requested when they expired during an active session.
+### 🐞 Bug Fixes
+
+* Fix a crash when the device has no network at startup.
+* Time zones with a positive offset no longer produce errors.
+
+## 1.2.1
+*Jul 10, 2025*
+
+### 🐞 Bug Fixes
+
+* Fix a crash when adding layers during startup.
+
+## 1.2.0
+*Jun 27, 2025*
+
+### ✨ Features
+
+* Add vector layers: fill, line, circle, heatmap, symbol, and text, including admin boundaries.
+* Style those layers from feature properties.
+* A GeoJSON source can be created from a GeoJSON string.
+
+### 🐞 Bug Fixes
+
+* Radar shows mixed precipitation as well as rain.
+
+## 1.2.0-beta.1
+*Jun 18, 2025*
+
+### ✨ Features
+
+* First support for vector-tile and GeoJSON layers, and for data-driven vector paint.
+* More than 80 additional weather layers.
+* Encoded layers are closer in appearance to the JavaScript SDK.
+
+## 1.1.0
+*May 23, 2025*
+
+### ✨ Features
+
+* Add timeline animation for the supported weather layers.
+
+### 🐞 Bug Fixes
+
+* Session tokens refresh when they expire during a session.
+* Particle layers keep a consistent density as you zoom, and large particles are round.
 
 ## 1.1.0-beta.2
-* April 30th, 2025**
-
-### 🛠 Improvements
-- Optimized graphics rendering for smoother map panning, zooming, and overall responsiveness, especially with complex data layers.
-- Enhanced particle rendering to only process visible particles, leading to smoother performance and reduced battery usage when viewing particle data.
-- Fixed an issue that could cause choppiness during timeline playback for animated data layers.
-- Particle visualizations (like wind or currents) now maintain a natural and consistent density whether you're zoomed way in or zoomed far out.
-- Removed limitations on how much particle data can be shown at once, allowing for more complete visuals across multiple world copies.
-- Particles in visualizations now have a rounder, more refined appearance.
+*Apr 30, 2025*
 
 ### 🐞 Bug Fixes
-- Fixed an issue preventing historical data intervals from displaying correctly for Snow Depth and Air Quality layers.
-- Fixed an issue preventing historical data intervals from displaying correctly for Snow Depth and Air Quality layers.
+
+* Panning, zooming, and timeline playback are smoother.
+* Snow depth and air quality show the correct historical intervals.
+* Particle layers cover multiple world copies and keep a consistent density as you zoom.
 
 ## 1.1.0-beta.1
-*April 16, 2025*
+*Apr 16, 2025*
 
 ### ✨ Features
-- Add support for map timeline and layer animation. All supported weather layers are now animatable.
 
-### 🛠 Improvements
-- Better multithreading for faster tile downloads.
-- Particle layers now use compute shaders for improved performance.
-- Particle layers now more closely match the JavaScript version.
-
+* First support for the map timeline. Supported weather layers can animate.
 
 ## 1.0.1
-*November 22, 2024*
-
-### 🛠 Improvements
-
-* Update `WeatherService.Radar` to use separate color bands for rain, snow, and mixed precipitation.
+*Nov 22, 2024*
 
 ### 🐞 Bug Fixes
 
-* Fix an issue where `WeatherService.WavePeriods` returned `WeatherService.WaveHeights` instead.
-* Fix an issue where `WeatherService.AirQualityIndexCategories` returned `WeatherService.AirQualityIndex` instead.
-* Fix an issue where `WeatherService.SwellPeriods3` returned `WeatherService.SwellHeights3` instead.
-
-### ⚠️ Known Issues
-
-* Due to the way that earlier versions of Mapbox handle mutliple world copies, please use Mapbox version 11.3.0+.
+* Radar uses separate colors for rain, snow, and mixed precipitation.
+* `WeatherService.WavePeriods`, `WeatherService.AirQualityIndexCategories`, and `WeatherService.SwellPeriods3` return the layer you asked for.
 
 ## 1.0.0
-*October 29, 2024*
+*Oct 29, 2024*
 
 ### ✨ Features
 
-* Add support for fully stylable particle layers.
-* Improve handling for screen and device rotation.
-
-### 🛠 Improvements
-
-* Improve rendering performance when scrolling and zooming.
-* Update colors scales for `WeatherService.Precipitation`, `WeatherService.OceanCurrents`, and `WeatherService.SnowDepth`.
-* Fix particle transitions across tile boundaries.
+* Particle layers can be styled.
+* The map handles screen rotation.
 
 ### 🐞 Bug Fixes
 
-* Fix an issue where the maximum number of world copies being rendered when zoomed out in landscape mode was clamped at 2.
-* Fix issue with sporadic screen flashing at high zoom levels.
-* Fix an issue where tiles across the anti-meridian from the center would be rendered at lower detail levels.
-* Fix render lag for encoded raster data rendering relative to the underlying map layer during fast scrolling.
-
-### ⚠️ Known Issues
-
-* Due to the way that earlier versions of Mapbox handle mutliple world copies, please use Mapbox version 11.3.0+.
-* `WeatherService.Radar` layer does not currently depict precipitation types (mix, snow).
+* Scrolling and zooming are smoother, including across the antimeridian and in landscape with several world copies.
+* Use Mapbox Maps SDK 11.3.0 or newer.
+* Colors for precipitation, ocean currents, and snow depth are updated.
 
 ## 1.0.0-beta.2
 *Aug 20, 2024*
 
 ### ✨ Features
 
-* Add particle WindParticles layer.
-* Add Maritime and Air Quality layer categories as well as Snow Depth and Wind Gust layers.
-* Better support in-app screen rotation.
-
-### 🛠 Improvements
-
-* Improve image download and caching and overall performance.
-* Update color scales to better align with the MapsGL Javascript SDK.
+* Add wind particles, maritime and air-quality layers, snow depth, and wind gusts.
+* The map handles screen rotation.
 
 ### 🐞 Bug Fixes
 
-* Fix an issue where tiles would not load until map movement when the map was initialized at a zoom level past the max data zoom.
-
-### ⚠️ Known Issues
-
-* Particle trail rendering and size configuration are not yet supported.
-* Tile partials currently make use of ancestors, but not decendants.
-* Displays a maximum of 2 world copies. This can cause visual issues when zoomed out in landscape mode and three world copies should be visible.
+* Tiles load when the map opens past the maximum data zoom.
+* Color scales are closer to the JavaScript SDK.
 
 ## 1.0.0-beta.1
 *Jul 1, 2024*
 
-* Initial beta release with support for raster and encoded raster weather layers using Mapbox GL.
-
-
-
-`## 0.2.005 (2024-10-01) -------------------------------------------------------------------------
-### 🛠 Improvements
-* MapsGL Layers are now synced well with the underlying Mapbox map.
-
-
-`## 0.2.004 (2024-09-26) -------------------------------------------------------------------------
-### 🛠 Improvements
-* Particle Trails now working very well. 
-
-`## 0.2.002 (2024-09-04) -------------------------------------------------------------------------
-### ✨ Features
-* Particle Trails working (per tile basis). Will need to convert to per-screen.
-
-
-`## 0.2.001 (2024-08-27) -------------------------------------------------------------------------
-### ✨ Features
-* beforeID now works in MapController.addWeatherLayer
-
-### 🛠 Improvements
-* Tile partials now work with particles. This fixes zooming and display at levels beyond maxZoom
-* Clumping of particles along tile edges eliminated.
-
-`## 0.1.004 (2024-08-26) -------------------------------------------------------------------------
-First commit after beta.2
-### ✨ Features
-* Added Snow Depth, Wind Gust layers.
-
-### 🐞 Bug Fixes
-* Now can display 3+ world copies in landscape mode.
-
-### 🛠 Improvements
-* Particle speed now consistent across zoom levels (appears faster zoomed in)
-
-`## 0.1.003 (2024-08-14) -------------------------------------------------------------------------
-### 🛠 Improvements
-* Toggling a layer on and off now puts it on top
-* Wind Particles now fade in and out
-* Wind Particles have offset lifespans
-* Wind particles use proper colors
-
-`## 0.1.002 (2024-08-09) -------------------------------------------------------------------------
-### ✨ Features
-* Particles partially working. Movement and color based on underlying texture.
-
-### 🐞 Bug Fixes
-* Fixed padded tile offset when copying tile to padded tile in tile that caused 1px vertical black line in texture
-
-`## 0.1.001 (2024-07-29) -------------------------------------------------------------------------
-### ✨ Features
-* Now handles screen rotation. Tiles remain square when switching aspect ratio.
-
-`## 0.0.335 (2024-07-26) -------------------------------------------------------------------------
-
-### 🛠 Improvements
-* Raster Tile Layers now use mapZoom properly and look more like the JS version. Set maxZoom to 6.
-* Layers that use the same source now share tile cache, for quicker performance and less downloads.
-
-`## 0.0.334 (2024-07-19) -------------------------------------------------------------------------
-
-### 🐞 Bug Fixes
-* Now Downloads the correct tiles when a layer is activated at any zoom level.
-
-`## 0.0.333 (2024-07-17) -------------------------------------------------------------------------
-### ✨ Features
-
-### 🐞 Bug Fixes
-* AQI Common now working
-* Fixed bug where adding/activating layer at zooms above 0, tiles wouldn't show until map movement
-* Fixed bug where layer tiles  would not download when activated when zoomed past maxZoom
-
-`## 0.0.332 (2024-07-12) -------------------------------------------------------------------------
-
-### 🐞 Bug Fixes
-* Fixed issue in Ocean Currents and Visibility where transparent areas where too transparent (alpha was ^2 in shader)
-* 
-
-### 🛠 Improvements
-* More accurate 24 hour / 1 hour temp changes.
-* ImageTileSource credentials now dynamic
-* updateColorRangeFactor and updateColorSampleOffset work, no longer hardcoded in shader
-
-`## 0.0.331 (2024-07-10) -------------------------------------------------------------------------
-### ✨ Features
-* AQI Layers now working.
-
-### 🐞 Bug Fixes
-* Fixed wrong color mapping in Air Quality datasets by changing ColorLookupTable delta 
-  from colorstop range to data range based on drawRange.
- * Fixed colorstops in Air quality where the rightmost color was showing as black 
-  due to missing "F" at the front of the value
-
-### 🛠 Improvements
-* Adding layer to map now matches other versions (mapController.addWeatherLayer("temperatures"))
-
-`## 0.0.330 (2024-07-03) -------------------------------------------------------------------------
-### ✨ Features
-* Added missing maritime layers.
-
-### 🐞 Bug Fixes
-* Possibly fixed https://medialogicgroup.atlassian.net/browse/MAPSGLAND-103
-
-### 🛠 Improvements
-* Removed legacy layers
-
-`## 0.0.329 (2024-07-01) -------------------------------------------------------------------------
-
-### ✨ Features
-* First commit after v1.0.0-beta.1
-* Started work on color scale legend
-
-### 🐞 Bug Fixes
-* Fixed performance issue in demo app where touching map ran a lot of extra ui functions and slowed map navigation.
-
-### 🛠 Improvements
-* No longer create all layers on startup.
-* Temperature 1 hour /24 hour, Precipitation, Windspeed now accurate
-* NoData now shows "blank" spots instead of the leftmost color of the color scale
-
-## 0.0.328 (2024-06-11) -------------------------------------------------------------------------
-
-### ✨ Features
-* UI style looks more like javascript demo
-* About 30 datasets implemented
-
-### 🐞 Bug Fixes
-* ColorStops with alpha values are now handled properly when creating color band texture
-* Fixed partials across dateline being stretched along x axis.
-
-### 🛠 Improvements
-* Now request metadata only once for each dataset
-
-
-## 0.0.327 (2024-05-31) -------------------------------------------------------------------------
-
-### 🐞 Bug Fixes
-* Fixed seams on blended tiles by truncating texture coords by 2.1 pixels instead of 2.0 pixels.
-* Fixed tile blending across anti-meridian with added logic in TileCoord.getNeighbor
-* MaxZoom in TileLayer getVisibleCoords() now refers to source.metadata.data.maxZoom instead of hardcoded
-  value in Camera
-* Fixed segFault when changing datasets. Was caused by setting colorband uniform more than once.
-
-### 🛠 Improvements
-* Tiles now blend at corners. No more "rainbow" points.
-* padding crop now done in shader instead of in uv geometry.
-* If neighbor tiles are unavailable, tiles are padded with edge pixels.
-
-## 0.0.326 (2024-05-21) -------------------------------------------------------------------------
-
-### ✨ Features
-* Edge blending partially works. Seams visible in places around 9+ zoom. Doesn't integrate well with partials.
-
-## 0.0.325 (2024-05-14) -------------------------------------------------------------------------
-
-### 🐞 Bug Fixes
-* Fixed crosshatch artifacts that were noticeable around the data pixels at zoom levels above 5.
-  The issue was caused texture mipmaps.
-
-* Fixed one-frame flicker on tiles when crossing anti meridian
-
-### 🛠 Improvements
-* Started implementing tile-edge expansion (not functional yet)
-
-## 0.0.324 (2024-05-10) -------------------------------------------------------------------------
-
-### ✨ Features
-* Tile Partial ancestors now working. If a tile is not loaded yet, it will check for a lower zoom tile.
-* MaxZoom used to avoid downloading redundant tiles at higher zoom levels.
-
-### 🐞 Bug Fixes
-* Fixed tile flicker when zooming between data zoom levels.
-
-### 🛠 Improvements
-* Now using same fragment shader as WebGL version. Some data inputs are incorrect, so tile seams are visible.
-
-## 0.0.323 (2024-05-02) -------------------------------------------------------------------------
-
-### 🐞 Bug Fixes
-* Fixed issue where zoom level 1 would not load 
-  (related to persistent / tile partials in TileCache.updateTile)
-
-*  Fixed issue with map-scaling on large displays with low denisty.
-*  Fixed issue when crossing back and forth over anti-meridian, was caused by optimization in getRenderables()
-
-### 🛠 Improvements
-* Starting implementing maxZoom to avoid using pixel doubled textures
-* Generates interpolated colorband texture
-* Uses colorband texture as lookup table within shader
-* "beforeID" in MapboxMapController now works, so admin labels are visible over our drawn tile maps.
-
-## 0.0.322 (2024-04-18) -------------------------------------------------------------------------
-
-### ✨ Features
-* Downloads tiles from the center outward.
-* Shader coloring for Encoded Tiles works at basic level (In progress)
-
-### 🐞 Bug Fixes
-* All Datasets now working (Conditions and Air Quality)
-
-### 🛠 Improvements
-* Changed base urls from https://dev.v1.api.mapsgl.aerisapi.com to https://prod.v1.api.mapsgl.aerisapi.com
-
-## 0.0.321 (2024-04-12) -------------------------------------------------------------------------
-
-### ✨ Features
-* Supports all Weather Conditions Datasets (No Air Quality yet)
-
-### 🛠 Improvements
-* More work towards colorful encoded tile display: EncodedDataRenderer, EncodedTileLayer... WIP
-
-## 0.0.320 (2024-04-01) -------------------------------------------------------------------------
-
-### ✨ Features
-* Requesting and downloading Encoded Tiles
-* Displaying Encoded Tiles for 3 datasets in Temperature group
-
-### 🐞 Bug Fixes
-* Fixed tile scale being wrong at tablet resolutions 
-  by using a density multiplier in in MapBoxMapController.updateCamera
-
-### 🛠 Improvements
-
-* Transparency now works in the shader.
-* Moved some GL handles from Renderpass to Program class
-
-## 0.0.31 (2024-03-18) ------------------------------------------------------------------------
-
-### 🐞 Bug Fixes
-* Fixed zooming 'popping' glitch on zoom levels above 1
-
-### 🛠 Improvements
-* Upgraded Mapbox SDK to 11.0.0
-* Removed wraparound offset from mesh and render path in general, moved to Renderable creation.
-* Updated listeners into callbacks in MainActivity for Mapbox 11 compliance
-
-## 0.0.3 (2024-03-29) -------------------------------------------------------------------------
-
-### 🛠 Improvements
-* GL overlay now tracks underlying map properly with flinging and tilt
-
-## 0.0.2 (2024-02-28) -------------------------------------------------------------------------
-
-### ✨ Features
-* Multi-layer support
-
-### 🐞 Bug Fixes
-* Fixed alignment when zooming at levels 0 and 1, still need work on higher levels
-
-### 🛠 Improvements
-* One mesh used for all renderables.
-* Moved all shader code out of MapBoxLayerHost, most went to RenderPass
-* Started using ModelView matrix
-* Can now continuously scroll around International Data Line with no flicker
-* Now uses Projection, View, and Model matrices
-* Visible map tiles now load as needed, without user intervention
-
-## 0.0.1 (2024-02-16) -------------------------------------------------------------------------
-
-### 🐞 Bug Fixes
-* Fixed concurrent modification crash in tileLayer bindTextures()
-* Improvements to zoom code, Still need to correctly incorporate world and view matrices.
-
-
-
-
+* First beta. Raster and encoded weather layers on Mapbox.

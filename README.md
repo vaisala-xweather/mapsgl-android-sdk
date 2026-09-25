@@ -2,9 +2,7 @@
 Xweather MapsGL SDK Demo App
 ================
 
-![Screenshot](/images/screenshot.png)
-
-The Xweather MapsGL SDK for Android allows a developer to quickly and easily add weather content and functionality to their android applications. It utilizes the Xweather API backend for data loading and is built on top of an object mapping system that efficiently loads requested weather content into third-party Android applications, greatly reducing the amount of code and development needed on the developer end.
+The Xweather MapsGL SDK for Android allows a developer to quickly and easily add weather content and functionality to their Android applications. It utilizes the Xweather API backend for data loading and is built on top of an object mapping system that efficiently loads requested weather content into third-party Android applications, greatly reducing the amount of code and development needed on the developer end.
 
 ## Features
 -Visualizing real-time weather and geospatial data
@@ -48,18 +46,23 @@ what changes between the two SDKs:
   the alerts layer, switched at runtime, and the data inspector confirming what survived it
   (**Documentation Examples → Filter weather alerts by category**)
 
+Documentation Examples also includes screens for adding custom GeoJSON, raster, and vector-tile layers, changing map units, changing the timeline range, and customizing alert polygon styles.
+
+The launcher lists **All Map Layers**, **Sorted Map Layers**, **Documentation Examples**, **Local Weather**, and **Stencil masks**.
+
 ## Getting Started
 
-View the latest installation and implementation details at Xweather under the [Xweather Android SDK toolkit documentation](https://www.xweather.com/docs/android-sdk/getting-started/).
+View the latest installation and implementation details in the [MapsGL Android SDK documentation](https://www.xweather.com/docs/mapsgl-android-sdk/getting-started/).
 
 
 ## Running the Demo App
 The MapsGL Android SDK includes a demo application that showcases the capabilities of the SDK. To run the demo application, follow these steps:
 
 ##### Prerequisites:
-- Android Studio Chipmunk|2022.3.1 Patch2 or later
-- An Android 9.0+ (sdk 28)
-- An [Xweather account](https://signup.xweather.com/) — We offer a free developer account for you to give our weather API a test drive.
+- Android Studio with Android Gradle Plugin 8.11 and Gradle 8.14. This project uses AGP 8.11.2, Gradle 8.14.3, and Kotlin 2.0.20.
+- Android 9.0 or newer (minSdk 28). This project compiles against SDK 36.
+- Mapbox Maps SDK for Android 11.x, configured to use the Mercator projection. This project uses `com.mapbox.maps:android-ndk27:11.15.3`.
+- An [Xweather account](https://signup.xweather.com/developer) — We offer a free developer account for you to give our weather API a test drive.
 - A [Mapbox account](https://www.mapbox.com/)
 
 ## Xweather API Configuration for the Xweather Demo Application
@@ -69,7 +72,7 @@ Before you can begin using the Xweather MapsGL SDK in your project, you will nee
 Download the latest version of the [Xweather Android SDK demo application](https://github.com/vaisala-xweather/mapsgl-android-sdk)
 
 ##### Step 2: Get access to the Xweather API.
-To use the Xweather API, you will need to have valid access keys. Access keys are obtained by registering your application/namespace. To register your application, log in to Xweather with your account and look for the "APPS" section. Don't have an Xweather account? You can get one for free [here](https://signup.xweather.com/).
+To use the Xweather API, you will need to have valid access keys. Access keys are obtained by registering your application/namespace. To register your application, log in to Xweather with your account and look for the "APPS" section. Don't have an Xweather account? You can get one for free [here](https://signup.xweather.com/developer).
 
 ##### Step 3: Get a Mapbox API key
 If you don't have a Mapbox account, you can create one for free at [www.mapbox.com](https://www.mapbox.com/). Follow the instructions to get a Mapbox API key.
@@ -96,7 +99,6 @@ In **settings.gradle**:
         repositories {
             google()
             mavenCentral()
-            gradlePluginPortal()
         }
     }
 
@@ -108,30 +110,29 @@ In **settings.gradle**:
             maven {
                 url 'https://api.mapbox.com/downloads/v2/releases/maven'
                 authentication {
-                basic(BasicAuthentication)
-            }
-            credentials {
-                username = "mapbox"
-                // Use the secret token you stored in gradle.properties as the password
-                password = MAPBOX_DOWNLOADS_TOKEN
+                    basic(BasicAuthentication)
+                }
+                credentials {
+                    username = "mapbox"
+                    // Use the secret token you stored in gradle.properties as the password
+                    password = MAPBOX_DOWNLOADS_TOKEN
+                }
             }
         }
     }
 
+Mapbox's Maven repository is required because this demo, and the Mapbox quick start below, use the Mapbox Maps SDK. Set `MAPBOX_DOWNLOADS_TOKEN` in `gradle.properties`.
 
 In **AndroidManifest.xml**:
 
-        <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION"/>
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
+In the app-level **build.gradle**:
 
-In the app-level **build.gradle**
-
-    repositories {
-        mavenCentral()
-    }
     dependencies {
-	    implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.7.0"
+        implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.7.0"
     }
 
 #### Upgrading from 1.6.1 or earlier — remove `java-vector-tile`
@@ -151,58 +152,41 @@ and the published POM no longer references it, nor `com.google.protobuf:protobuf
         maven { url 'https://maven.ecc.no/releases' }               // <- delete
     }
 
-Also delete anything you added to work around it:
+Also remove anything you added to work around that dependency, such as `exclude group: 'com.google.protobuf', module: 'protobuf-java'` exclusion rules and `-dontwarn no.ecc.vectortile.**` or `-dontwarn org.locationtech.**` ProGuard lines. Leaving `java-vector-tile` in place puts `com.google.protobuf:protobuf-java` back on the classpath, where it declares the same classes as `protobuf-javalite` and fails dexing with duplicate-class errors.
 
-* `exclude group: 'com.google.protobuf', module: 'protobuf-java'` exclusion rules
-* `-dontwarn no.ecc.vectortile.**` / `-dontwarn org.locationtech.**` ProGuard lines
+If you read raw vector-tile features from `VectorData.rawFeatures` or `MapboxVectorFeature.from`, import `com.xweather.mapsgl.mvt` instead of `no.ecc.vectortile` and JTS. Property names such as `coordinates` and `exteriorRing` are unchanged. `addWeatherLayer` and `addLayer` are unaffected.
 
-Leaving `java-vector-tile` in place puts `protobuf-java` back on the classpath, which declares the same
-classes as `protobuf-javalite` and fails dexing with duplicate-class errors.
+### In your activity
 
+Create the account, wait until the map view has been laid out, then create a `MapboxMapController`. Mapbox's latest styles default to the globe projection, which MapsGL cannot use, so set Mercator before subscribing to the map-loaded event. `mapboxMap` is nullable.
 
-
-
-### In your activity, inside the onCreate method:
-
-Create a reference to your account:
-
-	val xweatherAccount = XweatherAccount(
-		getString(R.string.xweather_client_id),
+    val xweatherAccount = XweatherAccount(
+        getString(R.string.xweather_client_id),
         getString(R.string.xweather_client_secret)
     )
 
-
-Create your MapboxController:
-
-	binding.mapView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener{
-		override fun onGlobalLayout() {
-			binding.mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-			mapController = MapboxMapController(mapView, xweatherAccount)
-            with(mapController) {
-				mapboxMap.loadStyle(Style.DARK)
-				//Make sure to set Mapbox to Mercator mode
-                mapboxMap.setProjection(projection(ProjectionName.MERCATOR)) 
-                mapboxMap.subscribeMapLoaded(mapLoadedCallback)
-                mapboxMap.subscribeCameraChanged(cameraChangeCallBack)
-            }
-		}
-	})
-
-Add a MapsGL layer to the map:
-
-	val mapLoadedCallback = MapLoadedCallback {
-		val temperatureLayer = 	mapController.addWeatherLayer(LayerCode.TEMPERATURES)
+    val mapLoadedCallback = MapLoadedCallback {
+        mapController.addWeatherLayer(WeatherService.Temperatures(mapController.service))
+        mapController.addWeatherLayer(WeatherService.WindParticles(mapController.service))
+        // Or, with no customizations, add a layer by code:
+        mapController.addWeatherLayer(LayerCode.TEMPERATURES)
     }
 
-
-### Android Studio
-Version: [Chipmunk|2022.3.1 Patch2 or later](https://androidstudio.googleblog.com/2023/09/android-studio-giraffe-patch-2-is-now.html) \
-Android Gradle Plugin Version 7.2.2 \
-Gradle Version 7.5.1.
+    binding.mapView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            binding.mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            mapController = MapboxMapController(binding.mapView, xweatherAccount)
+            with(mapController) {
+                mapboxMap?.loadStyle(Style.LIGHT)
+                mapboxMap?.setProjection(projection(ProjectionName.MERCATOR))
+                mapboxMap?.subscribeMapLoaded(mapLoadedCallback)
+            }
+        }
+    })
 
 ## Reference Links
 
-[MapsGL Android SDK](https://www.xweather.com/docs/mapsgl-android-sdk/) \
+[MapsGL Android SDK](https://www.xweather.com/docs/mapsgl-android-sdk/)
 
 
 

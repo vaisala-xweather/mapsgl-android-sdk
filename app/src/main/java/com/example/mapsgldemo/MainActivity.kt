@@ -7,9 +7,8 @@ import com.example.mapsgldemo.databinding.ActivityMainBinding
 import com.example.mapsgldemo.maplayers.MapLayersActivity
 
 /**
- * Launcher screen: [ShowcaseMenuActivity], [MapLayersActivity], [JsParityLayersActivity],
- * [DocsExamplesMenuActivity], [LocalActivity], [StencilMaskMenuActivity], and
- * [MoreExamplesMenuActivity].
+ * Launcher screen: [MapLayersActivity], [JsParityLayersActivity],
+ * [DocsExamplesMenuActivity], [LocalActivity], and [StencilMaskMenuActivity].
  */
 class MainActivity : AppCompatActivity() {
 
@@ -24,9 +23,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun wireMenuButtons() {
-        binding.menuShowcaseButton.setOnClickListener {
-            startActivity(Intent(this, ShowcaseMenuActivity::class.java))
-        }
         binding.menuMapLayersButton.setOnClickListener {
             startActivity(Intent(this, MapLayersActivity::class.java))
         }
@@ -43,9 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.menuDocsExamplesButton.setOnClickListener {
             startActivity(Intent(this, DocsExamplesMenuActivity::class.java))
-        }
-        binding.menuMoreExamplesButton.setOnClickListener {
-            startActivity(Intent(this, MoreExamplesMenuActivity::class.java))
         }
     }
 }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mapbox.maps.Style
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.customize.CustomizationDemoActivity
+import com.example.mapsgldemo.helpers.loadFlatStyle
 import com.xweather.mapsgl.controls.legend.Legend
 import com.xweather.mapsgl.layers.spec.SymbolLayerDescriptor
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
@@ -120,7 +121,7 @@ class CustomLightningShaderActivity : CustomizationDemoActivity() {
         // nearly white, so on the default light style there is almost nothing to see. Loading a
         // style replaces it wholesale, which would drop a custom layer added beforehand, so the
         // layer goes on inside the callback once the new style is in place.
-        controller.mapView.mapboxMap.loadStyle(Style.DARK) {
+        controller.mapView.loadFlatStyle(Style.DARK) {
             controller.addWeatherLayer(config)
         }
     }

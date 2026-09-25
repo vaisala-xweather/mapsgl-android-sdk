@@ -8,15 +8,13 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsgldemo.helpers.InsetEdges
 import com.example.mapsgldemo.helpers.drawBehindCutout
+import com.example.mapsgldemo.helpers.loadFlatStyle
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityAddRasterLayerBinding
 import com.mapbox.common.Cancelable
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
-import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
-import com.mapbox.maps.extension.style.projection.generated.projection
-import com.mapbox.maps.extension.style.projection.generated.setProjection
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
 import com.xweather.mapsgl.layers.spec.RasterLayerDescriptor
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
@@ -66,6 +64,13 @@ class AddRasterLayerActivity : AppCompatActivity() {
         )
 
         mapView = binding.addRasterMapView
+
+        // Load the basemap with Mercator baked into the style, before MapView's own onStart
+        // would load the default (globe) style. Setting the projection after the style is up -
+        // from subscribeMapLoaded or straight after the controller is built - is too late: the map
+        // paints as a globe and then visibly snaps flat.
+        mapView.loadFlatStyle()
+
         binding.addRasterCaption.text =
             "Geocolor satellite from a hand-built raster tile source rather than the built-in " +
             "configuration, at 0.7 opacity."
@@ -88,12 +93,6 @@ class AddRasterLayerActivity : AppCompatActivity() {
 
                 controller = MapboxMapController(mapView, xweatherAccount)
                 mapboxMap = controller.mapboxMap
-
-                // Set the projection before the first frame is drawn. Doing it inside
-                // subscribeMapLoaded (on `style`) is too late — the map paints as a globe and then
-                // visibly snaps flat. MapSettings.setMapboxPreferences does the same for the other
-                // demo screens, which is why they open flat.
-                mapboxMap?.setProjection(projection(ProjectionName.MERCATOR))
 
                 // Matches the JS example's `center: [12.35666, 45.34880], zoom: 3`.
                 // Coordinate is (lat, lon), the reverse of the GeoJSON-style pair above.

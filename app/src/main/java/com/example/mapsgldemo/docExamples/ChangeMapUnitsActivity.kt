@@ -12,15 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.mapsgldemo.helpers.InsetEdges
 import com.example.mapsgldemo.helpers.drawBehindCutout
+import com.example.mapsgldemo.helpers.loadFlatStyle
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityChangeMapUnitsBinding
 import com.mapbox.common.Cancelable
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
-import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
-import com.mapbox.maps.extension.style.projection.generated.projection
-import com.mapbox.maps.extension.style.projection.generated.setProjection
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
 import com.xweather.mapsgl.controls.legend.LegendControl
 import com.xweather.mapsgl.extensions.UnitSpeed
@@ -80,6 +78,13 @@ class ChangeMapUnitsActivity : AppCompatActivity() {
         )
 
         mapView = binding.changeMapUnitsMapView
+
+        // Load the basemap with Mercator baked into the style, before MapView's own onStart
+        // would load the default (globe) style. Setting the projection after the style is up -
+        // from subscribeMapLoaded or straight after the controller is built - is too late: the map
+        // paints as a globe and then visibly snaps flat.
+        mapView.loadFlatStyle()
+
         binding.changeMapUnitsCaption.text =
             "Wind speeds with a legend. The picker changes the speed unit at runtime - the data is " +
             "unchanged, only the formatting."
@@ -105,12 +110,6 @@ class ChangeMapUnitsActivity : AppCompatActivity() {
 
                 controller = MapboxMapController(mapView, xweatherAccount)
                 mapboxMap = controller.mapboxMap
-
-                // Set the projection before the first frame is drawn. Doing it inside
-                // subscribeMapLoaded (on `style`) is too late — the map paints as a globe and then
-                // visibly snaps flat. MapSettings.setMapboxPreferences does the same for the other
-                // demo screens, which is why they open flat.
-                mapboxMap?.setProjection(projection(ProjectionName.MERCATOR))
 
                 // Matches the JS example's `center: [-93, 40], zoom: 4`. Coordinate is (lat, lon).
                 controller.setCenter(Coordinate(40.0, -93.0))

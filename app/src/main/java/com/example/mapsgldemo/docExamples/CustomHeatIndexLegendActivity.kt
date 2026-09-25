@@ -12,15 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.mapsgldemo.helpers.InsetEdges
 import com.example.mapsgldemo.helpers.drawBehindCutout
+import com.example.mapsgldemo.helpers.loadFlatStyle
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityCustomHeatIndexLegendBinding
 import com.mapbox.common.Cancelable
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
-import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
-import com.mapbox.maps.extension.style.projection.generated.projection
-import com.mapbox.maps.extension.style.projection.generated.setProjection
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
 import com.xweather.mapsgl.controls.legend.LegendControl
 import com.xweather.mapsgl.controls.legend.bar.BarLegend
@@ -122,6 +120,13 @@ class CustomHeatIndexLegendActivity : AppCompatActivity() {
         )
 
         mapView = binding.customHeatIndexLegendMapView
+
+        // Load the basemap with Mercator baked into the style, before MapView's own onStart
+        // would load the default (globe) style. Setting the projection after the style is up -
+        // from subscribeMapLoaded or straight after the controller is built - is too late: the map
+        // paints as a globe and then visibly snaps flat.
+        mapView.loadFlatStyle()
+
         binding.customHeatIndexLegendNote.text = NOTE_WAITING
 
         binding.customHeatIndexLegendBackButton.setOnClickListener { returnToMenu() }
@@ -144,9 +149,6 @@ class CustomHeatIndexLegendActivity : AppCompatActivity() {
 
                 controller = MapboxMapController(mapView, account)
                 mapboxMap = controller.mapboxMap
-
-                // Flat before the first frame, like the other demo screens.
-                mapboxMap?.setProjection(projection(ProjectionName.MERCATOR))
 
                 // The JS example's center: [-93, 34], zoom: 3. Coordinate is (lat, lon).
                 controller.setCenter(Coordinate(34.0, -93.0))

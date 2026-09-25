@@ -13,19 +13,35 @@ android {
         minSdk 28
         targetSdk 36
         versionCode 1
-        versionName "v1.6.1"
+        versionName "v1.7.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.debug
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             signingConfig signingConfigs.debug
             minifyEnabled false
         }
+        // Instrumentable twin of `release`: same R8 pipeline and the same app proguard rules,
+        // plus the few keeps AndroidJUnitRunner needs to start. Exists so the smoke test can run
+        // against a minified build without those test-only keeps leaking into the shipped APK.
+        minifiedTest {
+            initWith release
+            matchingFallbacks = ['release']
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro',
+                    'proguard-rules-instrumentation.pro'
+        }
     }
+
+    // Instrumentation runs against the minified variant -- that is the point of the exercise.
+    testBuildType = "minifiedTest"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -43,4 +59,11 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     implementation "com.mapbox.maps:android-ndk27:11.15.3"
     implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.7.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:core:1.6.1'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test:rules:1.6.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
 }
