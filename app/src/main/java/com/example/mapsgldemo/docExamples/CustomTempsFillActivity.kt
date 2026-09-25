@@ -7,11 +7,8 @@ import com.xweather.mapsgl.map.mapbox.MapboxMapController
 import com.xweather.mapsgl.style.ColorScaleOptions
 import com.xweather.mapsgl.style.ColorStop
 import com.xweather.mapsgl.style.SampleLayerPaint
-import com.xweather.mapsgl.style.SamplePaint
 import com.xweather.mapsgl.types.Coordinate
 import com.xweather.mapsgl.utils.FtoCUnit
-import com.xweather.mapsgl.weather.LayerCode
-import com.xweather.mapsgl.weather.WeatherConfiguration
 import com.xweather.mapsgl.weather.WeatherService
 
 /**
@@ -40,46 +37,30 @@ import com.xweather.mapsgl.weather.WeatherService
  * That is the same helper, under the same name, as the JS example's
  * `aerisweather.mapsgl.units.FtoCUnit(2)`.
  *
- * ### `interval` alone does nothing: it needs `interpolate = false`
+ * ### Discrete bands need `interpolate = false`
  *
- * This is the one place the port cannot copy the JS paint verbatim.
- *
- * In JS, a non-zero `interval` is enough to band the fill. On Android the renderer hands both
- * settings to [com.xweather.mapsgl.style.ColorLookupTable], which quantizes only when **both**
- * conditions hold:
- *
- * ```kotlin
- * if (!interpolate && interval > 0.0) { … expand stops onto the interval grid … }
- * ```
- *
- * Leave [ColorScaleOptions.interpolate] at its default `true` and the interval is silently ignored
- * - the fill draws as a smooth gradient, with no error and no log line. Measured on a device, a
- * frame at `interval = FtoCUnit(10.0)` was pixel-identical to one at `interval = 0.0`; the only
- * thing that differed between the two screenshots was the picker's own label.
- *
- * So the Android form of the JS paint is:
+ * A smooth gradient is `interval = 0.0` with `interpolate = true`, which is what the built-in
+ * temperatures configuration ships. Discrete bands set both a band width and `interpolate = false`:
  *
  * ```kotlin
  * ColorScaleOptions(
  *     stops = CUSTOM_RAMP,
  *     interval = FtoCUnit(2.0),
- *     interpolate = false,      // not in the JS example, and required here
+ *     interpolate = false,
  * )
  * ```
  *
- * The two flags are not redundant. `interval` sets the width of a band; `interpolate` decides
- * whether the lookup table is smoothed at all. Wanting a smooth gradient is `interval = 0.0` with
- * `interpolate = true`, which is what the built-in temperatures configuration ships.
+ * `interval` is the width of a band. `interpolate = false` keeps each band a flat color.
  *
- * ### Changing it at runtime needs the layer re-added
+ * ### Applying the scale
  *
- * Same constraint as the
- * [radar colour scale example][CustomRadarColorscaleActivity]: a sample layer's scale is baked into
- * GL lookup-table textures when its program is created, so assigning [SamplePaint.colorScale] moves
- * the legend but not the map. The layer has to go back on for the new scale to reach the renderer.
+ * Edit the configuration, add the layer, then pass the same scale to
+ * [com.xweather.mapsgl.map.MapController.setPaintProperty]. That call updates the fill and the
+ * legend together. Use the same call when the band-width picker changes later:
  *
- * The initial state needs none of that - the JS example just passes `paint` to `addWeatherLayer`,
- * and mutating the configuration before adding it is the Android equivalent.
+ * ```kotlin
+ * controller.setPaintProperty(layerId, "sample.colorscale", scale)
+ * ```
  */
 class CustomTempsFillActivity : CustomizationDemoActivity() {
 
@@ -97,64 +78,36 @@ class CustomTempsFillActivity : CustomizationDemoActivity() {
     /** The ramp is the point of the example, so show the legend that describes it. */
     override val showLegend = true
 
-    /** Kept so the same configuration object can be re-added after its paint changes. */
-    private lateinit var temperatures: WeatherConfiguration
-    private lateinit var paint: SamplePaint
+    private var layerId: String? = null
     private var intervalIndex = DEFAULT_INTERVAL_INDEX
 
     override fun customizeLayers(controller: MapboxMapController) {
         val config = WeatherService.Temperatures(controller.service)
-        temperatures = config
-        paint = (config.layer.paint as SampleLayerPaint).sample
-        applyScale()
-        controller.addWeatherLayer(config)
-        syncLegendToPaint()
+        val paint = (config.layer.paint as SampleLayerPaint).sample
+        val scale = scaleFor(intervalIndex)
+        paint.colorScale = scale
+        val layer = controller.addWeatherLayer(config) ?: return
+        layerId = layer.id
+        controller.setPaintProperty(layer.id, "sample.colorscale", scale)
     }
 
     override fun buildControls() {
         addChoice("Band width", INTERVAL_LABELS, intervalIndex) {
             intervalIndex = it
-            applyScale()
-            reloadTemperatures()
+            val id = layerId ?: return@addChoice
+            controller.setPaintProperty(id, "sample.colorscale", scaleFor(intervalIndex))
         }
     }
 
-    /**
-     * The JS example's `paint.sample.colorscale`.
-     *
-     * `interpolate = false` is the one line the JS example does not have and Android needs - see
-     * the class doc.
-     */
-    private fun applyScale() {
-        val intervalF = INTERVALS_F[intervalIndex]
-        paint.colorScale = ColorScaleOptions(
+    /** The JS example's `paint.sample.colorscale`, with `interpolate = false` for a banded fill. */
+    private fun scaleFor(index: Int): ColorScaleOptions {
+        val intervalF = INTERVALS_F[index]
+        return ColorScaleOptions(
             stops = CUSTOM_RAMP,
             interval = intervalF?.let { FtoCUnit(it) } ?: 0.0,
             interpolate = intervalF == null,
         )
     }
-
-    /**
-     * Rebuilds the layer so the renderer picks up the new scale - see the class doc, and the radar
-     * colour scale example for why an in-place refresh is not available for sample layers.
-     */
-    private fun reloadTemperatures() {
-        controller.removeWeatherLayer(LayerCode.TEMPERATURES)
-        controller.addWeatherLayer(temperatures)
-        syncLegendToPaint()
-    }
-
-    /**
-     * Re-assigns the scale so the legend catches up with the map.
-     *
-     * Adding a layer registers the *configuration's* legend template, whose own interval is `0`, so
-     * the bar comes back smooth however the fill is drawn. Assigning [SamplePaint.colorScale] emits
-     * `PAINT_CHANGE`, and the controller's handler for that pushes the paint's scale into the
-     * legend. Harmless to the map - the renderer has already baked its lookup tables - so the two
-     * assignments split the work cleanly: the one before the add styles the fill, this one styles
-     * the legend.
-     */
-    private fun syncLegendToPaint() = applyScale()
 
     private companion object {
         /**

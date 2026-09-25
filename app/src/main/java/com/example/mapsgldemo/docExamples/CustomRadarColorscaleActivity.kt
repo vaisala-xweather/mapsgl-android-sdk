@@ -10,12 +10,9 @@ import com.xweather.mapsgl.map.mapbox.MapboxMapController
 import com.xweather.mapsgl.style.ColorScaleOptions
 import com.xweather.mapsgl.style.ColorStop
 import com.xweather.mapsgl.style.SampleLayerPaint
-import com.xweather.mapsgl.style.SamplePaint
 import com.xweather.mapsgl.types.Coordinate
 import com.xweather.mapsgl.weather.ColorScales
-import com.xweather.mapsgl.weather.LayerCode
 import com.xweather.mapsgl.weather.LegendCode
-import com.xweather.mapsgl.weather.WeatherConfiguration
 import com.xweather.mapsgl.weather.WeatherService
 
 /**
@@ -27,31 +24,18 @@ import com.xweather.mapsgl.weather.WeatherService
  * everything. This screen swaps between the built-in per-type scales, the custom ones from the JS
  * example, and three generic palettes - with the legend on screen so you can see it follow.
  *
- * ### Assigning the scale is not enough on its own
+ * ### Changing the scale on a live layer
  *
- * The JS example calls `radarLayer.setPaintProperty('sample.colorscale', …)` and the map repaints.
- * On Android the assignment exists - [SamplePaint.colorScale] has a setter that emits
- * `PAINT_CHANGE` carrying the same `"sample.colorscale"` property name the JS SDK uses - but the
- * controller's handler for that event only calls `syncLegend`. The legend re-draws with the new
- * colours and the map keeps the old ones, which is exactly the sort of half-applied change that is
- * easy to miss without a legend on screen to disagree with the map - so this screen shows one.
- *
- * The reason is where the colours live. A sample layer's scale is baked into GL lookup-table
- * textures by `EncodedDataRenderer.setup`, and that runs from `createProgram` / `resetProgram` -
- * once per program, not per frame. Nothing short of rebuilding the program picks up a new scale, and
- * no public entry point does that in place. So this screen assigns the scale and then re-adds the
- * layer:
+ * Set the scale on the configuration before `addWeatherLayer`, or call
+ * [com.xweather.mapsgl.map.MapController.setPaintProperty] once the layer is on the map.
+ * `setPaintProperty` rebuilds the colour lookup tables and updates the legend. The property path
+ * matches the JS example's `sample.colorscale`:
  *
  * ```kotlin
- * paint.sample.colorScale = ColorScaleOptions(stops = …)
- * controller.removeWeatherLayer(LayerCode.RADAR)
- * controller.addWeatherLayer(config)          // same config object, new program, new LUTs
+ * controller.setPaintProperty(layerId, "sample.colorscale", scale)
  * ```
  *
- * Re-adding costs a brief flicker while tiles come back, which is the honest cost of the feature
- * today rather than something this example papers over. Contrast
- * [MapboxMapController.refreshGlVectorLayerPaint], which does exist for vector layers - the
- * equivalent for sample layers is the gap.
+ * `sample.colorScale` is also accepted. The value is a [ColorScaleOptions].
  *
  * ### Per-precipitation-type scales, and the transparent first stop
  *
@@ -115,17 +99,17 @@ class CustomRadarColorscaleActivity : CustomizationDemoActivity() {
     /** The scale is the subject of this screen, so the legend that describes it is worth showing. */
     override val showLegend = true
 
-    /** Kept so the same configuration object can be re-added after its paint changes. */
-    private lateinit var radar: WeatherConfiguration
-    private lateinit var paint: SamplePaint
+    private var layerId: String? = null
     private var scaleIndex = 0
 
     override fun customizeLayers(controller: MapboxMapController) {
         val config = WeatherService.Radar(controller.service)
-        radar = config
-        paint = (config.layer.paint as SampleLayerPaint).sample
-        applyScale()
-        controller.addWeatherLayer(config)
+        val paint = (config.layer.paint as SampleLayerPaint).sample
+        val scale = scaleFor(scaleIndex)
+        paint.colorScale = scale
+        val layer = controller.addWeatherLayer(config) ?: return
+        layerId = layer.id
+        controller.setPaintProperty(layer.id, "sample.colorscale", scale)
         combineLegendBarsIfOneScale()
     }
 
@@ -133,19 +117,10 @@ class CustomRadarColorscaleActivity : CustomizationDemoActivity() {
         // The JS example uses a <select>; addChoice is the scaffold's drop-down.
         addChoice("Colour scale", SCALE_NAMES, scaleIndex) {
             scaleIndex = it
-            applyScale()
-            reloadRadar()
+            val id = layerId ?: return@addChoice
+            controller.setPaintProperty(id, "sample.colorscale", scaleFor(scaleIndex))
+            combineLegendBarsIfOneScale()
         }
-    }
-
-    /**
-     * Rebuilds the layer so the renderer picks up the new scale. The assignment in [applyScale]
-     * updates the legend but not the GL lookup tables - see the class doc.
-     */
-    private fun reloadRadar() {
-        controller.removeWeatherLayer(LayerCode.RADAR)
-        controller.addWeatherLayer(radar)
-        combineLegendBarsIfOneScale()
     }
 
     /**
@@ -157,9 +132,9 @@ class CustomRadarColorscaleActivity : CustomizationDemoActivity() {
      * reads as three findings where there is only one. So drop to a single bar and drop the type
      * word from its labels; the legend's own "Radar" title already says what it describes.
      *
-     * Called after the layer is added, because that is when the legend is created. It does not need
-     * an inverse: `removeWeatherLayer` drops the legend and the next `addWeatherLayer` registers
-     * the configuration's own three-bar template again, so switching back restores all three.
+     * Called after the layer is added, because that is when the legend is created. A later
+     * `setPaintProperty` with per-type stops writes those stops back into the configuration's
+     * three bars, so switching back to Default or Custom restores all three before this returns.
      */
     @Suppress("UNCHECKED_CAST")
     private fun combineLegendBarsIfOneScale() {
@@ -176,8 +151,7 @@ class CustomRadarColorscaleActivity : CustomizationDemoActivity() {
         legendControl.update(legend.copy(items = listOf(combined)))
     }
 
-    private fun applyScale() {
-        paint.colorScale = when (SCALE_NAMES[scaleIndex]) {
+    private fun scaleFor(index: Int): ColorScaleOptions = when (SCALE_NAMES[index]) {
             // One stop list per precipitation type, in the same rain / mix / snow order the
             // built-in radar configuration declares.
             "Default" -> ColorScaleOptions(
@@ -194,10 +168,9 @@ class CustomRadarColorscaleActivity : CustomizationDemoActivity() {
 
             // One scale for all precipitation types, spread across the dBZ span.
             else -> ColorScaleOptions(
-                stops = paletteOverDbz(PALETTES[SCALE_NAMES[scaleIndex]].orEmpty()),
+                stops = paletteOverDbz(PALETTES[SCALE_NAMES[index]].orEmpty()),
             )
         }
-    }
 
     private companion object {
         val SCALE_NAMES = listOf("Default", "Custom", "Rainbow", "Viridis", "Plasma")

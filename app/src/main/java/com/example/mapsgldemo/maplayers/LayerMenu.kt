@@ -163,7 +163,6 @@ class LayerMenu {
             val textButtons = mutableListOf<LayerButtonView>()
             LayerCode.availableEntries.forEach { code ->
                 val configuration = LayerCode.getConfigurationForLayerCode(code, service)
-                if (code.value.endsWith("-text")) return@forEach
                 if (!configuration.hasSymbolText()) return@forEach
                 textButtons.add(makeButton(code, configuration))
             }
