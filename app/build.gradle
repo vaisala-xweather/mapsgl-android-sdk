@@ -58,7 +58,17 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     implementation "com.mapbox.maps:android-ndk27:11.15.3"
-    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.8.0'
+    //implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.8.0'
+    // Building against the published JitPack artifact. To build against the local SDK checkout
+    // instead, uncomment the line below and restore the ':mapsglmaps' include in settings.gradle.
+    implementation project(':mapsglmaps')
+   // implementation 'com.github.jasonsuto:test240815:170vj'
+    //implementation files('libs/170f.aar')
+    //implementation 'no.ecc.vectortile:java-vector-tile:1.4.1'
+
+    // The template ExampleUnitTest/ExampleInstrumentedTest shipped without these, so neither
+    // compiled. AllActivitiesSmokeTest needs androidx.test to drive activities in-process:
+    // the demo's activities are not exported, so `adb shell am start` cannot reach them.
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'junit:junit:4.13.2'
