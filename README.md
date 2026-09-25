@@ -9,47 +9,6 @@ The Xweather MapsGL SDK for Android allows a developer to quickly and easily add
 -High-performance layer rendering with OpenGLES
 -Customizable presentation and styling of weather and geospatial information client-side
 
-## Worked Examples
-
-Ports of the MapsGL JavaScript examples, each with a runnable screen in this app and notes on
-what changes between the two SDKs:
-
-- [Custom earthquake symbols using a shader](docs/examples/custom-earthquake-shader.md) — a
-  procedural GLSL fragment shader on symbol icons, with no sprite at all
-  (**Documentation Examples → Custom earthquake symbols using a shader**)
-- [Custom fire symbols using a shader](docs/examples/custom-fires-shader.md) — fbm noise,
-  `v_random` and `v_factor` driving an animated flame, with no sprite
-  (**Documentation Examples → Custom fire symbols using a shader**)
-- [Customizing the heat index legend](docs/examples/custom-heat-index-legend.md) — replacing a
-  bar legend's labels with normalized, qualitative stops
-  (**Documentation Examples → Customizing the heat index legend**)
-- [Custom lightning symbols using a shader](docs/examples/custom-lightning-shader.md) — strike
-  age driving a noise-gated flash, on a dark basemap
-  (**Documentation Examples → Custom lightning symbols using a shader**)
-- [Customizing lightning point styles](docs/examples/custom-lightning-styles.md) — a step
-  ladder on circle fill, with the JS opacity expression folded into the colour alpha
-  (**Documentation Examples → Customizing lightning point styles**)
-- [Customizing radar color scale](docs/examples/custom-radar-colorscale.md) — swapping a sample
-  layer's colour scale at runtime, why the assignment alone only moves the legend, and folding the
-  three per-type legend bars into one
-  (**Documentation Examples → Customizing radar color scale**)
-- [Customizing temperature colors](docs/examples/custom-temps-fill.md) — a custom ramp banded at a
-  fixed interval, and why `interval` needs `interpolate = false` to do anything
-  (**Documentation Examples → Customizing temperature colors**)
-- [Customizing wind particles](docs/examples/custom-wind-particles.md) — a normalized scale and
-  heavier particle settings, and why replacing a paint sub-object is not the same as JS's merge
-  (**Documentation Examples → Customizing wind particles**)
-- [Create a freeze layer](docs/examples/frost-freeze-layer.md) — the temperatures layer as a frost
-  map: a stepped three-colour scale, a draw range hiding everything warmer, and a point legend
-  (**Documentation Examples → Create a freeze layer**)
-- [Filter weather alerts by category](docs/examples/filter-alerts.md) — a VTEC membership filter on
-  the alerts layer, switched at runtime, and the data inspector confirming what survived it
-  (**Documentation Examples → Filter weather alerts by category**)
-
-Documentation Examples also includes screens for adding custom GeoJSON, raster, and vector-tile layers, changing map units, changing the timeline range, and customizing alert polygon styles.
-
-The launcher lists **All Map Layers**, **Sorted Map Layers**, **Documentation Examples**, **Local Weather**, and **Stencil masks**.
-
 ## Getting Started
 
 View the latest installation and implementation details in the [MapsGL Android SDK documentation](https://www.xweather.com/docs/mapsgl-android-sdk/getting-started/).
@@ -188,6 +147,46 @@ Create the account, wait until the map view has been laid out, then create a `Ma
 
 [MapsGL Android SDK](https://www.xweather.com/docs/mapsgl-android-sdk/)
 
+## Worked Examples
+
+Ports of the MapsGL JavaScript examples, each with a runnable screen in this app and notes on
+what changes between the two SDKs:
+
+- [Custom earthquake symbols using a shader](docs/examples/custom-earthquake-shader.md) — a
+  procedural GLSL fragment shader on symbol icons, with no sprite at all
+  (**Documentation Examples → Custom earthquake symbols using a shader**)
+- [Custom fire symbols using a shader](docs/examples/custom-fires-shader.md) — fbm noise,
+  `v_random` and `v_factor` driving an animated flame, with no sprite
+  (**Documentation Examples → Custom fire symbols using a shader**)
+- [Customizing the heat index legend](docs/examples/custom-heat-index-legend.md) — replacing a
+  bar legend's labels with normalized, qualitative stops
+  (**Documentation Examples → Customizing the heat index legend**)
+- [Custom lightning symbols using a shader](docs/examples/custom-lightning-shader.md) — strike
+  age driving a noise-gated flash, on a dark basemap
+  (**Documentation Examples → Custom lightning symbols using a shader**)
+- [Customizing lightning point styles](docs/examples/custom-lightning-styles.md) — a step
+  ladder on circle fill, with the JS opacity expression folded into the colour alpha
+  (**Documentation Examples → Customizing lightning point styles**)
+- [Customizing radar color scale](docs/examples/custom-radar-colorscale.md) — swapping a sample
+  layer's colour scale at runtime, why the assignment alone only moves the legend, and folding the
+  three per-type legend bars into one
+  (**Documentation Examples → Customizing radar color scale**)
+- [Customizing temperature colors](docs/examples/custom-temps-fill.md) — a custom ramp banded at a
+  fixed interval, and why `interval` needs `interpolate = false` to do anything
+  (**Documentation Examples → Customizing temperature colors**)
+- [Customizing wind particles](docs/examples/custom-wind-particles.md) — a normalized scale and
+  heavier particle settings, and why replacing a paint sub-object is not the same as JS's merge
+  (**Documentation Examples → Customizing wind particles**)
+- [Create a freeze layer](docs/examples/frost-freeze-layer.md) — the temperatures layer as a frost
+  map: a stepped three-colour scale, a draw range hiding everything warmer, and a point legend
+  (**Documentation Examples → Create a freeze layer**)
+- [Filter weather alerts by category](docs/examples/filter-alerts.md) — a VTEC membership filter on
+  the alerts layer, switched at runtime, and the data inspector confirming what survived it
+  (**Documentation Examples → Filter weather alerts by category**)
+
+Documentation Examples also includes screens for adding custom GeoJSON, raster, and vector-tile layers, changing map units, changing the timeline range, and customizing alert polygon styles.
+
+The launcher lists **All Map Layers**, **Sorted Map Layers**, **Documentation Examples**, **Local Weather**, and **Stencil masks**.
 
 
 
