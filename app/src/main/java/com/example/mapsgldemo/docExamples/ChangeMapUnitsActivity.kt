@@ -1,7 +1,6 @@
 package com.example.mapsgldemo.docExamples
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -16,6 +15,7 @@ import com.example.mapsgldemo.helpers.loadFlatStyle
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityChangeMapUnitsBinding
+import com.example.mapsgldemo.helpers.returnToMenu
 import com.mapbox.common.Cancelable
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
@@ -202,11 +202,7 @@ class ChangeMapUnitsActivity : AppCompatActivity() {
     }
 
     private fun returnToDocsMenu() {
-        startActivity(
-            Intent(this, DocsExamplesMenuActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
-        )
-        finish()
+        returnToMenu(DocsExamplesMenuActivity::class.java)
     }
 
     companion object {

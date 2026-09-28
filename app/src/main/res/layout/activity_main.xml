@@ -90,6 +90,11 @@
                 android:text="Documentation Examples" />
 
             <Button
+                android:id="@+id/menuMoreExamplesButton"
+                style="@style/Xw.MenuRow"
+                android:text="More Examples" />
+
+            <Button
                 android:id="@+id/menuDataQueryButton"
                 style="@style/Xw.MenuRow"
                 android:text="Data-query layers" />

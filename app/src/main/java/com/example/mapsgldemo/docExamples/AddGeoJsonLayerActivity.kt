@@ -1,7 +1,6 @@
 package com.example.mapsgldemo.docExamples
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.ViewTreeObserver
 import androidx.activity.OnBackPressedCallback
@@ -13,6 +12,7 @@ import com.example.mapsgldemo.helpers.loadFlatStyle
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.R
 import com.example.mapsgldemo.databinding.ActivityAddGeojsonLayerBinding
+import com.example.mapsgldemo.helpers.returnToMenu
 import com.mapbox.common.Cancelable
 import com.mapbox.geojson.FeatureCollection
 import com.mapbox.maps.MapView
@@ -187,11 +187,7 @@ class AddGeoJsonLayerActivity : AppCompatActivity() {
     }
 
     private fun returnToDocsMenu() {
-        startActivity(
-            Intent(this, DocsExamplesMenuActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
-        )
-        finish()
+        returnToMenu(DocsExamplesMenuActivity::class.java)
     }
 
     companion object {

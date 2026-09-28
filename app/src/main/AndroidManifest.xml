@@ -124,6 +124,54 @@
             android:label="More Examples"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".moreExamples.DisplayWeatherMapActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Display a weather map"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".moreExamples.AdjustDrawRangeActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Adjust the draw range"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".moreExamples.WindSpeedCategoriesActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Wind speed categories"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".moreExamples.TimelineControlsActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Timeline controls"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".moreExamples.PreloadAnimationDataActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Preload animation data"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".moreExamples.LegendAndInspectorActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Legend and data inspector"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".moreExamples.ValuesAtPlacesActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Values at API places"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".moreExamples.LayerMaskingActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Layer masking"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
             android:name=".MapTimeFilterActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"

@@ -1,7 +1,6 @@
 package com.example.mapsgldemo.customize
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
@@ -13,10 +12,13 @@ import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.Switch
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.example.mapsgldemo.LayerCustomizationMenuActivity
@@ -26,6 +28,7 @@ import com.example.mapsgldemo.helpers.InsetEdges
 import com.example.mapsgldemo.helpers.TimelineTextFormatter
 import com.example.mapsgldemo.helpers.drawBehindCutout
 import com.example.mapsgldemo.helpers.loadFlatStyle
+import com.example.mapsgldemo.helpers.returnToMenu
 import com.mapbox.common.Cancelable
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
@@ -80,6 +83,16 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
      * runs, because a legend is created as its layer is added.
      */
     protected open val showLegend: Boolean = false
+
+    /**
+     * Set `false` to hide the stock timeline bar.
+     *
+     * For a demo that drives the timeline from its own controls: two sets of play buttons on one
+     * screen would leave it unclear which one the demo is about. The load progress readout lives
+     * in that bar too, so a demo that hides it and still wants to show loading reads
+     * [MapboxMapController.onLoadProgress] itself.
+     */
+    protected open val showTimelineBar: Boolean = true
 
     /**
      * Add and style the layers for this demo.
@@ -144,6 +157,7 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         binding.customizationCaption.text = caption
 
         setupTimelineChrome()
+        if (!showTimelineBar) hideTimelineBar()
 
         binding.customizationBackButton.setOnClickListener { returnToMenu() }
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -272,6 +286,19 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         binding.timelineView.layerMenuButton.visibility = View.GONE
         binding.timelineView.locationButton.visibility = View.GONE
         binding.timelineView.localControlStrip.visibility = View.GONE
+    }
+
+    /**
+     * Hides the timeline bar, and lifts the controls panel clear of the navigation bar that the
+     * timeline used to sit over.
+     */
+    private fun hideTimelineBar() {
+        binding.timelineView.root.visibility = View.GONE
+        ViewCompat.setOnApplyWindowInsetsListener(binding.customizationControlsScroll) { view, insets ->
+            val bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+            view.updateLayoutParams<ConstraintLayout.LayoutParams> { bottomMargin = bottom + dpToPx(12) }
+            insets
+        }
     }
 
     private fun setupTimelineListeners() {
@@ -477,6 +504,41 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Adds a row of evenly sized buttons, one per label, and returns them in the same order so a
+     * demo can wire each one and relabel it as state changes - Play becoming Stop, say.
+     */
+    protected fun addButtonRow(vararg labels: String): List<Button> {
+        val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        val buttons = labels.mapIndexed { index, label ->
+            Button(this, null, 0, R.style.Xw_Button_Secondary).apply {
+                text = label
+                row.addView(
+                    this,
+                    LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                        if (index > 0) marginStart = dpToPx(8)
+                    },
+                )
+            }
+        }
+        addControlView(row)
+        return buttons
+    }
+
+    /**
+     * Adds any view to the controls panel, for a demo whose control is not a slider, a choice or a
+     * switch - a readout that tracks the timeline, for one.
+     */
+    protected fun addControlView(view: View) {
+        binding.customizationControls.addView(
+            view,
+            LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+            ).apply { topMargin = if (binding.customizationControls.childCount > 0) dpToPx(8) else 0 },
+        )
+    }
+
     /** Adds a labelled on/off switch. */
     protected fun addToggle(label: String, initial: Boolean, onChange: (Boolean) -> Unit) {
         @Suppress("UseSwitchCompatOrMaterialCode")
@@ -525,10 +587,6 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
     }
 
     private fun returnToMenu() {
-        startActivity(
-            Intent(this, menuActivity())
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
-        )
-        finish()
+        returnToMenu(menuActivity())
     }
 }

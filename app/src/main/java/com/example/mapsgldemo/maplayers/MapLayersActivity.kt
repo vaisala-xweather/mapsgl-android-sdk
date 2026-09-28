@@ -25,6 +25,7 @@ import com.example.mapsgldemo.databinding.ActivityMapLayersBinding
 import com.example.mapsgldemo.helpers.MapSettings
 import com.example.mapsgldemo.helpers.StencilMaskDemos
 import com.example.mapsgldemo.helpers.TimelineTextFormatter
+import com.example.mapsgldemo.helpers.returnToMenu
 import com.example.mapsgldemo.stencil.HighwaysConusMaskTemperatureActivity
 import com.mapbox.common.Cancelable
 import com.mapbox.geojson.Point
@@ -729,11 +730,7 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
     }
 
     protected fun returnToMenuActivity() {
-        startActivity(
-            Intent(this, backNavigationActivity())
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
-        )
-        finish()
+        returnToMenu(backNavigationActivity())
     }
 
 }
