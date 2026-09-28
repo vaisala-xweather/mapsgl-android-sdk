@@ -70,6 +70,24 @@
             android:exported="false"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".DataQueryMenuActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Data-query layers"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".DataQueryTextActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Value labels"
+            android:parentActivityName=".DataQueryMenuActivity" />
+        <activity
+            android:name=".DataQueryTextSizeActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Text size"
+            android:parentActivityName=".DataQueryMenuActivity" />
+        <activity
             android:name=".stencil.Demo1PortugalSatelliteMaskActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"

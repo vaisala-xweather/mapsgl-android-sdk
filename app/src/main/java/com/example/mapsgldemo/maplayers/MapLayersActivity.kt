@@ -84,6 +84,9 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
     /** When true, the layer menu lists only weather products that define label text. */
     protected open fun textLayersOnly(): Boolean = false
 
+    /** Layer menu lists only the data-query (`*-text`) catalog, grouped by conditions and air quality. */
+    protected open fun dataQueryTextLayersOnly(): Boolean = false
+
     /** Initial map camera: center coordinate and zoom level. */
     protected open fun initialCameraPosition(): Pair<Coordinate, Double> =
         Coordinate(52.4194, 17.7749) to 2.0
@@ -305,6 +308,7 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                         lightningSectionFirst = layerMenuLightningSectionFirst(),
                         placesSectionFirst = layerMenuPlacesSectionFirst(),
                         textLayersOnly = textLayersOnly(),
+                        dataQueryTextLayersOnly = dataQueryTextLayersOnly(),
                         layerMenuSections = layerMenuSections(),
                     )
                     binding.layerMenuLinearLayout.visibility = View.INVISIBLE

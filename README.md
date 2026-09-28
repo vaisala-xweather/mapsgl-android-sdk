@@ -186,7 +186,7 @@ what changes between the two SDKs:
 
 Documentation Examples also includes screens for adding custom GeoJSON, raster, and vector-tile layers, changing map units, changing the timeline range, and customizing alert polygon styles.
 
-The launcher lists **All Map Layers**, **Sorted Map Layers**, **Documentation Examples**, **Local Weather**, and **Stencil masks**.
+The launcher lists **All Map Layers**, **Sorted Map Layers**, **Documentation Examples**, **Data-query layers**, **Local Weather**, and **Stencil masks**.
 
 
 

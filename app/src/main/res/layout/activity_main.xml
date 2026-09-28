@@ -90,6 +90,11 @@
                 android:text="Documentation Examples" />
 
             <Button
+                android:id="@+id/menuDataQueryButton"
+                style="@style/Xw.MenuRow"
+                android:text="Data-query layers" />
+
+            <Button
                 android:id="@+id/menuLocalWeatherButton"
                 style="@style/Xw.MenuRow"
                 android:text="Local Weather" />

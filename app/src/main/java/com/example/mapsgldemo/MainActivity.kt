@@ -8,7 +8,8 @@ import com.example.mapsgldemo.maplayers.MapLayersActivity
 
 /**
  * Launcher screen: [MapLayersActivity], [JsParityLayersActivity],
- * [DocsExamplesMenuActivity], [LocalActivity], and [StencilMaskMenuActivity].
+ * [DocsExamplesMenuActivity], [DataQueryMenuActivity], [LocalActivity], and
+ * [StencilMaskMenuActivity].
  */
 class MainActivity : AppCompatActivity() {
 
@@ -39,6 +40,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.menuDocsExamplesButton.setOnClickListener {
             startActivity(Intent(this, DocsExamplesMenuActivity::class.java))
+        }
+
+        binding.menuDataQueryButton.setOnClickListener {
+            startActivity(Intent(this, DataQueryMenuActivity::class.java))
         }
     }
 }

@@ -40,6 +40,12 @@ dependencyResolutionManagement {
 
 rootProject.name = "MapsGL v1.8.0"
 include ':app'
-include ':mapsglmaps'
-project(':mapsglmaps').projectDir = new File('C:/TestProjects/mapbox/250924-mapsgl-android-sdk/mapsglmaps')
+
+def useLocalMapsglSdk = providers.gradleProperty("useLocalMapsglSdk")
+        .map { it.toBoolean() }
+        .getOrElse(false)
+if (useLocalMapsglSdk) {
+    include ':mapsglmaps'
+    project(':mapsglmaps').projectDir = new File('C:/TestProjects/mapbox/250924-mapsgl-android-sdk/mapsglmaps')
+}
 
