@@ -37,6 +37,7 @@ import com.xweather.mapsgl.anim.AnimationState
 import com.xweather.mapsgl.config.weather.account.XweatherAccount
 import com.xweather.mapsgl.controls.legend.LegendControl
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
+import com.xweather.mapsgl.map.slots.LayerSlotOptions
 import com.xweather.mapsgl.types.Coordinate
 import com.xweather.mapsgl.weather.LayerCode
 
@@ -93,6 +94,18 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
      * [MapboxMapController.onLoadProgress] itself.
      */
     protected open val showTimelineBar: Boolean = true
+
+    /**
+     * Layer ordering slot options for the controller, or `null` for a controller without slots.
+     * A demo that sets this is built with `MapboxMapController(mapView, account, layerSlots)`.
+     */
+    protected open val layerSlots: LayerSlotOptions? = null
+
+    /**
+     * A Mapbox style to load instead of the map's default (Mapbox Standard) - for a demo that names
+     * classic-style layers such as `waterway-label`.
+     */
+    protected open val mapStyleUri: String? = null
 
     /**
      * Add and style the layers for this demo.
@@ -174,8 +187,10 @@ abstract class CustomizationDemoActivity : AppCompatActivity() {
                 mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 if (mapView.parent == null) return
 
-                controller = MapboxMapController(mapView, account)
+                controller = layerSlots?.let { MapboxMapController(mapView, account, it) }
+                    ?: MapboxMapController(mapView, account)
                 mapboxMap = controller.mapboxMap
+                mapStyleUri?.let { mapboxMap?.loadStyle(it) }
 
                 controller.setCenter(cameraCenter)
                 controller.setZoom(cameraZoom)

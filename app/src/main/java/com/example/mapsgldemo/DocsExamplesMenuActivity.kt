@@ -23,6 +23,7 @@ import com.example.mapsgldemo.docExamples.CustomTempsFillActivity
 import com.example.mapsgldemo.docExamples.CustomWindParticlesActivity
 import com.example.mapsgldemo.docExamples.FilterAlertsActivity
 import com.example.mapsgldemo.docExamples.FrostFreezeLayerActivity
+import com.example.mapsgldemo.docExamples.LayerOrderingActivity
 
 /**
  * Sub-menu for the MapsGL documentation examples ported to Android. Each button opens one activity
@@ -119,6 +120,9 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
         }
         binding.menuFrostFreezeLayerButton.setOnClickListener {
             startActivity(Intent(this, FrostFreezeLayerActivity::class.java))
+        }
+        binding.menuLayerOrderingButton.setOnClickListener {
+            startActivity(Intent(this, LayerOrderingActivity::class.java))
         }
     }
 

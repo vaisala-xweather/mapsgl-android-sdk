@@ -316,6 +316,21 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/menuLayerOrderingButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Temperatures and radar stacked under the basemap's boundaries, with wind particles and alert outlines above"
+                        android:src="@drawable/example_layer_ordering" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Controlling layer ordering" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

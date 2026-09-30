@@ -273,6 +273,12 @@
             android:label="Create a freeze layer"
             android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
+            android:name=".docExamples.LayerOrderingActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Controlling layer ordering"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
             android:name=".docExamples.FilterAlertsActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
