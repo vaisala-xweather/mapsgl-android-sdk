@@ -136,11 +136,11 @@
             android:label="Adjust the draw range"
             android:parentActivityName=".MoreExamplesMenuActivity" />
         <activity
-            android:name=".moreExamples.WindSpeedCategoriesActivity"
+            android:name=".docExamples.WindSpeedCategoriesActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
-            android:label="Wind speed categories"
-            android:parentActivityName=".MoreExamplesMenuActivity" />
+            android:label="Create a wind speed categories layer"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
             android:name=".moreExamples.TimelineControlsActivity"
             android:configChanges="orientation|screenSize"

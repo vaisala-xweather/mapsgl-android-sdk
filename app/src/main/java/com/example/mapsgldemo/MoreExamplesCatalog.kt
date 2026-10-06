@@ -22,7 +22,7 @@ import com.example.mapsgldemo.moreExamples.LegendAndInspectorActivity
 import com.example.mapsgldemo.moreExamples.PreloadAnimationDataActivity
 import com.example.mapsgldemo.moreExamples.TimelineControlsActivity
 import com.example.mapsgldemo.moreExamples.ValuesAtPlacesActivity
-import com.example.mapsgldemo.moreExamples.WindSpeedCategoriesActivity
+import com.example.mapsgldemo.docExamples.WindSpeedCategoriesActivity
 
 /** One row in [MoreExamplesMenuActivity]: what the example is called, what it shows, and where it is. */
 class Example(
