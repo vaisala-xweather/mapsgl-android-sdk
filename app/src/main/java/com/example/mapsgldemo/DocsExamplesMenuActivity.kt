@@ -21,8 +21,19 @@ import com.example.mapsgldemo.docExamples.CustomLightningStylesActivity
 import com.example.mapsgldemo.docExamples.CustomRadarColorscaleActivity
 import com.example.mapsgldemo.docExamples.CustomTempsFillActivity
 import com.example.mapsgldemo.docExamples.CustomWindParticlesActivity
+import com.example.mapsgldemo.docExamples.DayNightOverlayActivity
 import com.example.mapsgldemo.docExamples.FilterAlertsActivity
 import com.example.mapsgldemo.docExamples.FrostFreezeLayerActivity
+import com.example.mapsgldemo.docExamples.WindParticlesDrawRangeActivity
+import com.example.mapsgldemo.helpers.startDemoReturningHere
+import com.example.mapsgldemo.moreExamples.AdjustDrawRangeActivity
+import com.example.mapsgldemo.moreExamples.PreloadAnimationDataActivity
+import com.example.mapsgldemo.moreExamples.TimelineControlsActivity
+import com.example.mapsgldemo.docExamples.WindSpeedCategoriesActivity
+import com.example.mapsgldemo.docExamples.LayerMaskingActivity
+import com.example.mapsgldemo.docExamples.SetMapUnitsActivity
+import com.example.mapsgldemo.docExamples.QueryLayerStaticGeoJsonActivity
+import com.example.mapsgldemo.docExamples.QueryLayerApiGeoJsonActivity
 
 /**
  * Sub-menu for the MapsGL documentation examples ported to Android. Each button opens one activity
@@ -114,11 +125,43 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
             startActivity(Intent(this, CustomWindParticlesActivity::class.java))
         }
 
+        binding.menuDayNightOverlayButton.setOnClickListener {
+            startActivity(Intent(this, DayNightOverlayActivity::class.java))
+        }
+
         binding.menuFilterAlertsButton.setOnClickListener {
             startActivity(Intent(this, FilterAlertsActivity::class.java))
         }
         binding.menuFrostFreezeLayerButton.setOnClickListener {
             startActivity(Intent(this, FrostFreezeLayerActivity::class.java))
+        }
+        binding.menuLayerMaskingButton.setOnClickListener {
+            startActivity(Intent(this, LayerMaskingActivity::class.java))
+        }
+        binding.menuQueryLayerApiGeojsonButton.setOnClickListener {
+            startActivity(Intent(this, QueryLayerApiGeoJsonActivity::class.java))
+        }
+        binding.menuQueryLayerStaticGeojsonButton.setOnClickListener {
+            startActivity(Intent(this, QueryLayerStaticGeoJsonActivity::class.java))
+        }
+        binding.menuSetMapUnitsButton.setOnClickListener {
+            startActivity(Intent(this, SetMapUnitsActivity::class.java))
+        }
+        // Examples whose screen lives in the More Examples menu: open it, but come back here.
+        binding.menuPreloadAnimationDataButton.setOnClickListener {
+            startDemoReturningHere(PreloadAnimationDataActivity::class.java)
+        }
+        binding.menuTempsDrawRangeButton.setOnClickListener {
+            startDemoReturningHere(AdjustDrawRangeActivity::class.java)
+        }
+        binding.menuTimelineControlsButton.setOnClickListener {
+            startDemoReturningHere(TimelineControlsActivity::class.java)
+        }
+        binding.menuWindParticlesDrawRangeButton.setOnClickListener {
+            startActivity(Intent(this, WindParticlesDrawRangeActivity::class.java))
+        }
+        binding.menuWindSpeedCategoriesButton.setOnClickListener {
+            startActivity(Intent(this, WindSpeedCategoriesActivity::class.java))
         }
     }
 

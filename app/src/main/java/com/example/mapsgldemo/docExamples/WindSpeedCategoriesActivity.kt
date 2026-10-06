@@ -1,7 +1,7 @@
-package com.example.mapsgldemo.moreExamples
+package com.example.mapsgldemo.docExamples
 
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mapsgldemo.MoreExamplesMenuActivity
+import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.customize.CustomizationDemoActivity
 import com.xweather.mapsgl.controls.legend.Point.PointLegend
 import com.xweather.mapsgl.controls.legend.Point.PointLegendItem
@@ -11,6 +11,7 @@ import com.xweather.mapsgl.style.ColorStop
 import com.xweather.mapsgl.style.SampleLayerPaint
 import com.xweather.mapsgl.types.Coordinate
 import com.xweather.mapsgl.types.math_type.BoundedRange
+import com.xweather.mapsgl.utils.mphToMs
 import com.xweather.mapsgl.weather.WeatherService
 
 /**
@@ -21,12 +22,13 @@ import com.xweather.mapsgl.weather.WeatherService
  * paints each category as a flat band.
  *
  * Wind data arrives in metres per second, so the thresholds are written in miles per hour and
- * converted - a draw range and its colour stops are always in the data's own units, never the
- * map's display units.
+ * converted with the SDK's `mphToMs` - the same helper, and the same factor, as the MapsGL JS
+ * example's `units.mphToMs`. A draw range and its colour stops are always in the data's own units,
+ * never the map's display units.
  */
 class WindSpeedCategoriesActivity : CustomizationDemoActivity() {
 
-    override fun menuActivity(): Class<out AppCompatActivity> = MoreExamplesMenuActivity::class.java
+    override fun menuActivity(): Class<out AppCompatActivity> = DocsExamplesMenuActivity::class.java
 
     override val caption =
         "Wind speeds of 15 mph and up, painted as five named categories. Calmer air is not drawn."
@@ -40,12 +42,12 @@ class WindSpeedCategoriesActivity : CustomizationDemoActivity() {
         val config = WeatherService.WindSpeeds(controller.service)
         val sample = (config.layer.paint as SampleLayerPaint).sample
 
-        sample.drawRange = BoundedRange.atLeast(metersPerSecond(CATEGORIES.first().mph))
+        sample.drawRange = BoundedRange.atLeast(mphToMs(CATEGORIES.first().mph))
         sample.colorScale = ColorScaleOptions(
-            stops = CATEGORIES.map { ColorStop(metersPerSecond(it.mph), it.color) },
+            stops = CATEGORIES.map { ColorStop(mphToMs(it.mph), it.color) },
             // The range the stops are placed against. Left off, it falls back to the stops' own
             // span, which would stretch the top category to fill the rest of the scale.
-            range = 0.0..metersPerSecond(120.0),
+            range = 0.0..mphToMs(120.0),
             interpolate = false,
         )
 
@@ -70,7 +72,5 @@ class WindSpeedCategoriesActivity : CustomizationDemoActivity() {
             Category(55.0, "#DB2500", "Storm / Severe Gale"),
             Category(75.0, "#D802E0", "Hurricane Force"),
         )
-
-        fun metersPerSecond(mph: Double) = mph * 0.44704
     }
 }

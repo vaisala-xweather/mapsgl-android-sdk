@@ -287,6 +287,21 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/menuDayNightOverlayButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Satellite imagery with the night side of the Earth shaded, fading through twilight bands"
+                        android:src="@drawable/example_day_night_overlay" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Adding a day/night overlay" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/menuFilterAlertsButton"
                     style="@style/DocsExampleCard">
 
@@ -313,6 +328,141 @@
                     <TextView
                         style="@style/DocsExampleCardTitle"
                         android:text="Create a freeze layer" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuLayerMaskingButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Blue Marble imagery over Europe drawn only on land, with the seas left white"
+                        android:src="@drawable/example_layer_masking" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Adding a land mask to a raster layer" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuSetMapUnitsButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Temperature values in Celsius around Seattle, with the basemap's own labels hidden"
+                        android:src="@drawable/example_set_map_units" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Setting map units" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuPreloadAnimationDataButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Wind speeds over the eastern United States, with every animation frame loaded before playback starts"
+                        android:src="@drawable/example_preload_animation_data" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Preload animated weather data" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuQueryLayerApiGeojsonButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Temperature values labelled at the largest US cities"
+                        android:src="@drawable/example_query_layer_api_geojson" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Temperature text labels using GeoJSON places" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuQueryLayerStaticGeojsonButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Wind speed values labelled at cities around Puget Sound"
+                        android:src="@drawable/example_query_layer_static_geojson" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Wind speed text labels using custom GeoJSON" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuTempsDrawRangeButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Temperatures drawn only between two slider values, with the rest of the map left clear"
+                        android:src="@drawable/example_temps_draw_range" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Adjusting temperature draw range in real time" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuTimelineControlsButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Temperatures with Play and Pause buttons and a scrubber that follows the playhead"
+                        android:src="@drawable/example_timeline_controls" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Set up timeline animation controls" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuWindParticlesDrawRangeButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Wind particles over the United States drawn only between two slider speeds"
+                        android:src="@drawable/example_wind_particles_draw_range" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Adjusting particle draw range in real time" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/menuWindSpeedCategoriesButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="Wind speeds over the North Pacific in five flat bands from breezy to hurricane force"
+                        android:src="@drawable/example_wind_speed_categories" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Create a wind speed categories layer" />
 
                 </LinearLayout>
 

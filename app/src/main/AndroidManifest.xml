@@ -118,6 +118,12 @@
             android:label="Mask customization"
             android:parentActivityName=".StencilMaskMenuActivity" />
         <activity
+            android:name=".Qa180MenuActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Extended Tests"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
             android:name=".MoreExamplesMenuActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
@@ -136,11 +142,11 @@
             android:label="Adjust the draw range"
             android:parentActivityName=".MoreExamplesMenuActivity" />
         <activity
-            android:name=".moreExamples.WindSpeedCategoriesActivity"
+            android:name=".docExamples.WindSpeedCategoriesActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
-            android:label="Wind speed categories"
-            android:parentActivityName=".MoreExamplesMenuActivity" />
+            android:label="Create a wind speed categories layer"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
             android:name=".moreExamples.TimelineControlsActivity"
             android:configChanges="orientation|screenSize"
@@ -164,6 +170,12 @@
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="Values at API places"
+            android:parentActivityName=".MoreExamplesMenuActivity" />
+        <activity
+            android:name=".moreExamples.ValuesAtOwnPointsActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Values at your own points"
             android:parentActivityName=".MoreExamplesMenuActivity" />
         <activity
             android:name=".moreExamples.LayerMaskingActivity"
@@ -265,6 +277,42 @@
             android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="Custom earthquake shader"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.DayNightOverlayActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Adding a day/night overlay"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.LayerMaskingActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Adding a land mask to a raster layer"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.SetMapUnitsActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Setting map units"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.WindParticlesDrawRangeActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Adjusting particle draw range in real time"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.QueryLayerStaticGeoJsonActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Wind speed text labels using custom GeoJSON"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.QueryLayerApiGeoJsonActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Temperature text labels using GeoJSON places"
             android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
             android:name=".docExamples.FrostFreezeLayerActivity"

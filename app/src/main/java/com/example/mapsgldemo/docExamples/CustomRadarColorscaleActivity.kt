@@ -3,9 +3,6 @@ package com.example.mapsgldemo.docExamples
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsgldemo.DocsExamplesMenuActivity
 import com.example.mapsgldemo.customize.CustomizationDemoActivity
-import com.xweather.mapsgl.controls.legend.bar.BarLegend
-import com.xweather.mapsgl.controls.legend.bar.BarLegendLabels
-import com.xweather.mapsgl.extensions.Dimension
 import com.xweather.mapsgl.map.mapbox.MapboxMapController
 import com.xweather.mapsgl.style.ColorScaleOptions
 import com.xweather.mapsgl.style.ColorStop
@@ -110,7 +107,6 @@ class CustomRadarColorscaleActivity : CustomizationDemoActivity() {
         val layer = controller.addWeatherLayer(config) ?: return
         layerId = layer.id
         controller.setPaintProperty(layer.id, "sample.colorscale", scale)
-        combineLegendBarsIfOneScale()
     }
 
     override fun buildControls() {
@@ -119,36 +115,7 @@ class CustomRadarColorscaleActivity : CustomizationDemoActivity() {
             scaleIndex = it
             val id = layerId ?: return@addChoice
             controller.setPaintProperty(id, "sample.colorscale", scaleFor(scaleIndex))
-            combineLegendBarsIfOneScale()
         }
-    }
-
-    /**
-     * Folds the three per-type bars into one when every type is drawn with the same scale, which is
-     * what the JS demo does.
-     *
-     * The built-in radar legend is three bars by construction - rain, mix, snow. Feed it one scale
-     * for everything and all three ramps come out identical, labelled RAIN / MIX / SNOW, which
-     * reads as three findings where there is only one. So drop to a single bar and drop the type
-     * word from its labels; the legend's own "Radar" title already says what it describes.
-     *
-     * Called after the layer is added, because that is when the legend is created. A later
-     * `setPaintProperty` with per-type stops writes those stops back into the configuration's
-     * three bars, so switching back to Default or Custom restores all three before this returns.
-     */
-    @Suppress("UNCHECKED_CAST")
-    private fun combineLegendBarsIfOneScale() {
-        if (SCALE_NAMES[scaleIndex] in PER_TYPE_SCALES) return
-        val legend = legendControl.getLegend(LEGEND_ID) as? BarLegend<Dimension> ?: return
-        val bar = legend.items.firstOrNull() ?: return
-        val combined = bar.copy(
-            labels = bar.labels.copy(
-                values = BarLegendLabels.Values.FromLabels<Dimension> {
-                    listOf(0.0 to "Light", 1.0 to "Heavy")
-                },
-            ),
-        )
-        legendControl.update(legend.copy(items = listOf(combined)))
     }
 
     private fun scaleFor(index: Int): ColorScaleOptions = when (SCALE_NAMES[index]) {
@@ -174,12 +141,6 @@ class CustomRadarColorscaleActivity : CustomizationDemoActivity() {
 
     private companion object {
         val SCALE_NAMES = listOf("Default", "Custom", "Rainbow", "Viridis", "Plasma")
-
-        /** The two that carry a separate scale per precipitation type, so the legend keeps 3 bars. */
-        val PER_TYPE_SCALES = setOf("Default", "Custom")
-
-        /** [LegendCode.RADAR]'s id, which is what [LegendControl.getLegend] takes. */
-        val LEGEND_ID = LegendCode.RADAR.id
 
         /** Transparent below 6 dBZ so clear air stays clear rather than taking the first colour. */
         private val CLEAR = listOf(

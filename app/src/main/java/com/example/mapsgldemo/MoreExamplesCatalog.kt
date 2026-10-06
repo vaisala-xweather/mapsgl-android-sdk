@@ -14,6 +14,7 @@ import com.example.mapsgldemo.docExamples.CustomTempsFillActivity
 import com.example.mapsgldemo.docExamples.CustomWindParticlesActivity
 import com.example.mapsgldemo.docExamples.FilterAlertsActivity
 import com.example.mapsgldemo.docExamples.FrostFreezeLayerActivity
+import com.example.mapsgldemo.docExamples.WindParticlesDrawRangeActivity
 import com.example.mapsgldemo.maplayers.MapLayersActivity
 import com.example.mapsgldemo.moreExamples.AdjustDrawRangeActivity
 import com.example.mapsgldemo.moreExamples.DisplayWeatherMapActivity
@@ -21,8 +22,9 @@ import com.example.mapsgldemo.moreExamples.LayerMaskingActivity
 import com.example.mapsgldemo.moreExamples.LegendAndInspectorActivity
 import com.example.mapsgldemo.moreExamples.PreloadAnimationDataActivity
 import com.example.mapsgldemo.moreExamples.TimelineControlsActivity
+import com.example.mapsgldemo.moreExamples.ValuesAtOwnPointsActivity
 import com.example.mapsgldemo.moreExamples.ValuesAtPlacesActivity
-import com.example.mapsgldemo.moreExamples.WindSpeedCategoriesActivity
+import com.example.mapsgldemo.docExamples.WindSpeedCategoriesActivity
 
 /** One row in [MoreExamplesMenuActivity]: what the example is called, what it shows, and where it is. */
 class Example(
@@ -42,9 +44,6 @@ class ExampleCategory(
  *
  * Where the app already had a screen for an example (most of the documentation examples) the row
  * opens that screen rather than a copy of it.
- *
- * Sampling a weather layer at GeoJSON points supplied inline has no row yet: the data-query
- * coordinator only collects points from a vector-tile source.
  */
 object MoreExamplesCatalog {
 
@@ -101,6 +100,11 @@ object MoreExamplesCatalog {
                     "Custom wind particles",
                     "Tune particle density, speed, trails and color on the wind field.",
                     CustomWindParticlesActivity::class.java,
+                ),
+                Example(
+                    "Particle draw range",
+                    "Draw wind particles only between two speeds, changed live.",
+                    WindParticlesDrawRangeActivity::class.java,
                 ),
             ),
         ),
@@ -164,8 +168,13 @@ object MoreExamplesCatalog {
                 ),
                 Example(
                     "Values at API places",
-                    "Label major cities with temperatures sampled from a weather layer.",
+                    "Label the largest US cities with temperatures sampled from a weather layer.",
                     ValuesAtPlacesActivity::class.java,
+                ),
+                Example(
+                    "Values at your own points",
+                    "Sample wind speeds at points you supply, labelled with their place names.",
+                    ValuesAtOwnPointsActivity::class.java,
                 ),
             ),
         ),
@@ -191,6 +200,16 @@ object MoreExamplesCatalog {
                     "Layer masking",
                     "Clip a raster layer to land or to water with a mask.",
                     LayerMaskingActivity::class.java,
+                ),
+            ),
+        ),
+        ExampleCategory(
+            "Testing",
+            listOf(
+                Example(
+                    "Extended Tests",
+                    "The 1.8.0 test notes as screens, each row saying what to check.",
+                    Qa180MenuActivity::class.java,
                 ),
             ),
         ),
