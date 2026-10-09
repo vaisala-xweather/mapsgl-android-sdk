@@ -91,12 +91,12 @@ In **AndroidManifest.xml**:
 In the app-level **build.gradle**:
 
     dependencies {
-        implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.7.0"
+        implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.7.1"
     }
 
 #### Upgrading from 1.6.1 or earlier — remove `java-vector-tile`
 
-As of **1.7.0** MapsGL decodes Mapbox Vector Tiles with its own reader
+As of **1.7.1** MapsGL decodes Mapbox Vector Tiles with its own reader
 (`com.xweather.mapsgl.mvt.MvtReader`). **`no.ecc.vectortile:java-vector-tile` is no longer needed**
 and the published POM no longer references it, nor `com.google.protobuf:protobuf-java` or
 `org.locationtech.jts:jts-core`.
