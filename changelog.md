@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.1
+*Oct 9, 2026*
+
+### 🐞 Bug Fixes
+An encoded weather layer whose metadata cannot load no longer closes the app. as seen in (issue #40). The layer stays on the map without data. The first failure is reported on MapController.onLayerError as MapsGLLayerError.Reason.RENDER_FAILED, and the SDK retries the fetch. A later pan or zoom tries again.
+
 ## 1.7.0
 *Sep 25, 2026*
 
