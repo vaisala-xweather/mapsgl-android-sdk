@@ -1,33 +1,19 @@
 package com.example.mapsgldemo
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.view.View
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import com.example.mapsgldemo.databinding.ActivityDocsExamplesMenuBinding
-import com.example.mapsgldemo.docExamples.AddGeoJsonLayerActivity
-import com.example.mapsgldemo.docExamples.AddRasterLayerActivity
-import com.example.mapsgldemo.docExamples.AddVectorLayerActivity
-import com.example.mapsgldemo.docExamples.ChangeMapUnitsActivity
-import com.example.mapsgldemo.docExamples.ChangeTimelineRangeActivity
-import com.example.mapsgldemo.docExamples.CustomAlertStylesActivity
-import com.example.mapsgldemo.docExamples.CustomEarthquakeShaderActivity
-import com.example.mapsgldemo.docExamples.CustomFiresShaderActivity
-import com.example.mapsgldemo.docExamples.CustomHeatIndexLegendActivity
-import com.example.mapsgldemo.docExamples.CustomLightningShaderActivity
-import com.example.mapsgldemo.docExamples.CustomLightningStylesActivity
-import com.example.mapsgldemo.docExamples.CustomRadarColorscaleActivity
-import com.example.mapsgldemo.docExamples.CustomTempsFillActivity
-import com.example.mapsgldemo.docExamples.CustomWindParticlesActivity
-import com.example.mapsgldemo.docExamples.FilterAlertsActivity
-import com.example.mapsgldemo.docExamples.FrostFreezeLayerActivity
-import com.example.mapsgldemo.docExamples.LayerOrderingActivity
+import com.example.mapsgldemo.databinding.WidgetDocsExampleCardBinding
+import com.example.mapsgldemo.helpers.startDemoReturningHere
 
 /**
- * Sub-menu for the MapsGL documentation examples ported to Android. Each button opens one activity
- * that mirrors a published example from https://www.xweather.com/docs/mapsgl/examples.
+ * Sub-menu for the MapsGL documentation examples ported to Android. Sections follow
+ * https://www.xweather.com/docs/mapsgl/examples. Each card opens one activity.
  *
  * Opened from [MainActivity].
  */
@@ -40,9 +26,6 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
         binding = ActivityDocsExamplesMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // The lead line links out to the published guides. The <a> tag has to be parsed, and a
-        // movement method attached, or the span renders as styled text that does not respond to a
-        // tap.
         binding.docsExamplesMenuLeadTextView.apply {
             text = HtmlCompat.fromHtml(
                 getString(R.string.docs_examples_lead),
@@ -58,78 +41,41 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
             }
         })
 
-        wireMenuButtons()
+        buildRows()
     }
 
-    private fun wireMenuButtons() {
-        binding.menuAddGeojsonLayerButton.setOnClickListener {
-            startActivity(Intent(this, AddGeoJsonLayerActivity::class.java))
-        }
-        binding.menuAddRasterLayerButton.setOnClickListener {
-            startActivity(Intent(this, AddRasterLayerActivity::class.java))
-        }
-        binding.menuAddVectorLayerButton.setOnClickListener {
-            startActivity(Intent(this, AddVectorLayerActivity::class.java))
-        }
-        binding.menuChangeMapUnitsButton.setOnClickListener {
-            startActivity(Intent(this, ChangeMapUnitsActivity::class.java))
-        }
+    private fun buildRows() {
+        val container = binding.docsExamplesMenuButtonContainer
+        DocsExamplesCatalog.sections.forEachIndexed { index, section ->
+            val header = layoutInflater.inflate(
+                R.layout.widget_more_examples_section,
+                container,
+                false,
+            ) as TextView
+            header.text = section.title
+            if (index == 0) header.setPadding(header.paddingLeft, 0, header.paddingRight, header.paddingBottom)
+            container.addView(header)
 
-        binding.menuChangeTimelineRangeButton.setOnClickListener {
-            startActivity(Intent(this, ChangeTimelineRangeActivity::class.java))
-        }
-
-        binding.menuCustomAlertStylesButton.setOnClickListener {
-            startActivity(Intent(this, CustomAlertStylesActivity::class.java))
-        }
-
-        binding.menuCustomEarthquakeShaderButton.setOnClickListener {
-            startActivity(Intent(this, CustomEarthquakeShaderActivity::class.java))
-        }
-
-        binding.menuCustomFiresShaderButton.setOnClickListener {
-            startActivity(Intent(this, CustomFiresShaderActivity::class.java))
-        }
-
-        binding.menuCustomHeatIndexLegendButton.setOnClickListener {
-            startActivity(Intent(this, CustomHeatIndexLegendActivity::class.java))
-        }
-
-        binding.menuCustomLightningShaderButton.setOnClickListener {
-            startActivity(Intent(this, CustomLightningShaderActivity::class.java))
-        }
-
-        binding.menuCustomLightningStylesButton.setOnClickListener {
-            startActivity(Intent(this, CustomLightningStylesActivity::class.java))
-        }
-
-        binding.menuCustomRadarColorscaleButton.setOnClickListener {
-            startActivity(Intent(this, CustomRadarColorscaleActivity::class.java))
-        }
-
-        binding.menuCustomTempsFillButton.setOnClickListener {
-            startActivity(Intent(this, CustomTempsFillActivity::class.java))
-        }
-
-        binding.menuCustomWindParticlesButton.setOnClickListener {
-            startActivity(Intent(this, CustomWindParticlesActivity::class.java))
-        }
-
-        binding.menuFilterAlertsButton.setOnClickListener {
-            startActivity(Intent(this, FilterAlertsActivity::class.java))
-        }
-        binding.menuFrostFreezeLayerButton.setOnClickListener {
-            startActivity(Intent(this, FrostFreezeLayerActivity::class.java))
-        }
-        binding.menuLayerOrderingButton.setOnClickListener {
-            startActivity(Intent(this, LayerOrderingActivity::class.java))
+            for (example in section.examples) {
+                val card = WidgetDocsExampleCardBinding.inflate(layoutInflater, container, false)
+                card.docsExampleTitle.text = example.title
+                card.docsExampleSummary.text = example.summary
+                val image = example.image
+                if (image != null) {
+                    card.docsExampleImage.setImageResource(image)
+                    card.docsExampleImage.contentDescription = example.imageDescription
+                    card.docsExampleImage.visibility = View.VISIBLE
+                }
+                card.root.setOnClickListener { startDemoReturningHere(example.activity) }
+                container.addView(card.root)
+            }
         }
     }
 
     private fun returnToMainMenu() {
         startActivity(
-            Intent(this, MainActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
+            android.content.Intent(this, MainActivity::class.java)
+                .addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP),
         )
         finish()
     }

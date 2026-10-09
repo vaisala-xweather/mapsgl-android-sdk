@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One documentation example: optional screenshot, title, one-line summary. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/DocsExampleCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/docsExampleImage"
+        style="@style/DocsExampleCardImage"
+        android:contentDescription="@null"
+        android:visibility="gone"
+        tools:src="@drawable/example_layer_ordering"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/docsExampleTitle"
+        style="@style/DocsExampleCardTitle"
+        tools:text="Controlling layer ordering" />
+
+    <TextView
+        android:id="@+id/docsExampleSummary"
+        style="@style/Xw.RowDescription"
+        android:layout_marginHorizontal="@dimen/xw_space_2"
+        android:layout_marginBottom="@dimen/xw_space_2"
+        tools:text="Stack weather layers and pin a band below the basemap." />
+
+</LinearLayout>

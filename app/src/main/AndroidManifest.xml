@@ -136,6 +136,30 @@
             android:label="Adjust the draw range"
             android:parentActivityName=".MoreExamplesMenuActivity" />
         <activity
+            android:name=".docExamples.CitiesTextActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Cities text scaled by population"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.ParticleDrawRangeActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Adjusting particle draw range in real time"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.TemperaturePlacesQueryActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Temperature text labels using GeoJSON places"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
+            android:name=".docExamples.WindSpeedGeoJsonQueryActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Wind speed text labels using custom GeoJSON"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
             android:name=".docExamples.WindSpeedCategoriesActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"

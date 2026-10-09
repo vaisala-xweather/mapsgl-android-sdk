@@ -1,0 +1,24 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.33207, 47.60621]}, "properties": {"place": {"name": "Seattle"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.44429, 47.25288]}, "properties": {"place": {"name": "Tacoma"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.20068, 47.61038]}, "properties": {"place": {"name": "Bellevue"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.23484, 47.38093]}, "properties": {"place": {"name": "Kent"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.20208, 47.97898]}, "properties": {"place": {"name": "Everett"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.21707, 47.48288]}, "properties": {"place": {"name": "Renton"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.31262, 47.32232]}, "properties": {"place": {"name": "Federal Way"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.20874, 47.68149]}, "properties": {"place": {"name": "Kirkland"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.22845, 47.30732]}, "properties": {"place": {"name": "Auburn"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.17708, 48.05176]}, "properties": {"place": {"name": "Marysville"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.12151, 47.67399]}, "properties": {"place": {"name": "Redmond"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.51846, 47.17176]}, "properties": {"place": {"name": "Lakewood"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.34152, 47.75565]}, "properties": {"place": {"name": "Shoreline"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.27012, 47.14121]}, "properties": {"place": {"name": "South Hill"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.0804, 47.64177]}, "properties": {"place": {"name": "Sammamish"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.34679, 47.47038]}, "properties": {"place": {"name": "Burien"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.90169, 47.04491]}, "properties": {"place": {"name": "Olympia"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.82319, 47.03426]}, "properties": {"place": {"name": "Lacey"}}},
+    {"type": "Feature", "geometry": {"type": "Point", "coordinates": [-122.2054, 47.76232]}, "properties": {"place": {"name": "Bothell"}}}
+  ]
+}

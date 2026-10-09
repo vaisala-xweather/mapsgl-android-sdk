@@ -37,20 +37,23 @@ import com.xweather.mapsgl.weather.WeatherService
  * That is the same helper, under the same name, as the JS example's
  * `aerisweather.mapsgl.units.FtoCUnit(2)`.
  *
- * ### Discrete bands need `interpolate = false`
+ * ### Band width is `interval`; leave interpolation on
  *
- * A smooth gradient is `interval = 0.0` with `interpolate = true`, which is what the built-in
- * temperatures configuration ships. Discrete bands set both a band width and `interpolate = false`:
+ * A smooth gradient is `interval = 0.0` with `interpolate = true`. A band width keeps interpolation
+ * on and sets `interval` to the width of one step. Each step samples the blended ramp, so adjacent
+ * bands are different colors and a 2 °F interval is about 2 °F wide:
  *
  * ```kotlin
  * ColorScaleOptions(
  *     stops = CUSTOM_RAMP,
  *     interval = FtoCUnit(2.0),
- *     interpolate = false,
+ *     interpolate = true,
  * )
  * ```
  *
- * `interval` is the width of a band. `interpolate = false` keeps each band a flat color.
+ * `interpolate = false` is the categorical scale: values between authored stops keep the lower
+ * stop's color. On this ramp those stops are about 10 °C apart, so turning interpolation off
+ * paints bands much wider than the interval.
  *
  * ### Applying the scale
  *
@@ -99,13 +102,13 @@ class CustomTempsFillActivity : CustomizationDemoActivity() {
         }
     }
 
-    /** The JS example's `paint.sample.colorscale`, with `interpolate = false` for a banded fill. */
+    /** The JS example's `paint.sample.colorscale`. Interpolation stays on so each band samples the ramp. */
     private fun scaleFor(index: Int): ColorScaleOptions {
         val intervalF = INTERVALS_F[index]
         return ColorScaleOptions(
             stops = CUSTOM_RAMP,
             interval = intervalF?.let { FtoCUnit(it) } ?: 0.0,
-            interpolate = intervalF == null,
+            interpolate = true,
         )
     }
 
