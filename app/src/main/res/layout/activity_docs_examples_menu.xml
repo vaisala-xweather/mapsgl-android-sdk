@@ -362,6 +362,21 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/menuNextzenCitiesButton"
+                    style="@style/DocsExampleCard">
+
+                    <ImageView
+                        style="@style/DocsExampleCardImage"
+                        android:contentDescription="City names along the Gulf Coast, larger for bigger cities"
+                        android:src="@drawable/example_nextzen_cities" />
+
+                    <TextView
+                        style="@style/DocsExampleCardTitle"
+                        android:text="Add a Nextzen cities text layer" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/menuPreloadAnimationDataButton"
                     style="@style/DocsExampleCard">
 

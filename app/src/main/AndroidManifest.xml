@@ -225,6 +225,12 @@
             android:label="Adding custom GeoJSON data"
             android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
+            android:name=".docExamples.NextzenCitiesActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Add a Nextzen cities text layer"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
             android:name=".docExamples.AddRasterLayerActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"

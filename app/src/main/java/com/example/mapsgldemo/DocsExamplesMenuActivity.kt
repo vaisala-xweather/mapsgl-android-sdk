@@ -31,6 +31,7 @@ import com.example.mapsgldemo.moreExamples.PreloadAnimationDataActivity
 import com.example.mapsgldemo.moreExamples.TimelineControlsActivity
 import com.example.mapsgldemo.docExamples.WindSpeedCategoriesActivity
 import com.example.mapsgldemo.docExamples.LayerMaskingActivity
+import com.example.mapsgldemo.docExamples.NextzenCitiesActivity
 import com.example.mapsgldemo.docExamples.SetMapUnitsActivity
 import com.example.mapsgldemo.docExamples.QueryLayerStaticGeoJsonActivity
 import com.example.mapsgldemo.docExamples.QueryLayerApiGeoJsonActivity
@@ -140,6 +141,9 @@ class DocsExamplesMenuActivity : AppCompatActivity() {
         }
         binding.menuQueryLayerApiGeojsonButton.setOnClickListener {
             startActivity(Intent(this, QueryLayerApiGeoJsonActivity::class.java))
+        }
+        binding.menuNextzenCitiesButton.setOnClickListener {
+            startActivity(Intent(this, NextzenCitiesActivity::class.java))
         }
         binding.menuQueryLayerStaticGeojsonButton.setOnClickListener {
             startActivity(Intent(this, QueryLayerStaticGeoJsonActivity::class.java))
