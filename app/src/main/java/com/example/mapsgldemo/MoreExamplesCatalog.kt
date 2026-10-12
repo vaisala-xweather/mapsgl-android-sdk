@@ -203,15 +203,5 @@ object MoreExamplesCatalog {
                 ),
             ),
         ),
-        ExampleCategory(
-            "Testing",
-            listOf(
-                Example(
-                    "Extended Tests",
-                    "The 1.8.0 test notes as screens, each row saying what to check.",
-                    Qa180MenuActivity::class.java,
-                ),
-            ),
-        ),
     )
 }

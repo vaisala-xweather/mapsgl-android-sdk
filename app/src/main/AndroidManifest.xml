@@ -118,12 +118,6 @@
             android:label="Mask customization"
             android:parentActivityName=".StencilMaskMenuActivity" />
         <activity
-            android:name=".Qa180MenuActivity"
-            android:configChanges="orientation|screenSize"
-            android:exported="false"
-            android:label="Extended Tests"
-            android:parentActivityName=".MoreExamplesMenuActivity" />
-        <activity
             android:name=".MoreExamplesMenuActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
