@@ -17,6 +17,7 @@ import com.example.mapsgldemo.docExamples.CustomLightningStylesActivity
 import com.example.mapsgldemo.docExamples.CustomRadarColorscaleActivity
 import com.example.mapsgldemo.docExamples.CustomTempsFillActivity
 import com.example.mapsgldemo.docExamples.CustomWindParticlesActivity
+import com.example.mapsgldemo.docExamples.DayNightOverlayActivity
 import com.example.mapsgldemo.docExamples.FilterAlertsActivity
 import com.example.mapsgldemo.docExamples.FrostFreezeLayerActivity
 import com.example.mapsgldemo.docExamples.LayerOrderingActivity
@@ -52,8 +53,8 @@ class DocsExampleSection(
  * https://www.xweather.com/docs/mapsgl/examples.
  *
  * MapLibre, Google Maps, Leaflet and the globe samples are other map libraries. The runtime mask
- * toggle needs `setMask`, which this SDK does not have. Forecast-model temperatures and the
- * day/night overlay need the 1.9 layer codes and `addDayNightOverlay`.
+ * toggle needs `setMask`, which this SDK does not have. Forecast-model temperatures need the 1.9
+ * layer codes.
  */
 object DocsExamplesCatalog {
 
@@ -74,6 +75,13 @@ object DocsExamplesCatalog {
                     LayerOrderingActivity::class.java,
                     R.drawable.example_layer_ordering,
                     "Weather layers stacked below basemap boundaries",
+                ),
+                DocsExample(
+                    "Adding a day/night overlay",
+                    "Shade the map with twilight and night, then adjust the overlay's opacity.",
+                    DayNightOverlayActivity::class.java,
+                    R.drawable.example_day_night_overlay,
+                    "Satellite imagery shaded by twilight and night",
                 ),
             ),
         ),

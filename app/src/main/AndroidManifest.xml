@@ -297,6 +297,12 @@
             android:label="Create a freeze layer"
             android:parentActivityName=".DocsExamplesMenuActivity" />
         <activity
+            android:name=".docExamples.DayNightOverlayActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="false"
+            android:label="Adding a day/night overlay"
+            android:parentActivityName=".DocsExamplesMenuActivity" />
+        <activity
             android:name=".docExamples.LayerOrderingActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false"
