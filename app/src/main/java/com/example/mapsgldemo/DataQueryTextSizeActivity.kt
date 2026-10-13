@@ -1,6 +1,5 @@
 package com.example.mapsgldemo
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
@@ -11,6 +10,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapsgldemo.databinding.ActivityDataQueryTextSizeBinding
 import com.example.mapsgldemo.helpers.loadFlatStyle
+import com.example.mapsgldemo.helpers.returnToMenu
 import com.mapbox.common.Cancelable
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
@@ -238,11 +238,8 @@ class DataQueryTextSizeActivity : AppCompatActivity() {
         if (::controller.isInitialized) {
             runCatching { controller.shutdown() }
         }
-        startActivity(
-            Intent(this, DataQueryMenuActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
-        )
-        finish()
+        // Honours EXTRA_RETURN_MENU, so opening this from the QA menu comes back there.
+        returnToMenu(DataQueryMenuActivity::class.java)
     }
 
     override fun onStop() {

@@ -21,11 +21,13 @@ import com.xweather.mapsgl.weather.LayerCode
  * for the visible viewport while paused; `preloadAnimationData()` starts that work immediately
  * rather than waiting for the next timeline change.
  *
+ * `shouldPauseWhileLoading` covers the other half of the problem: panning or zooming needs data for
+ * the new view, and this decides whether the timeline waits for it. While a load is under way the
+ * timeline pauses, and `shouldResumeAfterLoading` (on by default) picks it back up when the load
+ * finishes.
+ *
  * The tradeoff is bandwidth and memory against a smooth first loop, so it suits a short timeline or
  * a deliberate "buffering" step in your own UI.
- *
- * There is no switch here for pausing the timeline while data loads: that setting lives on an
- * internal type and has no public API yet.
  */
 class PreloadAnimationDataActivity : CustomizationDemoActivity() {
 
@@ -45,6 +47,7 @@ class PreloadAnimationDataActivity : CustomizationDemoActivity() {
 
     override fun customizeLayers(controller: MapboxMapController) {
         controller.animationOptions.shouldPreloadData = PRELOAD_BY_DEFAULT
+        controller.animationOptions.shouldPauseWhileLoading = PAUSE_WHILE_LOADING_BY_DEFAULT
         controller.addWeatherLayer(LayerCode.WIND_SPEEDS)
         // Start the fetch now rather than waiting for the first timeline change.
         controller.preloadAnimationData()
@@ -53,6 +56,9 @@ class PreloadAnimationDataActivity : CustomizationDemoActivity() {
     override fun buildControls() {
         addToggle("Preload animation data", PRELOAD_BY_DEFAULT) { enabled ->
             controller.animationOptions.shouldPreloadData = enabled
+        }
+        addToggle("Pause while loading", PAUSE_WHILE_LOADING_BY_DEFAULT) { enabled ->
+            controller.animationOptions.shouldPauseWhileLoading = enabled
         }
 
         val (play, pause, preload) = addButtonRow("Play", "Pause", "Preload now")
@@ -103,5 +109,6 @@ class PreloadAnimationDataActivity : CustomizationDemoActivity() {
 
     private companion object {
         const val PRELOAD_BY_DEFAULT = true
+        const val PAUSE_WHILE_LOADING_BY_DEFAULT = true
     }
 }
