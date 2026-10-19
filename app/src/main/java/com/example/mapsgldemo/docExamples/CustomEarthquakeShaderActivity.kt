@@ -140,14 +140,14 @@ class CustomEarthquakeShaderActivity : CustomizationDemoActivity() {
             applySize(if (byMagnitude) MAGNITUDE_SIZE_SCALE else null)
             refreshSymbolPaint(layerId)
         }
-        addSlider("Ripple size", 0.10, 3.0, 1.0) { multiplier ->
+        addSlider("Ripple size", 0.10, 3.0, DEFAULT_SIZE) { multiplier ->
             sizeMultiplier = multiplier
             applySize(if (sizeFromMagnitude) MAGNITUDE_SIZE_SCALE else null)
             refreshSymbolPaint(layerId)
         }
     }
 
-    private var sizeMultiplier: Double = 1.0
+    private var sizeMultiplier: Double = DEFAULT_SIZE
     private var sizeFromMagnitude: Boolean = true
 
     /**
@@ -189,6 +189,9 @@ class CustomEarthquakeShaderActivity : CustomizationDemoActivity() {
     }
 
     private companion object {
+
+        /** Starting size multiplier; the slider moves it from here. */
+        const val DEFAULT_SIZE = 0.3
 
         /**
          * JS `['+', 20, ['*', 100, ['/', ['coalesce', ['get', 'report.mag'], 1], 10]]]`, divided

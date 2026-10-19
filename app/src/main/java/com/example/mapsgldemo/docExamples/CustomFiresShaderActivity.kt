@@ -121,7 +121,7 @@ class CustomFiresShaderActivity : CustomizationDemoActivity() {
         // One expression per axis, straight from the JS example.
         paint.icon.iconWidth = StyleValue.Expression(JS_WIDTH_PX)
         paint.icon.iconHeight = StyleValue.Expression(JS_HEIGHT_PX)
-        applySize(1.0)
+        applySize(DEFAULT_SIZE)
         paint.icon.factor = StyleValue.Expression(CONTAINED_FRACTION)
 
         // Registers the layer as continuously animated without rotating it; see
@@ -145,7 +145,7 @@ class CustomFiresShaderActivity : CustomizationDemoActivity() {
             }
             refreshSymbolPaint(layerId)
         }
-        addSlider("Flame size", 0.25, 2.5, 1.0) { multiplier ->
+        addSlider("Flame size", 0.1, 2.5, DEFAULT_SIZE) { multiplier ->
             applySize(multiplier)
             refreshSymbolPaint(layerId)
         }
@@ -183,6 +183,9 @@ class CustomFiresShaderActivity : CustomizationDemoActivity() {
     }
 
     private companion object {
+
+        /** Starting size multiplier; the slider moves it from here. */
+        const val DEFAULT_SIZE = 0.3
 
         /** JS `['/', ['coalesce', ['get', 'report.perContained'], 0], 100]`. */
         val CONTAINED_FRACTION: Expression = Expression.divide(
