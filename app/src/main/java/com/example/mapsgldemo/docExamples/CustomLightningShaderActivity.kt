@@ -106,6 +106,7 @@ class CustomLightningShaderActivity : CustomizationDemoActivity() {
         // JS `size: { width: 60, height: 60 }`. Constant and square, so iconSize carries it
         // directly - no need for the per-axis iconWidth / iconHeight.
         paint.icon.iconSize = IconSize(60f, 60f)
+        paint.icon.size = StyleValue.Constant(DEFAULT_SIZE)
 
         // JS parity: both are already the Android defaults, set here to mirror the example.
         paint.pitchWithMap = true
@@ -137,7 +138,7 @@ class CustomLightningShaderActivity : CustomizationDemoActivity() {
             applyFactor(byAge)
             refreshSymbolPaint(layerId)
         }
-        addSlider("Glow size", 0.4, 2.5, 1.0) { multiplier ->
+        addSlider("Glow size", 0.1, 2.5, DEFAULT_SIZE) { multiplier ->
             paint.icon.size = StyleValue.Constant(multiplier)
             refreshSymbolPaint(layerId)
         }
@@ -174,6 +175,9 @@ class CustomLightningShaderActivity : CustomizationDemoActivity() {
     }
 
     private companion object {
+
+        /** Starting size multiplier; the slider moves it from here. */
+        const val DEFAULT_SIZE = 0.3
 
         /** JS `factor: ['/', ['-', 200, ['get', 'age']], 200]` - 1.0 fresh, 0.0 at 200s. */
         val AGE_FACTOR: Expression = Expression.divide(
