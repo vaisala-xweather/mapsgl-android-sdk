@@ -39,16 +39,13 @@ import com.xweather.mapsgl.weather.common.Presentation
  * ### Shader language version
  *
  * This shader declares `#version 300 es`, while the SDK's symbol **vertex** stage is fixed at
- * `#version 310 es` and is compiled against your source verbatim - the renderer does not rewrite
- * the version directive. The program is therefore mixed-version, which links only where the
- * driver's shading language is ESSL 3.20 or newer, since ESSL 3.20 is what permits 300 es, 310 es
- * and 320 es shaders to be linked together.
+ * `#version 310 es`. The SDK raises a `300 es` directive to `310 es` before compiling, because a
+ * mixed-version program links only where the driver's shading language is ESSL 3.20 or newer - an
+ * Adreno 650 accepts it, the Mali GPU in a Pixel 9 rejects it. Every `300 es` shader is valid
+ * `310 es`, so the rewrite changes nothing about what it draws.
  *
- * Verified on an Adreno 650 reporting `OpenGL ES GLSL ES 3.20`: the ripples render identically to
- * the 310 es version and the renderer logs no fallback. Where the driver's top shading language is
- * ESSL 3.10, the link is rejected instead, and the SDK's never-a-hard-failure rule substitutes the
- * built-in icon shader - which, for a layer with no icon image, draws nothing at all. `310 es`
- * matches the vertex stage on every ES 3.1+ device and is the safer default for shipping code.
+ * If a shader does fail to compile or link, the SDK tries it once and substitutes the built-in
+ * icon shader, which for a layer with no icon image draws nothing at all.
  *
  * Nothing in this effect needs ES 3.1: no `fwidth`, no compute, no 3.1-only builtins. Dropping to
  * `300 es` does **not** widen device support either, because the vertex stage still requires
