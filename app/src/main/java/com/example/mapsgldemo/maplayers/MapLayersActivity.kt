@@ -674,11 +674,14 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
 
     fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
-    /** Timeline from **now** through local midnight at the end of today (device timezone). */
+    /**
+     * Timeline from 24 hours ago to **now**, the MapsGL JS demo's default, so the two demos show the
+     * same times side by side. Observation layers (storm cells, alerts, fires) have nothing after now,
+     * so a range that started at now held every slot on the newest snapshot.
+     */
     protected open fun applyMapLayersTimelineRange() {
         val nowMillis = System.currentTimeMillis()
-        val endOfTodayMillis = startOfLocalDayMillis(dayOffsetFromToday = 1)
-        applyMapLayersTimelineStartEnd(Date(nowMillis), Date(endOfTodayMillis))
+        applyMapLayersTimelineStartEnd(Date(nowMillis - 24 * 60 * 60 * 1000L), Date(nowMillis))
     }
 
     /**
@@ -715,18 +718,6 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
             controller.timeline,
             startEndLabels = binding.timelineSettingsPanel,
         )
-    }
-
-    /** Local midnight at the start of the calendar day [dayOffsetFromToday] days from today. */
-    private fun startOfLocalDayMillis(dayOffsetFromToday: Int): Long {
-        return Calendar.getInstance().run {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-            add(Calendar.DAY_OF_MONTH, dayOffsetFromToday)
-            timeInMillis
-        }
     }
 
     protected fun returnToMenuActivity() {
