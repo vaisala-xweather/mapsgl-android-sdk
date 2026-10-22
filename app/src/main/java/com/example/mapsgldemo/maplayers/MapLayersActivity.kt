@@ -9,7 +9,9 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.ViewTreeObserver
 import android.view.WindowInsets
 import android.view.WindowInsetsController
@@ -293,7 +295,6 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                     cameraChangedCancelable?.cancel()
 
                     applyMapLayersTimelineRange()
-                    if (openLayerMenuOnStart() && !layerMenu.visible) toggleLayerMenu()
 
                     // Setup other UI elements that depend on the controller
                     binding.timelineView.timelineControls.setupButtonListeners(
@@ -318,6 +319,7 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                     LayerButtonView.setAnimations(binding.layerMenuLinearLayout)
                     layerMenu.setupButtonListeners(controller)
                     onLayerMenuReady(layerMenu, controller)
+                    if (openLayerMenuOnStart()) toggleLayerMenu()
 
                     binding.timelineView.timelineControls.setAnimations(this@MapLayersActivity, binding.timelineView)
                     binding.timelineView.timelineControls.setConfigAnimations(
@@ -339,17 +341,11 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
 
         })
 
+        // The layer menu closes in dispatchTouchEvent, on a tap rather than at the end of every pan.
         binding.timelineView.timelineControls.installDismissSettingsOnMapTap(
             mapView,
             binding.timelineView,
-        ) { _ ->
-            if (!layerMenu.visible) return@installDismissSettingsOnMapTap
-            LayerButtonView.showDatasetButtons(
-                false, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton,
-            )
-            layerMenu.visible = false
-            layerMenu.hideKeyboard(this)
-        }
+        )
     }
 
     private fun setupTimelineListeners() {
@@ -492,6 +488,53 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
     private fun toggleDemoUi() {
         demoUiVisible = !demoUiVisible
         setDemoUiVisible(demoUiVisible)
+    }
+
+    private var menuTouchDownX = 0f
+    private var menuTouchDownY = 0f
+    private var menuTouchStartedOnTimeline = false
+
+    /**
+     * Closes the layer menu when the map is tapped or the timeline is touched, and leaves every touch
+     * to reach its view as before. Watching the whole window covers the timeline's own buttons and
+     * seek bar, which consume their touches. A drag across the map pans without closing the menu.
+     */
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (::binding.isInitialized && layerMenu.visible) {
+            when (ev.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    menuTouchDownX = ev.rawX
+                    menuTouchDownY = ev.rawY
+                    menuTouchStartedOnTimeline = isTouchInside(binding.timelineView.root, ev) &&
+                        !isTouchInside(binding.timelineView.layerMenuButton, ev)
+                    if (menuTouchStartedOnTimeline) closeLayerMenu()
+                }
+                MotionEvent.ACTION_UP -> {
+                    val slop = ViewConfiguration.get(this).scaledTouchSlop
+                    val tapped = kotlin.math.abs(ev.rawX - menuTouchDownX) < slop &&
+                        kotlin.math.abs(ev.rawY - menuTouchDownY) < slop
+                    if (tapped &&
+                        !isTouchInside(binding.layerMenuLinearLayout, ev) &&
+                        !isTouchInside(binding.timelineView.layerMenuButton, ev)
+                    ) {
+                        closeLayerMenu()
+                    }
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun isTouchInside(view: View, ev: MotionEvent): Boolean {
+        if (view.visibility != View.VISIBLE) return false
+        val loc = IntArray(2)
+        view.getLocationOnScreen(loc)
+        return ev.rawX >= loc[0] && ev.rawX < loc[0] + view.width &&
+            ev.rawY >= loc[1] && ev.rawY < loc[1] + view.height
+    }
+
+    private fun closeLayerMenu() {
+        if (layerMenu.visible) toggleLayerMenu()
     }
 
     private fun toggleLayerMenu() {
