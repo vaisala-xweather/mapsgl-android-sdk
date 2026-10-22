@@ -293,6 +293,7 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                     cameraChangedCancelable?.cancel()
 
                     applyMapLayersTimelineRange()
+                    if (openLayerMenuOnStart() && !layerMenu.visible) toggleLayerMenu()
 
                     // Setup other UI elements that depend on the controller
                     binding.timelineView.timelineControls.setupButtonListeners(
@@ -673,6 +674,12 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
     }
 
     fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
+
+    /**
+     * Whether the layer menu starts open, so the screen opens on its list of layers. On for All Map
+     * Layers itself; screens built on it opt in by overriding.
+     */
+    protected open fun openLayerMenuOnStart(): Boolean = this::class == MapLayersActivity::class
 
     /**
      * Timeline from 24 hours ago to **now**, the MapsGL JS demo's default, so the two demos show the
