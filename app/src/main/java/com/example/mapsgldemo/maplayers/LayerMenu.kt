@@ -248,16 +248,9 @@ class LayerMenu {
                 }
             }
         } else {
-            LayerCode.availableEntries.forEach {
-                if (it.value.contains("temper")
-                    || it.value.contains("hum")
-                    || it.value.contains("prec")
-                    || it.value.contains("wind-spe")
-                ) {
-                    addButtonFor(it)
-                }
-            }
-            LayerCode.availableEntries.forEach { addButtonFor(it) }
+            // One alphabetical list, each code once. A pinned block of favourites used to be
+            // listed above the full list, which put every one of those layers in the menu twice.
+            LayerCode.availableEntries.sortedBy { it.value }.forEach { addButtonFor(it) }
         }
 
 
