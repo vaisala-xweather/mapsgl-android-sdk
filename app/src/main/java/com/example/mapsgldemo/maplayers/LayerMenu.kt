@@ -16,6 +16,7 @@ import com.xweather.mapsgl.weather.LayerCode
 import com.xweather.mapsgl.weather.WeatherConfiguration
 import com.xweather.mapsgl.weather.WeatherLayerConfiguration
 import com.xweather.mapsgl.weather.WeatherService
+import com.xweather.mapsgl.weather.groups.DataQuery
 import java.util.regex.Pattern
 
 /** True when the product is backed by MapsGL/AMP vector tiles ([VectorSourceDescriptor]). */
@@ -130,6 +131,7 @@ class LayerMenu {
         lightningSectionFirst: Boolean = false,
         placesSectionFirst: Boolean = false,
         textLayersOnly: Boolean = false,
+        dataQueryTextLayersOnly: Boolean = false,
         layerMenuSections: List<LayerMenuSection>? = null,
     ) {
         val context = layout.context
@@ -159,11 +161,28 @@ class LayerMenu {
                 buttonList.add(LayerButtonView.createHeadingTextView(section.heading, context))
                 section.entries.forEach { addButtonFor(it.code, it.title) }
             }
+        } else if (dataQueryTextLayersOnly) {
+            val byGroup = DataQuery.CATALOG.groupBy { it.group }
+            fun appendGroup(heading: String, groupKey: String) {
+                val specs = byGroup[groupKey].orEmpty()
+                if (specs.isEmpty()) return
+                buttonList.add(LayerButtonView.createHeadingTextView(heading, context))
+                specs.forEach { spec ->
+                    // The sampled product sits above its value labels (temperatures, then temperatures-text).
+                    buttonList.add(
+                        makeButton(spec.sampled, LayerCode.getConfigurationForLayerCode(spec.sampled, service)),
+                    )
+                    buttonList.add(
+                        makeButton(spec.code, LayerCode.getConfigurationForLayerCode(spec.code, service)),
+                    )
+                }
+            }
+            appendGroup("Conditions", "conditions")
+            appendGroup("Air quality", "airquality")
         } else if (textLayersOnly) {
             val textButtons = mutableListOf<LayerButtonView>()
             LayerCode.availableEntries.forEach { code ->
                 val configuration = LayerCode.getConfigurationForLayerCode(code, service)
-                if (code.value.endsWith("-text")) return@forEach
                 if (!configuration.hasSymbolText()) return@forEach
                 textButtons.add(makeButton(code, configuration))
             }
@@ -229,16 +248,9 @@ class LayerMenu {
                 }
             }
         } else {
-            LayerCode.availableEntries.forEach {
-                if (it.value.contains("temper")
-                    || it.value.contains("hum")
-                    || it.value.contains("prec")
-                    || it.value.contains("wind-spe")
-                ) {
-                    addButtonFor(it)
-                }
-            }
-            LayerCode.availableEntries.forEach { addButtonFor(it) }
+            // One alphabetical list, each code once. A pinned block of favourites used to be
+            // listed above the full list, which put every one of those layers in the menu twice.
+            LayerCode.availableEntries.sortedBy { it.value }.forEach { addButtonFor(it) }
         }
 
 

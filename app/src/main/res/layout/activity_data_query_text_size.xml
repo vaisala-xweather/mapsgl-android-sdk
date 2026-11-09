@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    tools:context=".DataQueryTextSizeActivity"
+    tools:ignore="ContentDescription">
+
+    <com.mapbox.maps.MapView
+        android:id="@+id/dataQueryTextSizeMapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mapbox_mapSurface="texture_view" />
+
+    <ImageView
+        android:id="@+id/dataQueryTextSizeBackButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/map_back_button_margin_top"
+        android:background="@drawable/circle_background_selector"
+        android:contentDescription="Back to data-query menu"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/dataQueryTextSizePanel"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/map_back_button_margin_top"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/highways_conus_control_panel_background"
+        android:elevation="10dp"
+        android:scrollbars="vertical"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dataQueryTextSizeBackButton"
+        app:layout_constraintVertical_bias="0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="Data query text size"
+                android:textColor="@color/bright_text"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="setPaintProperty · text[n].size · live"
+                android:textColor="@color/bright_text"
+                android:textSize="10sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Layer"
+                android:textColor="@color/bright_text"
+                android:textSize="11sp" />
+
+            <Spinner
+                android:id="@+id/dataQueryTextSizeLayerSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:minHeight="40dp"
+                android:popupBackground="@color/black" />
+
+            <TextView
+                android:id="@+id/dataQueryValueSizeLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Value size (text[0]): 14 px"
+                android:textColor="@color/bright_text"
+                android:textSize="11sp" />
+
+            <SeekBar
+                android:id="@+id/dataQueryValueSizeSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:max="36"
+                android:progress="8" />
+
+            <TextView
+                android:id="@+id/dataQueryNameSizeLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name size (text[1]): 11 px"
+                android:textColor="@color/bright_text"
+                android:textSize="11sp" />
+
+            <SeekBar
+                android:id="@+id/dataQueryNameSizeSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:max="36"
+                android:progress="5" />
+
+            <Button
+                android:id="@+id/dataQueryTextSizeResetButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/main_menu_button_background_selector"
+                android:minHeight="36dp"
+                android:text="Reset to defaults"
+                android:textAllCaps="false"
+                android:textColor="@color/bright_text"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dataQueryTextSizeStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loading…"
+                android:textColor="@color/bright_text"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Data-query layer examples.
+    Xweather section-header pattern: overline -> headline -> lead, then the list.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/xw_bg_primary"
+    tools:context=".DataQueryMenuActivity"
+    tools:ignore="HardcodedText">
+
+    <include
+        android:id="@+id/dataQueryMenuBackToMainButton"
+        layout="@layout/widget_back_button"
+        android:layout_width="@dimen/back_button_size"
+        android:layout_height="@dimen/back_button_size"
+        android:layout_marginStart="@dimen/xw_margin_screen"
+        android:layout_marginTop="@dimen/menu_header_margin_top"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/dataQueryMenuScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/xw_space_4"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dataQueryMenuBackToMainButton">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/xw_margin_screen"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/menu_list_bottom_padding">
+
+            <TextView
+                android:id="@+id/dataQueryMenuOverlineTextView"
+                style="@style/Xw.SectionOverline"
+                android:text="Place labels" />
+
+            <TextView
+                android:id="@+id/dataQueryMenuTitleTextView"
+                style="@style/Xw.ScreenTitle"
+                android:text="Data-query layers" />
+
+            <TextView
+                android:id="@+id/dataQueryMenuLeadTextView"
+                style="@style/Xw.SectionLead"
+                android:text="Sample a weather value at cities and towns, and draw it next to the place name." />
+
+            <View
+                android:id="@+id/dataQueryMenuHeaderDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/xw_space_6"
+                android:background="@color/xw_border_subtle" />
+
+            <LinearLayout
+                android:id="@+id/dataQueryMenuButtonContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/menu_title_to_list_spacing"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/menuDataQueryTextButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:text="Value labels" />
+
+                <Button
+                    android:id="@+id/menuDataQueryTextSizeButton"
+                    style="@style/Xw.MenuRow.Tall"
+                    android:layout_marginBottom="0dp"
+                    android:text="Text size" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

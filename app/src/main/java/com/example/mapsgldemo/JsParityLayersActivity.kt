@@ -31,6 +31,8 @@ class JsParityLayersActivity : MapLayersActivity() {
 
     override fun showStencilDemoButtons(): Boolean = false
 
+    override fun openLayerMenuOnStart(): Boolean = true
+
 
     override fun backNavigationActivity(): Class<out AppCompatActivity> = MainActivity::class.java
 

@@ -9,7 +9,9 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.ViewTreeObserver
 import android.view.WindowInsets
 import android.view.WindowInsetsController
@@ -25,6 +27,7 @@ import com.example.mapsgldemo.databinding.ActivityMapLayersBinding
 import com.example.mapsgldemo.helpers.MapSettings
 import com.example.mapsgldemo.helpers.StencilMaskDemos
 import com.example.mapsgldemo.helpers.TimelineTextFormatter
+import com.example.mapsgldemo.helpers.returnToMenu
 import com.example.mapsgldemo.stencil.HighwaysConusMaskTemperatureActivity
 import com.mapbox.common.Cancelable
 import com.mapbox.geojson.Point
@@ -83,6 +86,9 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
 
     /** When true, the layer menu lists only weather products that define label text. */
     protected open fun textLayersOnly(): Boolean = false
+
+    /** Layer menu lists only the data-query (`*-text`) catalog, grouped by conditions and air quality. */
+    protected open fun dataQueryTextLayersOnly(): Boolean = false
 
     /** Initial map camera: center coordinate and zoom level. */
     protected open fun initialCameraPosition(): Pair<Coordinate, Double> =
@@ -305,6 +311,7 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                         lightningSectionFirst = layerMenuLightningSectionFirst(),
                         placesSectionFirst = layerMenuPlacesSectionFirst(),
                         textLayersOnly = textLayersOnly(),
+                        dataQueryTextLayersOnly = dataQueryTextLayersOnly(),
                         layerMenuSections = layerMenuSections(),
                     )
                     binding.layerMenuLinearLayout.visibility = View.INVISIBLE
@@ -312,6 +319,7 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
                     LayerButtonView.setAnimations(binding.layerMenuLinearLayout)
                     layerMenu.setupButtonListeners(controller)
                     onLayerMenuReady(layerMenu, controller)
+                    if (openLayerMenuOnStart()) toggleLayerMenu()
 
                     binding.timelineView.timelineControls.setAnimations(this@MapLayersActivity, binding.timelineView)
                     binding.timelineView.timelineControls.setConfigAnimations(
@@ -333,17 +341,11 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
 
         })
 
+        // The layer menu closes in dispatchTouchEvent, on a tap rather than at the end of every pan.
         binding.timelineView.timelineControls.installDismissSettingsOnMapTap(
             mapView,
             binding.timelineView,
-        ) { _ ->
-            if (!layerMenu.visible) return@installDismissSettingsOnMapTap
-            LayerButtonView.showDatasetButtons(
-                false, binding.layerMenuLinearLayout, binding.timelineView.layerMenuButton,
-            )
-            layerMenu.visible = false
-            layerMenu.hideKeyboard(this)
-        }
+        )
     }
 
     private fun setupTimelineListeners() {
@@ -486,6 +488,53 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
     private fun toggleDemoUi() {
         demoUiVisible = !demoUiVisible
         setDemoUiVisible(demoUiVisible)
+    }
+
+    private var menuTouchDownX = 0f
+    private var menuTouchDownY = 0f
+    private var menuTouchStartedOnTimeline = false
+
+    /**
+     * Closes the layer menu when the map is tapped or the timeline is touched, and leaves every touch
+     * to reach its view as before. Watching the whole window covers the timeline's own buttons and
+     * seek bar, which consume their touches. A drag across the map pans without closing the menu.
+     */
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (::binding.isInitialized && layerMenu.visible) {
+            when (ev.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    menuTouchDownX = ev.rawX
+                    menuTouchDownY = ev.rawY
+                    menuTouchStartedOnTimeline = isTouchInside(binding.timelineView.root, ev) &&
+                        !isTouchInside(binding.timelineView.layerMenuButton, ev)
+                    if (menuTouchStartedOnTimeline) closeLayerMenu()
+                }
+                MotionEvent.ACTION_UP -> {
+                    val slop = ViewConfiguration.get(this).scaledTouchSlop
+                    val tapped = kotlin.math.abs(ev.rawX - menuTouchDownX) < slop &&
+                        kotlin.math.abs(ev.rawY - menuTouchDownY) < slop
+                    if (tapped &&
+                        !isTouchInside(binding.layerMenuLinearLayout, ev) &&
+                        !isTouchInside(binding.timelineView.layerMenuButton, ev)
+                    ) {
+                        closeLayerMenu()
+                    }
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    private fun isTouchInside(view: View, ev: MotionEvent): Boolean {
+        if (view.visibility != View.VISIBLE) return false
+        val loc = IntArray(2)
+        view.getLocationOnScreen(loc)
+        return ev.rawX >= loc[0] && ev.rawX < loc[0] + view.width &&
+            ev.rawY >= loc[1] && ev.rawY < loc[1] + view.height
+    }
+
+    private fun closeLayerMenu() {
+        if (layerMenu.visible) toggleLayerMenu()
     }
 
     private fun toggleLayerMenu() {
@@ -669,11 +718,20 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
 
     fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
-    /** Timeline from **now** through local midnight at the end of today (device timezone). */
+    /**
+     * Whether the layer menu starts open, so the screen opens on its list of layers. On for All Map
+     * Layers itself; screens built on it opt in by overriding.
+     */
+    protected open fun openLayerMenuOnStart(): Boolean = this::class == MapLayersActivity::class
+
+    /**
+     * Timeline from 24 hours ago to **now**, the MapsGL JS demo's default, so the two demos show the
+     * same times side by side. Observation layers (storm cells, alerts, fires) have nothing after now,
+     * so a range that started at now held every slot on the newest snapshot.
+     */
     protected open fun applyMapLayersTimelineRange() {
         val nowMillis = System.currentTimeMillis()
-        val endOfTodayMillis = startOfLocalDayMillis(dayOffsetFromToday = 1)
-        applyMapLayersTimelineStartEnd(Date(nowMillis), Date(endOfTodayMillis))
+        applyMapLayersTimelineStartEnd(Date(nowMillis - 24 * 60 * 60 * 1000L), Date(nowMillis))
     }
 
     /**
@@ -712,24 +770,8 @@ open class MapLayersActivity : AppCompatActivity(), OnMapClickListener {
         )
     }
 
-    /** Local midnight at the start of the calendar day [dayOffsetFromToday] days from today. */
-    private fun startOfLocalDayMillis(dayOffsetFromToday: Int): Long {
-        return Calendar.getInstance().run {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-            add(Calendar.DAY_OF_MONTH, dayOffsetFromToday)
-            timeInMillis
-        }
-    }
-
     protected fun returnToMenuActivity() {
-        startActivity(
-            Intent(this, backNavigationActivity())
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP),
-        )
-        finish()
+        returnToMenu(backNavigationActivity())
     }
 
 }

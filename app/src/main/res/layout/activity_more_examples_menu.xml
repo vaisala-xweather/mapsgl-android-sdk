@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Overflow menu, grouped by release.
-    Xweather section-header pattern: overline -> headline, then the list.
+    More examples: short, focused examples, grouped by category.
+    Xweather section-header pattern: overline -> headline -> lead, then the list.
 
     The header block lives inside the scroll view, so it scrolls away with the rows and
     the list gets the full height. Only the back control stays pinned.
@@ -55,6 +55,11 @@
                 style="@style/Xw.ScreenTitle"
                 android:text="More examples" />
 
+            <TextView
+                android:id="@+id/moreExamplesMenuLeadTextView"
+                style="@style/Xw.SectionLead"
+                android:text="Short, focused examples, one API per screen." />
+
             <View
                 android:id="@+id/moreExamplesMenuHeaderDivider"
                 android:layout_width="match_parent"
@@ -69,38 +74,7 @@
                 android:layout_marginTop="@dimen/menu_title_to_list_spacing"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/moreExamplesQa17Header"
-                    style="@style/Xw.ListSectionLabel"
-                    android:layout_marginTop="0dp"
-                    android:paddingTop="0dp"
-                    android:text="1.7.0 QA · new since 1.6.1" />
-
-                <Button
-                    android:id="@+id/menuMapTimeFilterButton"
-                    style="@style/Xw.MenuRow"
-                    android:text="mapTime filter (tropical / convective)" />
-
-                <Button
-                    android:id="@+id/menuLightningSymbolCircleButton"
-                    style="@style/Xw.MenuRow"
-                    android:text="Lightning symbol / circle" />
-
-                <Button
-                    android:id="@+id/menuPlacesTextButton"
-                    style="@style/Xw.MenuRow"
-                    android:text="Places text" />
-
-                <Button
-                    android:id="@+id/menuAnimatedVectorLayersButton"
-                    style="@style/Xw.MenuRow"
-                    android:text="Animated Vector Layers" />
-
-                <Button
-                    android:id="@+id/menuLayerCustomizationsButton"
-                    style="@style/Xw.MenuRow"
-                    android:layout_marginBottom="0dp"
-                    android:text="Layer Customizations" />
+                <!-- Filled in code from MoreExamplesCatalog: an overline per category, a row per example. -->
 
             </LinearLayout>
 

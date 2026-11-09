@@ -1,5 +1,59 @@
 # Changelog
 
+## 1.8.0
+*Nov 9, 2026*
+
+### ✨ Features
+
+* Add data-query text layers that show a weather value and the place name at city points, such as `temperatures-text`, `feels-like-text`, `humidity-text`, and wind and air-quality variants. Label units follow the legend's unit system.
+
+    ```kotlin
+    mapController.addWeatherLayer(LayerCode.TEMPERATURES_TEXT)
+    ```
+
+* Add time-series operation layers that combine a whole timeline per pixel: `precip-accum`, `temperatures-max`, `temperatures-min`, and `wind-gusts-max`. Each frame shows what has happened up to that moment.
+
+    ```kotlin
+    mapController.addOperationLayer(OperationLayerCode.TEMPERATURES_MAX)
+    ```
+
+* `MapController.setPaintProperty` now accepts sample and particle paint, such as `sample.colorscale`, `sample.drawRange`, `particle.density`, `particle.size`, and `particle.speed`, and applies the change in one call, as in MapsGL JS. Particle draw ranges can change while the layer is on the map.
+* `MapController.setLayerFilter` changes a vector layer's filter while it is on the map. Pass `null` to draw everything again.
+* `MapController.onLayerError` reports a layer that could not be added or could not draw, with a reason, the layer, and the cause.
+
+    ```kotlin
+    mapController.onLayerError.observe(this) { error ->
+        Log.w("weather", "MapsGL: $error", error.cause)
+    }
+    ```
+
+* `BoundedRange.atMost` and `BoundedRange.atLeast` let a draw range leave one end open. The open end comes from the layer's own data range.
+* `GeoJSONSourceDescriptor.data` takes inline features, so static GeoJSON can be set before `addSource`.
+
+### 🐞 Bug Fixes
+
+* A failed data load no longer crashes the app. The layer stays on the map, reports the failure through `onLayerError`, and retries.
+* Apps with `minifyEnabled true` keep their own `Log` and `println` output. The SDK's ProGuard rules no longer strip logging outside MapsGL.
+* Public API that the minified SDK had renamed is reachable again, including `GlCapabilities.supportsParticleLayers`.
+* Layer failures are now reported in release builds instead of being dropped.
+* Layers that share a source no longer re-download each other's tiles, and the loading indicator no longer sticks at 50% or 99%.
+* Polygons no longer show ghost copies from neighboring tiles, and vector tiles draw only inside their own square.
+* A fill layer's `filter` decides what it draws, and the data inspector honors it.
+* Layers that share a vector source no longer hide each other.
+* Particle layers honor their mask and their `drawRange`, and a removed particle layer releases its GPU memory.
+* Custom icon shaders written as `#version 300 es` run on every device.
+* Stepped color scales no longer blend between stops, and a stop below the data range keeps its color.
+* Text labels no longer freeze the map when the label texture runs out of room.
+* Severe alerts disappear once the timeline passes their expiry.
+* Fire icons are sized by acreage again, and contained fires turn grey.
+* Storm cells and sea-level pressure contours match MapsGL JS.
+* Wave and swell direction arrows stay on water, and air-quality stations are colored by their real category.
+* The surface-pressure legend is labeled in pressure units.
+
+### 📱 Demo App
+
+* Mapbox and Xweather keys now go in `local.properties` instead of `strings.xml`, so they stay out of source control. See the README.
+
 ## 1.7.1
 *Oct 9, 2026*
 

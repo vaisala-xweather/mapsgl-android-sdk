@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.xweather.mapsgl.types.Coordinate
 
 /**
- * 1.7.0 QA: GLES place labels (city / state / country). Not data-query `*-text` layers.
+ * GLES place labels (city / state / country), plus the 1.8.0 data-query `*-text` layers.
  * Mapbox Dark settlement / state / country labels are hidden so only MapsGL place text shows.
  */
 class PlacesTextActivity : Qa17MapLayersActivity() {

@@ -10,3 +10,6 @@ app/libs/*.aar
 # Build output.
 app/build/
 app/release/release/
+
+# Per-machine SDK path and the demo's Mapbox/Xweather credentials.
+local.properties

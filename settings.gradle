@@ -6,9 +6,17 @@ pluginManagement {
     }
 }
 
+// Credentials live in local.properties (untracked) or ~/.gradle/gradle.properties, never in this repo.
+def localProperties = new Properties()
+def localPropertiesFile = new File(settingsDir, 'local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { localProperties.load(it) }
+}
+def mapboxDownloadsToken = providers.gradleProperty('MAPBOX_DOWNLOADS_TOKEN')
+        .getOrElse(localProperties.getProperty('MAPBOX_DOWNLOADS_TOKEN', ''))
+
 dependencyResolutionManagement {
     repositories {
-        mavenLocal()
         google()
         mavenCentral()
         maven {
@@ -25,12 +33,12 @@ dependencyResolutionManagement {
             }
             credentials {
                 username = "mapbox"
-                // Use the secret token you stored in gradle.properties as the password
-                password = MAPBOX_DOWNLOADS_TOKEN
+                // Your secret Mapbox downloads token, set as MAPBOX_DOWNLOADS_TOKEN in local.properties
+                password = mapboxDownloadsToken
             }
         }
     }
 }
 
-rootProject.name = "MapsGL v1.7.0"
+rootProject.name = "MapsGL v1.8.0"
 include ':app'
