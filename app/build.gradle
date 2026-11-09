@@ -78,10 +78,6 @@ dependencies {
     implementation "com.mapbox.maps:android-ndk27:11.15.3"
     implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.8.0'
 
-    // The template ExampleUnitTest/ExampleInstrumentedTest shipped without these, so neither
-    // compiled. AllActivitiesSmokeTest needs androidx.test to drive activities in-process:
-    // the demo's activities are not exported, so `adb shell am start` cannot reach them.
-
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:core:1.6.1'
