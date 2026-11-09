@@ -40,17 +40,20 @@ If you don't have a Mapbox account, you can create one for free at [www.mapbox.c
 
 Once you have your Mapbox Maps API account and Xweather client id / client secret:
 
-In **strings.xml**:
+In **local.properties** in the project root (created by Android Studio and ignored by git, so your keys stay out of source control):
 
-    <string name="mapbox_access_token">mapbox_secret_token</string>
-	<string name="xweather_client_id">your_xweather_client_id</string>    
-	<string name="xweather_client_secret">your_xweather_client_secret</string>
+    MAPBOX_DOWNLOADS_TOKEN=your_mapbox_secret_downloads_token
+    mapbox.accessToken=your_mapbox_public_access_token
+    xweather.clientId=your_xweather_client_id
+    xweather.clientSecret=your_xweather_client_secret
+
+The app's `build.gradle` turns these into the `mapbox_access_token`, `xweather_client_id` and `xweather_client_secret` string resources. `MAPBOX_DOWNLOADS_TOKEN` can live in `~/.gradle/gradle.properties` instead.
 
 You are now set to run the demo application.
 
 ### To add the MapsGL SDK to your own application:
 
-Add the string resources above to your strings.xml. In addition:
+Provide the `mapbox_access_token`, `xweather_client_id` and `xweather_client_secret` string resources, as the demo does. In addition:
 
 In **settings.gradle**:
 
@@ -91,7 +94,7 @@ In **AndroidManifest.xml**:
 In the app-level **build.gradle**:
 
     dependencies {
-        implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.7.0"
+        implementation "com.github.vaisala-xweather:mapsgl-android-sdk:v1.8.0"
     }
 
 #### Upgrading from 1.6.1 or earlier — remove `java-vector-tile`

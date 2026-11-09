@@ -3,6 +3,20 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+// Mapbox and Xweather credentials come from local.properties (untracked), never from source control.
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { localProperties.load(it) }
+}
+def credential = { String key ->
+    def value = localProperties.getProperty(key, '')
+    if (value.isEmpty()) {
+        logger.warn("local.properties has no '$key'; the demo cannot load maps or weather data without it.")
+    }
+    return value
+}
+
 android {
     namespace "com.example.mapsgldemo"
     compileSdk 36
@@ -15,6 +29,10 @@ android {
         versionCode 1
         versionName "v1.8.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        resValue "string", "mapbox_access_token", credential('mapbox.accessToken')
+        resValue "string", "xweather_client_id", credential('xweather.clientId')
+        resValue "string", "xweather_client_secret", credential('xweather.clientSecret')
     }
 
     buildTypes {
@@ -58,12 +76,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     implementation "com.mapbox.maps:android-ndk27:11.15.3"
-    // useLocalMapsglSdk in gradle.properties. true = local mapsglmaps checkout, false = JitPack.
-    if (providers.gradleProperty("useLocalMapsglSdk").map { it.toBoolean() }.getOrElse(false)) {
-        implementation project(':mapsglmaps')
-    } else {
-        implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.8.0'
-    }
+    implementation 'com.github.vaisala-xweather:mapsgl-android-sdk:v1.8.0'
 
     // The template ExampleUnitTest/ExampleInstrumentedTest shipped without these, so neither
     // compiled. AllActivitiesSmokeTest needs androidx.test to drive activities in-process:

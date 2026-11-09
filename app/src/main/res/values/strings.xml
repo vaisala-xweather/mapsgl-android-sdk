@@ -2,14 +2,6 @@
 
     <string name="app_name">MapsGL v1.8.0</string>
 
-    <string name="mapbox_access_token">your_mapbox_access_token_here</string>
-
-    <string name="xweather_client_id">your_xweather_client_id_here</string>
-
-    <string name="xweather_client_secret">your_xweather_client_secret_here</string>
-
-
-
     <string name="timeline_play">Play</string>
     <string name="timeline_stop">Stop</string>
     <string name="timeline_pause">Pause</string>

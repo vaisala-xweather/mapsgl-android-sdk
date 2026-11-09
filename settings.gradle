@@ -4,15 +4,19 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    plugins {
-        id 'org.jetbrains.dokka' version '1.9.20'
-        id 'com.google.dagger.hilt.android' version '2.48.1'
-    }
 }
+
+// Credentials live in local.properties (untracked) or ~/.gradle/gradle.properties, never in this repo.
+def localProperties = new Properties()
+def localPropertiesFile = new File(settingsDir, 'local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { localProperties.load(it) }
+}
+def mapboxDownloadsToken = providers.gradleProperty('MAPBOX_DOWNLOADS_TOKEN')
+        .getOrElse(localProperties.getProperty('MAPBOX_DOWNLOADS_TOKEN', ''))
 
 dependencyResolutionManagement {
     repositories {
-        mavenLocal()
         google()
         mavenCentral()
         maven {
@@ -29,23 +33,12 @@ dependencyResolutionManagement {
             }
             credentials {
                 username = "mapbox"
-                // Use the secret token you stored in gradle.properties as the password
-                password = MAPBOX_DOWNLOADS_TOKEN
+                // Your secret Mapbox downloads token, set as MAPBOX_DOWNLOADS_TOKEN in local.properties
+                password = mapboxDownloadsToken
             }
         }
-
-        maven { url 'https://maven.ecc.no/releases' }
     }
 }
 
 rootProject.name = "MapsGL v1.8.0"
 include ':app'
-
-def useLocalMapsglSdk = providers.gradleProperty("useLocalMapsglSdk")
-        .map { it.toBoolean() }
-        .getOrElse(false)
-if (useLocalMapsglSdk) {
-    include ':mapsglmaps'
-    project(':mapsglmaps').projectDir = new File('C:/TestProjects/mapbox/250924-mapsgl-android-sdk/mapsglmaps')
-}
-
